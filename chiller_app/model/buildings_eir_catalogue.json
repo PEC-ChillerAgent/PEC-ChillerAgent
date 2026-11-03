@@ -1,0 +1,6697 @@
+{
+  "library": "Buildings",
+  "version": "13.0.0",
+  "source": "Fluid/Chillers/Data/ElectricEIR.mo",
+  "source_sha256": {
+    "Fluid/Chillers/Data/ElectricEIR.mo": "64ffef7ee482579dc04b8663f27697828b40bc670b46ebcca4b604cf0bb6c06b",
+    "Fluid/Chillers/ElectricEIR.mo": "7e7e2ae16050bf2513ca35be581442366e71d5cdba1807435a068711e4c44a0f",
+    "Fluid/Chillers/BaseClasses/PartialElectric.mo": "8ee917850b28f5757d79189473cf7c436f76c43f06bd574236d53daa80f28b1a",
+    "Fluid/Interfaces/FourPortHeatMassExchanger.mo": "9ff45328e1e43e8f5f3c4195d09eb6c91325706a45eaae416eb653060c141a91",
+    "Utilities/Math/Functions/biquadratic.mo": "afdd0546c270f0cdd15a12f4e73d60a01e5caf864a3760c809f76f4ec8a8d5a0",
+    "Utilities/Math/Functions/smoothMin.mo": "e52e667b414c47669f96e9c085ada2eaa10689b24f545f25132b9a77be001fb1",
+    "Utilities/Math/Functions/smoothMax.mo": "211441c87291f6131fa93f7b17696612c6a05d56607c7b0595e1e51a058c4d60",
+    "Utilities/Math/Functions/regStep.mo": "143d282030725d4feae43f9b00eb3b7a5764fd4f5a7bc50a77d128b16dbe4756",
+    "Media/Water.mo": "ed96363680da84baf5de159f55aed4ff174019b694cbc40d695eb2d51b9ee899",
+    "UsersGuide/License.mo": "2a6390a2c10c9af282832c0853e0fd9f8fa3d476c8ef742eddc834a533345cc3"
+  },
+  "records": [
+    {
+      "id": "ElectricEIRChiller_McQuay_WSC_471kW_5_89COP_Vanes",
+      "description": "ElectricEIRChiller McQuay WSC 471kW/5.89COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -471200.0,
+        "COP_nominal": 5.89,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.15,
+        "mEva_flow_nominal": 10.35,
+        "mCon_flow_nominal": 19.24,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.252113,
+          0.01324053,
+          -0.008637329,
+          0.08581056,
+          -0.004261176,
+          0.008661899
+        ],
+        "EIRFunT": [
+          0.4475238,
+          -0.0258821,
+          -0.001459053,
+          0.04342595,
+          -0.001000651,
+          0.001920106
+        ],
+        "EIRFunPLR": [
+          0.2778889,
+          0.2338363,
+          0.4883748
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_563kW_10_61COP_Vanes",
+      "description": "ElectricEIRChiller York YT 563kW/10.61COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -562600.0,
+        "COP_nominal": 10.61,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 15.14,
+        "mCon_flow_nominal": 24.1,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          -0.1288612,
+          -0.0891954,
+          -0.002190195,
+          0.1538357,
+          -0.005129402,
+          0.007813636
+        ],
+        "EIRFunT": [
+          -0.5781003,
+          -0.116913,
+          -0.004760535,
+          0.2230082,
+          -0.005313649,
+          0.006846644
+        ],
+        "EIRFunPLR": [
+          0.5203969,
+          -0.77759,
+          1.255394
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_703kW_7_03COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 703kW/7.03COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -703300.0,
+        "COP_nominal": 7.03,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 20.19,
+        "mCon_flow_nominal": 29.02,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.4779439,
+          0.1073486,
+          -0.01055896,
+          0.04208433,
+          -0.00234687,
+          0.004019632
+        ],
+        "EIRFunT": [
+          0.8234029,
+          -0.1171542,
+          0.0005869351,
+          0.02964642,
+          -0.0009190377,
+          0.005035796
+        ],
+        "EIRFunPLR": [
+          0.3864389,
+          -0.2522595,
+          0.8672354
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_724kW_6_04COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 23XL 724kW/6.04COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -724400.0,
+        "COP_nominal": 6.04,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 17.79,
+        "mCon_flow_nominal": 19.560000000000002,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 294.26,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 286.9,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.4418712,
+          -0.08384251,
+          -0.002190707,
+          0.08594633,
+          -0.003322575,
+          0.006652189
+        ],
+        "EIRFunT": [
+          0.5059102,
+          -0.01621557,
+          0.0003346388,
+          0.02350906,
+          0.0003514201,
+          -0.0006342981
+        ],
+        "EIRFunPLR": [
+          0.1879418,
+          0.3562862,
+          0.4540392
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_742kW_5_42COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 742kW/5.42COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -742000.0,
+        "COP_nominal": 5.42,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 17.79,
+        "mCon_flow_nominal": 19.560000000000002,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 294.26,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 284.4,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9797101,
+          -0.002895701,
+          -0.0008970718,
+          0.0103144,
+          -0.0007431651,
+          0.001453508
+        ],
+        "EIRFunT": [
+          0.9946139,
+          -0.04829399,
+          0.0004674277,
+          -0.001158726,
+          0.0005762583,
+          0.0002148192
+        ],
+        "EIRFunPLR": [
+          0.1202277,
+          0.1396384,
+          0.7394038
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_WSC_816kW_6_74COP_Vanes",
+      "description": "ElectricEIRChiller McQuay WSC 816kW/6.74COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -815800.0,
+        "COP_nominal": 6.74,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 17.48,
+        "mCon_flow_nominal": 41.64,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.986259,
+          0.05799373,
+          -0.005355626,
+          -0.0008941705,
+          -0.001670098,
+          0.004733054
+        ],
+        "EIRFunT": [
+          0.7335321,
+          0.0004465107,
+          -0.003448575,
+          0.003770822,
+          -0.0002189675,
+          0.002400267
+        ],
+        "EIRFunPLR": [
+          0.3070136,
+          0.08654874,
+          0.6081551
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_819kW_8_11COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 819kW/8.11COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -819300.0,
+        "COP_nominal": 8.11,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 25.24,
+        "mCon_flow_nominal": 37.85,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7392673,
+          0.04328784,
+          -0.004529446,
+          0.0152541,
+          -0.001141458,
+          0.002651124
+        ],
+        "EIRFunT": [
+          0.5925176,
+          -0.01908391,
+          -0.001852692,
+          0.04051551,
+          -0.0002908719,
+          0.001059047
+        ],
+        "EIRFunPLR": [
+          0.2830681,
+          0.2254147,
+          0.4916649
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_823kW_6_28COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 823kW/6.28COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -822900.0,
+        "COP_nominal": 6.28,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 31.86,
+        "mCon_flow_nominal": 47.440000000000005,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.557315,
+          0.08714616,
+          -0.002917582,
+          0.025,
+          -0.0008861538,
+          -0.0003184615
+        ],
+        "EIRFunT": [
+          0.8029134,
+          0.02171359,
+          0.0002388123,
+          -0.01096173,
+          0.001065277,
+          -0.002057538
+        ],
+        "EIRFunPLR": [
+          0.2965419,
+          0.4689744,
+          0.2332341
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_869kW_5_57COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 869kW/5.57COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -868600.0,
+        "COP_nominal": 5.57,
+        "PLRMin": 0.18,
+        "PLRMinUnl": 0.18,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 17.54,
+        "mCon_flow_nominal": 25.930000000000003,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.5406799,
+          0.1253709,
+          -0.00802536,
+          -0.007357554,
+          -0.0004477789,
+          0.002140733
+        ],
+        "EIRFunT": [
+          0.3943721,
+          0.1079147,
+          -0.008912223,
+          -0.0003229487,
+          1.302402e-05,
+          0.001561862
+        ],
+        "EIRFunPLR": [
+          0.1501042,
+          -0.06804336,
+          0.917146
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_897kW_7_23COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 897kW/7.23COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -896700.0,
+        "COP_nominal": 7.23,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 43.6,
+        "TEvaLvg_nominal": 282.96999999999997,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.5559679,
+          0.0763086,
+          -0.001431181,
+          0.02167593,
+          -0.0006233447,
+          -0.0009876498
+        ],
+        "EIRFunT": [
+          0.6511011,
+          0.04948557,
+          -0.0008152733,
+          0.02322946,
+          0.0001990802,
+          -0.002669401
+        ],
+        "EIRFunPLR": [
+          0.203638,
+          -0.39132,
+          1.187172
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_897kW_6_50COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 897kW/6.50COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -896700.0,
+        "COP_nominal": 6.5,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 44.23,
+        "TEvaLvg_nominal": 282.96999999999997,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.7009156,
+          0.02151274,
+          -0.000602965,
+          0.01864266,
+          -0.001084545,
+          0.001418575
+        ],
+        "EIRFunT": [
+          0.8527749,
+          -0.004336881,
+          0.0008972177,
+          -0.001888039,
+          0.0008648075,
+          -0.001438797
+        ],
+        "EIRFunPLR": [
+          0.3323416,
+          0.2561103,
+          0.4106954
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_897kW_7_60COP_VSD",
+      "description": "ElectricEIRChiller York YT 897kW/7.60COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -896700.0,
+        "COP_nominal": 7.6,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 282.97999999999996,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.5699948,
+          0.0296147,
+          -0.00106493,
+          0.03062313,
+          -0.001753205,
+          0.002142105
+        ],
+        "EIRFunT": [
+          0.5526128,
+          0.003299472,
+          -0.0007981925,
+          0.0424571,
+          -0.0003533658,
+          -0.0009415137
+        ],
+        "EIRFunPLR": [
+          0.04708628,
+          0.07070062,
+          0.8802198
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_897kW_6_27COP_VSD",
+      "description": "ElectricEIRChiller York YT 897kW/6.27COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -896700.0,
+        "COP_nominal": 6.27,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.1197991,
+          0.1568955,
+          -0.004426242,
+          0.0344964,
+          -0.0008163597,
+          -0.00223623
+        ],
+        "EIRFunT": [
+          0.5530767,
+          -0.05683068,
+          0.004423475,
+          0.06472411,
+          -0.0007378933,
+          -0.002491202
+        ],
+        "EIRFunPLR": [
+          0.0983632,
+          -0.0163832,
+          0.9127289
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_897kW_6_23COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 897kW/6.23COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -896700.0,
+        "COP_nominal": 6.23,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 44.42,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.8862185,
+          0.03144947,
+          0.0002328997,
+          0.001339712,
+          -0.000292343,
+          0.0002320709
+        ],
+        "EIRFunT": [
+          0.8606461,
+          -0.001202294,
+          0.0009398625,
+          0.002983262,
+          0.0004119228,
+          -0.001123884
+        ],
+        "EIRFunPLR": [
+          0.2075556,
+          -0.2126466,
+          1.004182
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PFH_932kW_5_09COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PFH 932kW/5.09COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -931900.0,
+        "COP_nominal": 5.09,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 37.85,
+        "mCon_flow_nominal": 47.32,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 276.47999999999996,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          1.182278,
+          0.0325949,
+          -0.003904288,
+          0.004579721,
+          -0.001028178,
+          0.002855063
+        ],
+        "EIRFunT": [
+          0.6053491,
+          -0.01089778,
+          -0.001511327,
+          0.01902687,
+          -0.000191075,
+          0.0009008184
+        ],
+        "EIRFunPLR": [
+          0.06823245,
+          0.6672421,
+          0.2654211
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_960kW_4_64COP_Vanes",
+      "description": "ElectricEIRChiller York YT 960kW/4.64COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -960000.0,
+        "COP_nominal": 4.64,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.09,
+        "mEva_flow_nominal": 37.85,
+        "mCon_flow_nominal": 47.32,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 276.47999999999996,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          -0.2278537,
+          0.4055945,
+          -0.03246694,
+          0.00378823,
+          -0.0002236584,
+          0.000671552
+        ],
+        "EIRFunT": [
+          0.5735924,
+          0.02270414,
+          -0.003331832,
+          0.006025574,
+          0.0003245033,
+          3.22969e-05
+        ],
+        "EIRFunPLR": [
+          0.2737941,
+          0.3141127,
+          0.4113671
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1023kW_5_81COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1023kW/5.81COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1023300.0,
+        "COP_nominal": 5.81,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 23.66,
+        "mCon_flow_nominal": 47.32,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.2571195,
+          -0.01571421,
+          -0.003041761,
+          0.08106512,
+          -0.002568598,
+          0.004247073
+        ],
+        "EIRFunT": [
+          0.5254964,
+          -0.01972389,
+          0.0003441072,
+          0.01651466,
+          0.0002005198,
+          -0.0003193246
+        ],
+        "EIRFunPLR": [
+          0.2368399,
+          0.3286421,
+          0.4344939
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_1030kW_8_58COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 1030kW/8.58COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1030300.0,
+        "COP_nominal": 8.58,
+        "PLRMin": 0.08,
+        "PLRMinUnl": 0.08,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 23.779999999999998,
+        "mCon_flow_nominal": 34.07,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.7736028,
+          0.05571395,
+          -0.003058312,
+          -0.0001789007,
+          -0.0009808878,
+          0.002123462
+        ],
+        "EIRFunT": [
+          0.7125878,
+          0.0138894,
+          -0.002473407,
+          0.02096719,
+          -0.0001566098,
+          0.000603546
+        ],
+        "EIRFunPLR": [
+          0.321532,
+          -0.009188416,
+          0.6881582
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1048kW_6_06COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1048kW/6.06COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1047900.0,
+        "COP_nominal": 6.06,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 45.42,
+        "mCon_flow_nominal": 56.779999999999994,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.7238221,
+          0.01747548,
+          -0.004524718,
+          0.02138468,
+          -0.0009342801,
+          0.002515069
+        ],
+        "EIRFunT": [
+          0.7255594,
+          -0.03502968,
+          0.002213476,
+          0.00392541,
+          0.0005538176,
+          -0.0008638012
+        ],
+        "EIRFunPLR": [
+          0.1543796,
+          0.7276121,
+          0.1162393
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1055kW_5_96COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1055kW/5.96COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1055000.0,
+        "COP_nominal": 5.96,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 28.389999999999997,
+        "mCon_flow_nominal": 56.779999999999994,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.1785912,
+          -0.05900023,
+          -0.0005946963,
+          0.09297889,
+          -0.002841024,
+          0.004974221
+        ],
+        "EIRFunT": [
+          0.524511,
+          -0.02850126,
+          0.000803472,
+          0.01893133,
+          0.0001151629,
+          -9.340642e-05
+        ],
+        "EIRFunPLR": [
+          0.2619878,
+          0.2393605,
+          0.4988306
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1076kW_5_52COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1076kW/5.52COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1076100.0,
+        "COP_nominal": 5.52,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 31.86,
+        "mCon_flow_nominal": 47.440000000000005,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 298.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 298.03999999999996,
+        "capFunT": [
+          0.9187704,
+          0.04509452,
+          -0.005119187,
+          -0.0002095629,
+          -0.0006432511,
+          0.002791545
+        ],
+        "EIRFunT": [
+          0.7511044,
+          0.02415573,
+          -0.005310959,
+          -0.001073812,
+          0.0001189538,
+          0.001604476
+        ],
+        "EIRFunPLR": [
+          0.131576,
+          -0.03004087,
+          0.896718
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1080kW_7_39COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHE 1080kW/7.39COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1079600.0,
+        "COP_nominal": 7.39,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 31.86,
+        "mCon_flow_nominal": 64.16,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 296.76,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 289.39,
+        "TConEntMax": 296.76,
+        "capFunT": [
+          0.4365583,
+          -0.03677215,
+          -0.002779781,
+          0.0606306,
+          -0.002290704,
+          0.005115883
+        ],
+        "EIRFunT": [
+          0.3608716,
+          -0.05637178,
+          -0.0003428415,
+          0.04230087,
+          -0.0004391632,
+          0.001517182
+        ],
+        "EIRFunPLR": [
+          0.1789841,
+          0.2976513,
+          0.5243235
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1090kW_7_57COP_VSD",
+      "description": "ElectricEIRChiller York YT 1090kW/7.57COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1090100.0,
+        "COP_nominal": 7.57,
+        "PLRMin": 0.14,
+        "PLRMinUnl": 0.14,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.6769028,
+          0.05711844,
+          -0.000607231,
+          0.01656541,
+          -0.0008087831,
+          0.0002303904
+        ],
+        "EIRFunT": [
+          0.9241019,
+          -0.04961574,
+          0.0001291675,
+          0.03299013,
+          -0.0006769477,
+          0.001692815
+        ],
+        "EIRFunPLR": [
+          0.1431969,
+          -0.4920686,
+          1.341333
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_1104kW_8_00COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 1104kW/8.00COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1104200.0,
+        "COP_nominal": 8.0,
+        "PLRMin": 0.08,
+        "PLRMinUnl": 0.08,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 24.23,
+        "mCon_flow_nominal": 30.28,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.8210185,
+          0.04386152,
+          -0.001521829,
+          -0.004314921,
+          -0.0007251667,
+          0.001497681
+        ],
+        "EIRFunT": [
+          0.8655242,
+          -0.0003808337,
+          -0.00132005,
+          0.01137834,
+          -4.09512e-05,
+          0.0006531102
+        ],
+        "EIRFunPLR": [
+          0.309115,
+          -0.01089639,
+          0.7022967
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1125kW_4_89COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHE 1125kW/4.89COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1125300.0,
+        "COP_nominal": 4.89,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 27.76,
+        "mCon_flow_nominal": 26.18,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.6151549,
+          -0.0118125,
+          -0.00149163,
+          0.03326625,
+          -0.0009315,
+          0.001771875
+        ],
+        "EIRFunT": [
+          0.581058,
+          -0.04344257,
+          -0.0005369108,
+          0.02844405,
+          -0.000160939,
+          0.0007004346
+        ],
+        "EIRFunPLR": [
+          0.1807198,
+          -0.1469686,
+          0.9658417
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1125kW_7_92COP_VSD",
+      "description": "ElectricEIRChiller York YT 1125kW/7.92COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1125300.0,
+        "COP_nominal": 7.92,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 32.43,
+        "mCon_flow_nominal": 51.73,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.1034212,
+          0.002327078,
+          -0.0009117035,
+          0.09104793,
+          -0.002678967,
+          0.002274649
+        ],
+        "EIRFunT": [
+          0.6542286,
+          -0.02451604,
+          0.001253508,
+          0.04216477,
+          0.0001404867,
+          -0.00150878
+        ],
+        "EIRFunPLR": [
+          0.1147453,
+          0.04231235,
+          0.8419681
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1129kW_7_19COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHE 1129kW/7.19COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1128800.0,
+        "COP_nominal": 7.19,
+        "PLRMin": 0.15,
+        "PLRMinUnl": 0.15,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 27.76,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.3922479,
+          -0.04388411,
+          -0.002748665,
+          0.06894954,
+          -0.002563738,
+          0.005420187
+        ],
+        "EIRFunT": [
+          0.3742142,
+          -0.05536709,
+          -0.0008199663,
+          0.04655032,
+          -0.0007312591,
+          0.001887184
+        ],
+        "EIRFunPLR": [
+          0.1693841,
+          0.2475201,
+          0.5836059
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1143kW_6_57COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1143kW/6.57COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1142900.0,
+        "COP_nominal": 6.57,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 25.930000000000003,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 283.15,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.7939538,
+          0.04096493,
+          -0.001419397,
+          -0.001639813,
+          -0.0005220497,
+          0.001348786
+        ],
+        "EIRFunT": [
+          0.947558,
+          -0.01187942,
+          8.799326e-05,
+          0.0002250775,
+          0.0001815775,
+          0.0002178409
+        ],
+        "EIRFunPLR": [
+          0.1408822,
+          -0.1578153,
+          1.014316
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1157kW_5_62COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1157kW/5.62COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1156900.0,
+        "COP_nominal": 5.62,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 28.01,
+        "mCon_flow_nominal": 31.86,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 294.26,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 284.4,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.076248,
+          0.005436724,
+          -0.0003893302,
+          -0.00435331,
+          -0.0002402031,
+          0.000840908
+        ],
+        "EIRFunT": [
+          1.075567,
+          -0.03893571,
+          0.001082499,
+          -0.005782829,
+          0.0006574492,
+          -0.0005302886
+        ],
+        "EIRFunPLR": [
+          0.1608589,
+          -0.2058215,
+          1.043133
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1196kW_6_50COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1196kW/6.50COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1195600.0,
+        "COP_nominal": 6.5,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 34.26,
+        "mCon_flow_nominal": 42.52,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.126801,
+          -0.004220591,
+          -0.002002964,
+          0.00736088,
+          -0.00115689,
+          0.003064875
+        ],
+        "EIRFunT": [
+          0.9514432,
+          -0.02252147,
+          -1.062456e-05,
+          -0.0001383194,
+          0.0003914644,
+          8.126485e-05
+        ],
+        "EIRFunPLR": [
+          0.2724491,
+          0.2710369,
+          0.4552356
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1213kW_7_78COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1213kW/7.78COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1213200.0,
+        "COP_nominal": 7.78,
+        "PLRMin": 0.17,
+        "PLRMinUnl": 0.17,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 32.43,
+        "mCon_flow_nominal": 47.82,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9070437,
+          -0.007437456,
+          -0.0009695325,
+          0.01529092,
+          -0.001069664,
+          0.001994583
+        ],
+        "EIRFunT": [
+          1.002142,
+          -0.02505239,
+          0.0005169707,
+          0.006321862,
+          0.0005116807,
+          -0.0004794244
+        ],
+        "EIRFunPLR": [
+          0.2847744,
+          0.4027863,
+          0.3114896
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_1231kW_6_18COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 1231kW/6.18COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1230800.0,
+        "COP_nominal": 6.18,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 35.33,
+        "mCon_flow_nominal": 51.1,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.152795,
+          0.09770474,
+          -0.006719705,
+          -0.02123401,
+          -0.0003641998,
+          0.001473439
+        ],
+        "EIRFunT": [
+          0.8067591,
+          0.01868314,
+          -0.005569088,
+          -0.004309148,
+          0.0001373034,
+          0.002394081
+        ],
+        "EIRFunPLR": [
+          0.2117054,
+          0.4263662,
+          0.3614654
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1234kW_5_39COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1234kW/5.39COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1234300.0,
+        "COP_nominal": 5.39,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 25.930000000000003,
+        "mCon_flow_nominal": 38.61,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.5905815,
+          0.1190927,
+          -0.006727309,
+          -0.009580836,
+          -0.0003034704,
+          0.001540686
+        ],
+        "EIRFunT": [
+          0.3771659,
+          0.1144965,
+          -0.008186893,
+          -0.003372584,
+          0.000168944,
+          0.001008523
+        ],
+        "EIRFunPLR": [
+          0.1495681,
+          -0.1449639,
+          0.994107
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1259kW_6_26COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1259kW/6.26COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1258900.0,
+        "COP_nominal": 6.26,
+        "PLRMin": 0.18,
+        "PLRMinUnl": 0.18,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 25.930000000000003,
+        "mCon_flow_nominal": 38.23,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          1.082071,
+          0.03200888,
+          -0.00399478,
+          -0.005789604,
+          -0.0008238938,
+          0.002933539
+        ],
+        "EIRFunT": [
+          0.7582035,
+          0.006896017,
+          -0.001491911,
+          0.002249459,
+          0.0003908697,
+          -0.0001735265
+        ],
+        "EIRFunPLR": [
+          0.2226232,
+          0.5199282,
+          0.257847
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_1259kW_6_45COP_Vanes",
+      "description": "ElectricEIRChiller York YK 1259kW/6.45COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1258900.0,
+        "COP_nominal": 6.45,
+        "PLRMin": 0.18,
+        "PLRMinUnl": 0.18,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 26.31,
+        "mCon_flow_nominal": 62.46,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.96092,
+          0.07223733,
+          -0.001693471,
+          0.002543722,
+          -0.000641557,
+          -0.000302854
+        ],
+        "EIRFunT": [
+          0.8991536,
+          0.006305932,
+          -0.0003756374,
+          -0.01952076,
+          0.001381302,
+          -0.001615004
+        ],
+        "EIRFunPLR": [
+          0.1014593,
+          0.6216537,
+          0.2780213
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1266kW_4_39COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1266kW/4.39COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1266000.0,
+        "COP_nominal": 4.39,
+        "PLRMin": 0.11,
+        "PLRMinUnl": 0.11,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 35.33,
+        "mCon_flow_nominal": 57.73,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 308.15,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.1285663,
+          -0.02860032,
+          -0.001369319,
+          0.06676366,
+          -0.001510647,
+          0.002947167
+        ],
+        "EIRFunT": [
+          0.08284925,
+          0.04206167,
+          -0.005254555,
+          0.01964407,
+          0.0001070646,
+          0.0002298241
+        ],
+        "EIRFunPLR": [
+          0.7326942,
+          -0.7962527,
+          1.059148
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1284kW_6_20COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1284kW/6.20COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1283500.0,
+        "COP_nominal": 6.2,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 36.839999999999996,
+        "mCon_flow_nominal": 53.37,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.119245,
+          -0.01524417,
+          -0.001074186,
+          -0.001260169,
+          -0.0004380237,
+          0.002027779
+        ],
+        "EIRFunT": [
+          0.7815645,
+          -0.02448971,
+          0.00164437,
+          0.00556458,
+          0.0005800428,
+          -0.001086993
+        ],
+        "EIRFunPLR": [
+          0.2324812,
+          0.7690691,
+          -0.0006532223
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1294kW_7_61COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1294kW/7.61COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1294100.0,
+        "COP_nominal": 7.61,
+        "PLRMin": 0.16,
+        "PLRMinUnl": 0.16,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 32.43,
+        "mCon_flow_nominal": 47.32,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9274222,
+          0.01278683,
+          -0.00162188,
+          0.002816339,
+          -0.0007658105,
+          0.001881968
+        ],
+        "EIRFunT": [
+          1.085249,
+          -0.0009441252,
+          -0.0025051,
+          -0.008724367,
+          0.000416478,
+          0.0008473746
+        ],
+        "EIRFunPLR": [
+          0.09344563,
+          0.3993002,
+          0.5087169
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1329kW_5_38COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHE 1329kW/5.38COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1329300.0,
+        "COP_nominal": 5.38,
+        "PLRMin": 0.29,
+        "PLRMinUnl": 0.29,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 47.32,
+        "mCon_flow_nominal": 70.98,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 294.26,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5339754,
+          0.1016009,
+          -0.003979592,
+          0.01261254,
+          -0.0004666667,
+          -8.351648e-05
+        ],
+        "EIRFunT": [
+          0.8074052,
+          0.03355495,
+          -0.001549617,
+          -0.007142554,
+          0.0005056363,
+          -0.0007547786
+        ],
+        "EIRFunPLR": [
+          0.04079777,
+          1.174456,
+          -0.2212711
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1350kW_7_90COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1350kW/7.90COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1350400.0,
+        "COP_nominal": 7.9,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 36.839999999999996,
+        "mCon_flow_nominal": 53.37,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.063866,
+          -0.0144899,
+          -0.001021036,
+          -0.001197817,
+          -0.0004163507,
+          0.001927446
+        ],
+        "EIRFunT": [
+          0.9953536,
+          -0.03118863,
+          0.002094171,
+          0.007086716,
+          0.0007387078,
+          -0.00138433
+        ],
+        "EIRFunPLR": [
+          0.3336374,
+          -0.4098166,
+          1.077791
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1368kW_7_35COP_VSD",
+      "description": "ElectricEIRChiller York YT 1368kW/7.35COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1367900.0,
+        "COP_nominal": 7.35,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 50.47,
+        "mCon_flow_nominal": 75.71,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.3832184,
+          -0.03265439,
+          -0.003392654,
+          0.0858018,
+          -0.003513013,
+          0.00652844
+        ],
+        "EIRFunT": [
+          0.3227543,
+          -0.01415418,
+          -0.00509065,
+          0.04606511,
+          -0.0008769578,
+          0.002600343
+        ],
+        "EIRFunPLR": [
+          0.09483562,
+          0.1521114,
+          0.7543027
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1372kW_7_49COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHE 1372kW/7.49COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1371500.0,
+        "COP_nominal": 7.49,
+        "PLRMin": 0.41,
+        "PLRMinUnl": 0.41,
+        "PLRMax": 1.07,
+        "mEva_flow_nominal": 50.47,
+        "mCon_flow_nominal": 75.71,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5993784,
+          0.0652338,
+          -0.007714286,
+          0.03114955,
+          -0.001843989,
+          0.004096552
+        ],
+        "EIRFunT": [
+          0.9123765,
+          0.01616509,
+          0.001906349,
+          -0.01143164,
+          0.001080775,
+          -0.002873661
+        ],
+        "EIRFunPLR": [
+          0.05154478,
+          0.9635713,
+          -0.01896824
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1396kW_7_35COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1396kW/7.35COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1396100.0,
+        "COP_nominal": 7.35,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 50.47,
+        "mCon_flow_nominal": 75.71,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5167863,
+          -0.02788454,
+          -0.000949781,
+          0.06693411,
+          -0.00272843,
+          0.004723123
+        ],
+        "EIRFunT": [
+          0.52075,
+          -0.009073869,
+          -0.0001812171,
+          0.0256874,
+          4.255936e-05,
+          -0.0005899242
+        ],
+        "EIRFunPLR": [
+          0.3043032,
+          0.03720107,
+          0.6590338
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1403kW_7_09COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1403kW/7.09COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1403100.0,
+        "COP_nominal": 7.09,
+        "PLRMin": 0.17,
+        "PLRMinUnl": 0.17,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 34.26,
+        "mCon_flow_nominal": 42.52,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9601814,
+          -0.003596494,
+          -0.001706786,
+          0.006272429,
+          -0.0009858212,
+          0.002611673
+        ],
+        "EIRFunT": [
+          1.098641,
+          -0.0248588,
+          -6.240421e-05,
+          -0.001719488,
+          0.0004887321,
+          9.618075e-05
+        ],
+        "EIRFunPLR": [
+          0.08788698,
+          0.2678891,
+          0.644518
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1403kW_6_94COP_VSD",
+      "description": "ElectricEIRChiller York YT 1403kW/6.94COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1403100.0,
+        "COP_nominal": 6.94,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.1,
+        "mEva_flow_nominal": 50.47,
+        "mCon_flow_nominal": 50.47,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          -0.03447077,
+          0.1273138,
+          -0.009716868,
+          0.08863546,
+          -0.003165958,
+          0.002521351
+        ],
+        "EIRFunT": [
+          0.3983846,
+          0.02396665,
+          -0.006601871,
+          0.02944077,
+          -0.0004570885,
+          0.001873209
+        ],
+        "EIRFunPLR": [
+          0.03272242,
+          0.387354,
+          0.5789579
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1407kW_7_14COP_VSD",
+      "description": "ElectricEIRChiller Trane CVHE 1407kW/7.14COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1406600.0,
+        "COP_nominal": 7.14,
+        "PLRMin": 0.3,
+        "PLRMinUnl": 0.3,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 50.47,
+        "mCon_flow_nominal": 75.71,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.4521342,
+          0.005248142,
+          -0.006687636,
+          0.05869437,
+          -0.002390647,
+          0.005040171
+        ],
+        "EIRFunT": [
+          0.5674858,
+          0.04461513,
+          -0.006341978,
+          0.004674972,
+          0.0004387295,
+          0.0002778096
+        ],
+        "EIRFunPLR": [
+          0.05963988,
+          0.3503067,
+          0.587
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PFH_1407kW_6_60COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PFH 1407kW/6.60COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1406600.0,
+        "COP_nominal": 6.6,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 40.38,
+        "mCon_flow_nominal": 58.04,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.191784,
+          0.02070584,
+          -0.004952378,
+          0.01757508,
+          -0.002487599,
+          0.005934709
+        ],
+        "EIRFunT": [
+          0.7929709,
+          0.03424884,
+          -0.005567434,
+          -0.006974667,
+          0.0002531138,
+          0.001862577
+        ],
+        "EIRFunPLR": [
+          0.07700603,
+          0.5414789,
+          0.3826334
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1407kW_6_04COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1407kW/6.04COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1406600.0,
+        "COP_nominal": 6.04,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 60.57,
+        "mCon_flow_nominal": 75.71,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 305.37,
+        "capFunT": [
+          1.042261,
+          0.002644821,
+          -0.001468026,
+          0.01366256,
+          -0.0008302334,
+          0.001573579
+        ],
+        "EIRFunT": [
+          1.02634,
+          -0.01612819,
+          -0.001092591,
+          -0.01784393,
+          0.0007961842,
+          -9.586049e-05
+        ],
+        "EIRFunPLR": [
+          0.118888,
+          0.6723542,
+          0.2068754
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1410kW_8_54COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1410kW/8.54COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1410100.0,
+        "COP_nominal": 8.54,
+        "PLRMin": 0.18,
+        "PLRMinUnl": 0.18,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 40.0,
+        "mCon_flow_nominal": 58.61,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9597856,
+          -0.006247187,
+          -0.001117998,
+          0.00699104,
+          -0.0006321252,
+          0.001765068
+        ],
+        "EIRFunT": [
+          1.131014,
+          -0.06735406,
+          3.034309e-06,
+          0.01307361,
+          0.0003384625,
+          0.0007872113
+        ],
+        "EIRFunPLR": [
+          0.09662908,
+          0.7475978,
+          0.1566368
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1442kW_6_61COP_VSD",
+      "description": "ElectricEIRChiller Trane CVHE 1442kW/6.61COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1441800.0,
+        "COP_nominal": 6.61,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.07,
+        "mEva_flow_nominal": 50.47,
+        "mCon_flow_nominal": 50.47,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.4007341,
+          0.001148568,
+          0.0001049504,
+          0.05574667,
+          -0.001646131,
+          0.0013232
+        ],
+        "EIRFunT": [
+          0.6287646,
+          -0.03024605,
+          0.0006137016,
+          0.01805826,
+          0.0001640653,
+          -0.0001113802
+        ],
+        "EIRFunPLR": [
+          0.09299787,
+          0.3244475,
+          0.5818753
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1459kW_6_40COP_VSD",
+      "description": "ElectricEIRChiller York YT 1459kW/6.40COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1459400.0,
+        "COP_nominal": 6.4,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.13,
+        "mEva_flow_nominal": 50.47,
+        "mCon_flow_nominal": 50.47,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          -0.1665585,
+          0.221158,
+          -0.01408361,
+          0.06476151,
+          -0.002009341,
+          -7.89763e-05
+        ],
+        "EIRFunT": [
+          0.1438935,
+          0.09821191,
+          -0.0117427,
+          0.03748666,
+          -0.0005700518,
+          0.001053698
+        ],
+        "EIRFunPLR": [
+          0.03999642,
+          0.250943,
+          0.7067059
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1484kW_9_96COP_VSD",
+      "description": "ElectricEIRChiller Trane CVHE 1484kW/9.96COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1484000.0,
+        "COP_nominal": 9.96,
+        "PLRMin": 0.24,
+        "PLRMinUnl": 0.24,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 90.85,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          -0.454448,
+          -0.03615933,
+          -0.002734006,
+          0.1683863,
+          -0.004557649,
+          0.00536284
+        ],
+        "EIRFunT": [
+          -0.369394,
+          -0.06387787,
+          -0.0002760494,
+          0.1661135,
+          -0.003105485,
+          0.001705909
+        ],
+        "EIRFunPLR": [
+          0.1353827,
+          0.01385983,
+          0.8522688
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1495kW_7_51COP_VSD",
+      "description": "ElectricEIRChiller York YT 1495kW/7.51COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1494500.0,
+        "COP_nominal": 7.51,
+        "PLRMin": 0.11,
+        "PLRMinUnl": 0.11,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 42.9,
+        "mCon_flow_nominal": 67.19,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          1.051921,
+          -0.1632255,
+          0.01149042,
+          0.05463515,
+          -0.001579985,
+          0.001628246
+        ],
+        "EIRFunT": [
+          0.7106985,
+          -0.2087623,
+          0.009421379,
+          0.08491925,
+          -0.00126082,
+          0.001125512
+        ],
+        "EIRFunPLR": [
+          0.151747,
+          -0.1577252,
+          1.005197
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_WSC_1519kW_7_10COP_Vanes",
+      "description": "ElectricEIRChiller McQuay WSC 1519kW/7.10COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1519200.0,
+        "COP_nominal": 7.1,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 31.86,
+        "mCon_flow_nominal": 81.39,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          1.265889,
+          0.03401563,
+          -0.006532621,
+          -0.00660096,
+          -0.002172017,
+          0.007121766
+        ],
+        "EIRFunT": [
+          0.9981236,
+          -0.01060763,
+          -0.003921458,
+          -0.01206761,
+          -0.0001398595,
+          0.003467199
+        ],
+        "EIRFunPLR": [
+          0.1563837,
+          0.4894381,
+          0.3541551
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1558kW_5_81COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1558kW/5.81COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1557800.0,
+        "COP_nominal": 5.81,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 37.85,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 294.26,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.09,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.034307,
+          0.02390635,
+          -0.001222578,
+          -0.00534622,
+          -0.0002183258,
+          0.0006282331
+        ],
+        "EIRFunT": [
+          1.099343,
+          -0.03132676,
+          0.0004108521,
+          -0.007377845,
+          0.0005775048,
+          -0.0003528472
+        ],
+        "EIRFunPLR": [
+          0.1620909,
+          -0.255389,
+          1.092232
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1586kW_5_53COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1586kW/5.53COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1586000.0,
+        "COP_nominal": 5.53,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 33.88,
+        "mCon_flow_nominal": 46.690000000000005,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          1.119233,
+          0.01130501,
+          -0.0006423802,
+          -0.005144512,
+          -0.0003085995,
+          0.0007813582
+        ],
+        "EIRFunT": [
+          1.110611,
+          -0.03795765,
+          0.0002851444,
+          -0.004560404,
+          0.0004044229,
+          0.0001407332
+        ],
+        "EIRFunPLR": [
+          0.1996379,
+          -0.1612021,
+          0.9608483
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_1635kW_7_47COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 1635kW/7.47COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1635200.0,
+        "COP_nominal": 7.47,
+        "PLRMin": 0.08,
+        "PLRMinUnl": 0.08,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 44.16,
+        "mCon_flow_nominal": 66.24,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.9894188,
+          0.002983148,
+          -0.002484601,
+          0.005974984,
+          -0.001063988,
+          0.002601503
+        ],
+        "EIRFunT": [
+          1.040733,
+          -0.07118888,
+          0.002262395,
+          0.01221901,
+          0.0002152693,
+          0.0007409943
+        ],
+        "EIRFunPLR": [
+          0.1836695,
+          0.5781685,
+          0.2385719
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1635kW_6_36COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1635kW/6.36COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1635200.0,
+        "COP_nominal": 6.36,
+        "PLRMin": 0.18,
+        "PLRMinUnl": 0.18,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 34.32,
+        "mCon_flow_nominal": 50.35,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.7639212,
+          0.01160405,
+          -0.005344185,
+          0.03306796,
+          -0.002100827,
+          0.004920586
+        ],
+        "EIRFunT": [
+          0.7355981,
+          -0.01083354,
+          -0.0009244662,
+          0.01458943,
+          8.494647e-06,
+          0.0001279572
+        ],
+        "EIRFunPLR": [
+          0.2581595,
+          0.2707154,
+          0.4707425
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1656kW_8_24COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1656kW/8.24COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1656300.0,
+        "COP_nominal": 8.24,
+        "PLRMin": 0.17,
+        "PLRMinUnl": 0.17,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 43.22,
+        "mCon_flow_nominal": 62.96,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.7611706,
+          -0.02867067,
+          -0.002363358,
+          0.04097113,
+          -0.002343044,
+          0.004547017
+        ],
+        "EIRFunT": [
+          0.7730916,
+          -0.08073559,
+          -0.002161313,
+          0.06144398,
+          -0.001953734,
+          0.004056527
+        ],
+        "EIRFunPLR": [
+          0.1982584,
+          0.04414042,
+          0.7642946
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1663kW_9_34COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1663kW/9.34COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1663300.0,
+        "COP_nominal": 9.34,
+        "PLRMin": 0.17,
+        "PLRMinUnl": 0.17,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 41.39,
+        "mCon_flow_nominal": 77.60000000000001,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.9112226,
+          -0.04546497,
+          0.004431126,
+          0.0243916,
+          -0.001415836,
+          0.001877877
+        ],
+        "EIRFunT": [
+          1.028094,
+          -0.06127553,
+          0.003236371,
+          0.01656482,
+          0.000297685,
+          -0.0004418361
+        ],
+        "EIRFunPLR": [
+          0.2127966,
+          0.3131004,
+          0.4726018
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XL_1674kW_7_89COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XL 1674kW/7.89COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1673900.0,
+        "COP_nominal": 7.89,
+        "PLRMin": 0.32,
+        "PLRMinUnl": 0.32,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 90.85,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.2925408,
+          -0.04406182,
+          -0.001292074,
+          0.09008701,
+          -0.002646719,
+          0.003388396
+        ],
+        "EIRFunT": [
+          0.986851,
+          -0.06325526,
+          0.003498632,
+          0.01699731,
+          0.000257349,
+          -0.0004233553
+        ],
+        "EIRFunPLR": [
+          0.338641,
+          0.2621224,
+          0.3987109
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_1681kW_6_59COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 1681kW/6.59COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1680900.0,
+        "COP_nominal": 6.59,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 43.66,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 291.47999999999996,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.6792987,
+          -0.05291217,
+          -0.005280108,
+          0.05252682,
+          -0.002523689,
+          0.00734494
+        ],
+        "EIRFunT": [
+          0.434463,
+          -0.005781149,
+          0.0002852311,
+          0.02723246,
+          0.0001280801,
+          -0.0008964328
+        ],
+        "EIRFunPLR": [
+          0.1619116,
+          0.236242,
+          0.6032459
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1723kW_8_32COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1723kW/8.32COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1723100.0,
+        "COP_nominal": 8.32,
+        "PLRMin": 0.18,
+        "PLRMinUnl": 0.18,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 47.57,
+        "mCon_flow_nominal": 69.34,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.4742518,
+          -0.05109937,
+          -0.002845323,
+          0.08257997,
+          -0.003404799,
+          0.005625321
+        ],
+        "EIRFunT": [
+          0.2950574,
+          -0.1036684,
+          -0.004169567,
+          0.125679,
+          -0.004004203,
+          0.006718687
+        ],
+        "EIRFunPLR": [
+          0.237401,
+          -0.1796745,
+          0.9441507
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1727kW_9_04COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1727kW/9.04COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1726600.0,
+        "COP_nominal": 9.04,
+        "PLRMin": 0.17,
+        "PLRMinUnl": 0.17,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 39.120000000000005,
+        "mCon_flow_nominal": 71.92,
+        "TEvaLvg_nominal": 280.92999999999995,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.6509915,
+          0.02567642,
+          -0.005417815,
+          0.03406103,
+          -0.00170364,
+          0.003336164
+        ],
+        "EIRFunT": [
+          1.072553,
+          -0.008058631,
+          -0.002109608,
+          -0.00126291,
+          0.0006155442,
+          0.0004796754
+        ],
+        "EIRFunPLR": [
+          0.2465824,
+          0.4494453,
+          0.303768
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_WSC_1751kW_6_73COP_Vanes",
+      "description": "ElectricEIRChiller McQuay WSC 1751kW/6.73COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1751300.0,
+        "COP_nominal": 6.73,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 41.45,
+        "mCon_flow_nominal": 93.36999999999999,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.7923045,
+          0.1003672,
+          -0.0043489,
+          0.003755572,
+          -0.0007675491,
+          0.00067886
+        ],
+        "EIRFunT": [
+          0.8089395,
+          0.02628482,
+          -0.001773497,
+          -0.00811843,
+          0.0007146809,
+          -0.0006481705
+        ],
+        "EIRFunPLR": [
+          0.2250725,
+          0.2648297,
+          0.5095786
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_1758kW_5_96COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 1758kW/5.96COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 5.96,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 63.089999999999996,
+        "mCon_flow_nominal": 63.089999999999996,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.59,
+        "capFunT": [
+          1.074211,
+          0.007710761,
+          -0.00316677,
+          -0.01868765,
+          0.0001273866,
+          0.002744586
+        ],
+        "EIRFunT": [
+          0.4910329,
+          -0.09895115,
+          0.004257871,
+          0.05433817,
+          -0.0008184909,
+          0.000617881
+        ],
+        "EIRFunPLR": [
+          0.3694797,
+          0.09551656,
+          0.5347291
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1758kW_5_76COP_VSD",
+      "description": "ElectricEIRChiller York YT 1758kW/5.76COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 5.76,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 63.089999999999996,
+        "mCon_flow_nominal": 63.089999999999996,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.65999999999997,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.59,
+        "capFunT": [
+          0.4575085,
+          0.1313508,
+          -0.004408831,
+          0.01930354,
+          -0.0005479641,
+          -0.00137658
+        ],
+        "EIRFunT": [
+          0.6794525,
+          0.06694756,
+          -0.003625396,
+          -0.01018762,
+          0.001066394,
+          -0.002113402
+        ],
+        "EIRFunPLR": [
+          0.07859908,
+          0.1950291,
+          0.7241581
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1758kW_6_26COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1758kW/6.26COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 6.26,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.14,
+        "mEva_flow_nominal": 63.089999999999996,
+        "mCon_flow_nominal": 63.089999999999996,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.59,
+        "capFunT": [
+          0.8975936,
+          -0.0145974,
+          0.003647187,
+          0.03202545,
+          -0.001190379,
+          0.000329781
+        ],
+        "EIRFunT": [
+          0.2311197,
+          0.09581517,
+          -0.005672726,
+          0.02766035,
+          -0.0001411214,
+          -0.001011216
+        ],
+        "EIRFunPLR": [
+          0.1720545,
+          0.5598164,
+          0.2626117
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1758kW_5_96COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1758kW/5.96COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 5.96,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 63.089999999999996,
+        "mCon_flow_nominal": 63.089999999999996,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.59,
+        "capFunT": [
+          0.8492365,
+          0.05551947,
+          -0.0002973138,
+          0.001164389,
+          -0.0002955716,
+          8.464931e-05
+        ],
+        "EIRFunT": [
+          0.494932,
+          0.009099785,
+          -0.0006935841,
+          0.03277452,
+          -0.0003895481,
+          -0.0005524011
+        ],
+        "EIRFunPLR": [
+          0.2236154,
+          0.2590053,
+          0.5169137
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHE_1758kW_5_96COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHE 1758kW/5.96COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 5.96,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 94.64,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 297.03999999999996,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.09566057,
+          -0.02457943,
+          -0.006827143,
+          0.0711936,
+          -0.00204768,
+          0.0052488
+        ],
+        "EIRFunT": [
+          1.243313,
+          -0.03031784,
+          0.003452464,
+          -0.02739941,
+          0.0009141695,
+          -0.00100008
+        ],
+        "EIRFunPLR": [
+          0.1871377,
+          0.5849639,
+          0.2291447
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1758kW_6_28COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1758kW/6.28COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 6.28,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 94.64,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.7079149,
+          -0.002006276,
+          -0.002596043,
+          0.03005922,
+          -0.001056423,
+          0.002045705
+        ],
+        "EIRFunT": [
+          0.5605391,
+          -0.01377994,
+          6.569542e-05,
+          0.01321951,
+          0.0002686074,
+          -0.0005011451
+        ],
+        "EIRFunPLR": [
+          0.1861223,
+          0.5482049,
+          0.2647377
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1758kW_5_86COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1758kW/5.86COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 5.86,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 63.03,
+        "mCon_flow_nominal": 73.37,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.59,
+        "capFunT": [
+          0.3677279,
+          -0.03175504,
+          -0.004096383,
+          0.07527566,
+          -0.00275754,
+          0.00535902
+        ],
+        "EIRFunT": [
+          0.1743365,
+          -0.05054806,
+          -0.005424748,
+          0.08244673,
+          -0.002400392,
+          0.00507872
+        ],
+        "EIRFunPLR": [
+          0.278458,
+          -0.5498632,
+          1.269693
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_1758kW_6_46COP_VSD",
+      "description": "ElectricEIRChiller Trane CVHF 1758kW/6.46COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 6.46,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 63.089999999999996,
+        "mCon_flow_nominal": 63.089999999999996,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.59,
+        "capFunT": [
+          1.066671,
+          0.00588924,
+          -0.003155053,
+          -0.01591039,
+          0.0001042897,
+          0.002576256
+        ],
+        "EIRFunT": [
+          0.07989434,
+          0.02062907,
+          -0.0004050827,
+          0.04570552,
+          -0.0001469163,
+          -0.001563259
+        ],
+        "EIRFunPLR": [
+          0.3268954,
+          0.3297771,
+          0.3423342
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_1758kW_6_87COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 1758kW/6.87COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 6.87,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 63.089999999999996,
+        "mCon_flow_nominal": 63.089999999999996,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.59,
+        "capFunT": [
+          0.8085529,
+          0.03412026,
+          -0.0004184591,
+          0.004111323,
+          -0.0001764627,
+          0.0004184748
+        ],
+        "EIRFunT": [
+          0.6329473,
+          0.005521802,
+          0.0001487172,
+          0.002433576,
+          0.0007100129,
+          -0.001108627
+        ],
+        "EIRFunPLR": [
+          0.24019,
+          0.5090345,
+          0.2500532
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1776kW_8_00COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 1776kW/8.00COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1775900.0,
+        "COP_nominal": 8.0,
+        "PLRMin": 0.17,
+        "PLRMinUnl": 0.17,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 47.57,
+        "mCon_flow_nominal": 70.03,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.4841535,
+          -0.0358426,
+          -0.001467417,
+          0.07773868,
+          -0.003125809,
+          0.003729631
+        ],
+        "EIRFunT": [
+          0.8006719,
+          -0.03137026,
+          0.0004098888,
+          0.03176921,
+          -0.0002104567,
+          -7.660277e-05
+        ],
+        "EIRFunPLR": [
+          0.3276235,
+          0.2787167,
+          0.3952405
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XL_1779kW_6_18COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XL 1779kW/6.18COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1779400.0,
+        "COP_nominal": 6.18,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 63.03,
+        "mCon_flow_nominal": 88.58000000000001,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 299.26,
+        "capFunT": [
+          0.2703515,
+          -0.04051337,
+          -0.005968813,
+          0.08261488,
+          -0.003019425,
+          0.00671804
+        ],
+        "EIRFunT": [
+          0.5872331,
+          -0.03907248,
+          0.0003474913,
+          0.02950392,
+          -0.0002510016,
+          0.000248161
+        ],
+        "EIRFunPLR": [
+          0.3090532,
+          0.2641442,
+          0.4269265
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_1779kW_6_18COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 1779kW/6.18COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1779400.0,
+        "COP_nominal": 6.18,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 44.540000000000006,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 291.47999999999996,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.3331346,
+          -0.05678656,
+          -0.001257764,
+          0.08198893,
+          -0.00261249,
+          0.004226087
+        ],
+        "EIRFunT": [
+          0.3137523,
+          -0.01879556,
+          -0.001860907,
+          0.03469711,
+          -0.000150348,
+          0.0007641242
+        ],
+        "EIRFunPLR": [
+          0.1699409,
+          0.1874304,
+          0.6410385
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1794kW_8_11COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1794kW/8.11COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1793500.0,
+        "COP_nominal": 8.11,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.08,
+        "mEva_flow_nominal": 51.48,
+        "mCon_flow_nominal": 96.53,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          1.53614,
+          -0.163076,
+          0.01225832,
+          0.02148166,
+          -0.0016547,
+          0.002660568
+        ],
+        "EIRFunT": [
+          0.8546274,
+          0.2456473,
+          -0.009770595,
+          -0.07386557,
+          0.002843499,
+          -0.005292981
+        ],
+        "EIRFunPLR": [
+          0.03187543,
+          0.8272483,
+          0.1279099
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1794kW_7_90COP_VSD",
+      "description": "ElectricEIRChiller York YT 1794kW/7.90COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1793500.0,
+        "COP_nominal": 7.9,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 51.48,
+        "mCon_flow_nominal": 96.53,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.9552268,
+          -0.1553435,
+          0.007958834,
+          0.06132388,
+          -0.001899594,
+          0.003323245
+        ],
+        "EIRFunT": [
+          0.5984829,
+          -0.15527,
+          0.006909012,
+          0.06801572,
+          -0.0007450754,
+          0.00057646
+        ],
+        "EIRFunPLR": [
+          0.144588,
+          0.1059293,
+          0.7489704
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XL_1797kW_5_69COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XL 1797kW/5.69COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1797000.0,
+        "COP_nominal": 5.69,
+        "PLRMin": 0.39,
+        "PLRMinUnl": 0.39,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 77.36999999999999,
+        "mCon_flow_nominal": 96.72,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 294.26,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.9084596,
+          0.04671596,
+          -0.001188845,
+          -0.002284596,
+          -3.170254e-05,
+          -0.0003577858
+        ],
+        "EIRFunT": [
+          1.08429,
+          -0.04318103,
+          0.001586113,
+          0.001664015,
+          8.043383e-05,
+          5.681056e-05
+        ],
+        "EIRFunPLR": [
+          0.5926251,
+          -0.2657314,
+          0.6731751
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_1801kW_6_34COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 1801kW/6.34COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1800500.0,
+        "COP_nominal": 6.34,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 51.61000000000001,
+        "mCon_flow_nominal": 63.85,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.6174861,
+          -0.07299051,
+          -0.001897105,
+          0.07003662,
+          -0.002852439,
+          0.005751931
+        ],
+        "EIRFunT": [
+          0.6931082,
+          -0.01885558,
+          0.0008345461,
+          0.01263879,
+          0.0004588028,
+          -0.0008221467
+        ],
+        "EIRFunPLR": [
+          0.1040764,
+          0.2818752,
+          0.6144036
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1867kW_10_09COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1867kW/10.09COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1867300.0,
+        "COP_nominal": 10.09,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 90.85,
+        "TEvaLvg_nominal": 280.92999999999995,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.4451516,
+          -0.01252382,
+          -0.002878042,
+          0.06132233,
+          -0.002365055,
+          0.004514258
+        ],
+        "EIRFunT": [
+          0.6668391,
+          0.01506485,
+          -0.004249134,
+          0.03588996,
+          -0.0001681591,
+          0.0007028459
+        ],
+        "EIRFunPLR": [
+          0.2157002,
+          0.2251016,
+          0.5584287
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XL_1871kW_6_49COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XL 1871kW/6.49COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1870800.0,
+        "COP_nominal": 6.49,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 63.03,
+        "mCon_flow_nominal": 87.7,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.00565863,
+          -0.03836575,
+          -0.005122195,
+          0.1068063,
+          -0.003377824,
+          0.005650118
+        ],
+        "EIRFunT": [
+          1.029608,
+          -0.07149045,
+          0.002043279,
+          -0.0006116474,
+          0.0003908334,
+          0.0006870233
+        ],
+        "EIRFunPLR": [
+          0.2984908,
+          0.2906868,
+          0.4089411
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1881kW_6_77COP_VSD",
+      "description": "ElectricEIRChiller York YT 1881kW/6.77COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1881400.0,
+        "COP_nominal": 6.77,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 94.64,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5065247,
+          -0.004158206,
+          -0.002681976,
+          0.04763436,
+          -0.00195127,
+          0.003994399
+        ],
+        "EIRFunT": [
+          0.6175311,
+          -0.03913241,
+          0.0006177961,
+          0.0277564,
+          -0.0002151466,
+          0.0005514895
+        ],
+        "EIRFunPLR": [
+          0.06087656,
+          0.4842164,
+          0.4571519
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_1881kW_6_53COP_Vanes",
+      "description": "ElectricEIRChiller York YK 1881kW/6.53COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1881400.0,
+        "COP_nominal": 6.53,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 43.97,
+        "mCon_flow_nominal": 104.1,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 282.59,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.8561286,
+          0.04130164,
+          -0.0007109335,
+          0.004306273,
+          -0.0006336613,
+          0.0007211635
+        ],
+        "EIRFunT": [
+          0.4434989,
+          0.04361264,
+          -0.001733337,
+          0.009915503,
+          0.0004312717,
+          -0.001122346
+        ],
+        "EIRFunPLR": [
+          0.05272116,
+          0.4176382,
+          0.531087
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_1895kW_6_42COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 1895kW/6.42COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1895400.0,
+        "COP_nominal": 6.42,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.09,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 90.85,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.8573195,
+          -0.1131937,
+          0.003444205,
+          0.04865045,
+          -0.002103805,
+          0.004986639
+        ],
+        "EIRFunT": [
+          0.3915073,
+          -0.04399727,
+          -3.868294e-06,
+          0.04623771,
+          -0.0007092319,
+          0.001372133
+        ],
+        "EIRFunPLR": [
+          0.2592598,
+          0.1425462,
+          0.5966041
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_1934kW_7_55COP_Vanes",
+      "description": "ElectricEIRChiller York YT 1934kW/7.55COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1934100.0,
+        "COP_nominal": 7.55,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 55.52,
+        "mCon_flow_nominal": 86.75,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 287.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.04420318,
+          0.1103599,
+          -0.002597752,
+          0.07043754,
+          -0.002138316,
+          -0.0004696924
+        ],
+        "EIRFunT": [
+          1.173674,
+          -0.1301647,
+          0.005588446,
+          0.008605153,
+          7.234201e-05,
+          0.001314581
+        ],
+        "EIRFunPLR": [
+          0.1706237,
+          0.6063362,
+          0.2170672
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PEH_1934kW_6_01COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PEH 1934kW/6.01COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1934100.0,
+        "COP_nominal": 6.01,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.08,
+        "mEva_flow_nominal": 55.52,
+        "mCon_flow_nominal": 79.81,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.2893111,
+          -0.03834949,
+          0.001757934,
+          0.08665805,
+          -0.002597243,
+          0.002413315
+        ],
+        "EIRFunT": [
+          0.2885371,
+          -0.005877829,
+          -0.001807763,
+          0.05193076,
+          -0.0007936373,
+          0.00110859
+        ],
+        "EIRFunPLR": [
+          0.3849256,
+          -0.2369152,
+          0.8496351
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_WDC_1973kW_6_28COP_Vanes",
+      "description": "ElectricEIRChiller McQuay WDC 1973kW/6.28COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1972800.0,
+        "COP_nominal": 6.28,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 41.45,
+        "mCon_flow_nominal": 93.36999999999999,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          1.110884,
+          0.07376077,
+          -0.005957719,
+          -0.02861037,
+          -0.0002129104,
+          0.002547028
+        ],
+        "EIRFunT": [
+          1.097378,
+          -0.03018324,
+          -0.0027922,
+          -0.01252428,
+          0.0002095232,
+          0.002409252
+        ],
+        "EIRFunPLR": [
+          0.1282891,
+          0.2722981,
+          0.6012232
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_1997kW_7_24COP_Vanes",
+      "description": "ElectricEIRChiller York YK 1997kW/7.24COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1997400.0,
+        "COP_nominal": 7.24,
+        "PLRMin": 0.18,
+        "PLRMinUnl": 0.18,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 43.97,
+        "mCon_flow_nominal": 104.1,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 280.37,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.9058272,
+          0.1309175,
+          -0.00344662,
+          -0.03166792,
+          0.00023252,
+          -0.0004892256
+        ],
+        "EIRFunT": [
+          0.1188194,
+          0.08769791,
+          -0.001692086,
+          0.002209962,
+          0.001327958,
+          -0.003249833
+        ],
+        "EIRFunPLR": [
+          0.09359332,
+          0.5873752,
+          0.320899
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PFH_2043kW_8_44COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PFH 2043kW/8.44COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2043100.0,
+        "COP_nominal": 8.44,
+        "PLRMin": 0.08,
+        "PLRMinUnl": 0.08,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 47.57,
+        "mCon_flow_nominal": 68.14,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.8383569,
+          0.04716323,
+          -0.002515385,
+          -0.003773603,
+          -0.0009186324,
+          0.002177057
+        ],
+        "EIRFunT": [
+          0.7891693,
+          0.01168677,
+          -0.00182547,
+          0.01278749,
+          0.0001521317,
+          0.0002156746
+        ],
+        "EIRFunPLR": [
+          0.12256,
+          0.3070007,
+          0.5712759
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_2043kW_9_08COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 2043kW/9.08COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2043100.0,
+        "COP_nominal": 9.08,
+        "PLRMin": 0.28,
+        "PLRMinUnl": 0.28,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 90.85,
+        "mCon_flow_nominal": 113.55999999999999,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 291.47999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 291.47999999999996,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          -1.340241,
+          0.007634284,
+          -0.003044184,
+          0.1991327,
+          -0.00453024,
+          0.002700765
+        ],
+        "EIRFunT": [
+          0.6065177,
+          0.01178669,
+          0.002098586,
+          0.01532536,
+          0.0006756887,
+          -0.002629852
+        ],
+        "EIRFunPLR": [
+          0.2173752,
+          0.439472,
+          0.3431813
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XL_2057kW_6_05COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XL 2057kW/6.05COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2057200.0,
+        "COP_nominal": 6.05,
+        "PLRMin": 0.28,
+        "PLRMinUnl": 0.28,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 83.22,
+        "mCon_flow_nominal": 97.22,
+        "TEvaLvg_nominal": 280.92999999999995,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7737452,
+          -0.01249478,
+          -0.003193419,
+          0.02110302,
+          -0.001188413,
+          0.003820335
+        ],
+        "EIRFunT": [
+          0.8623086,
+          -0.0584449,
+          -0.002284745,
+          0.02469188,
+          -0.001022604,
+          0.003996523
+        ],
+        "EIRFunPLR": [
+          0.4041274,
+          -0.3861525,
+          0.9804493
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_2110kW_7_15COP_Vanes",
+      "description": "ElectricEIRChiller York YT 2110kW/7.15COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2110000.0,
+        "COP_nominal": 7.15,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 60.57,
+        "mCon_flow_nominal": 94.64,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5359238,
+          0.01785857,
+          0.001579272,
+          0.04522868,
+          -0.001632172,
+          0.0006008061
+        ],
+        "EIRFunT": [
+          0.6270855,
+          -0.04119654,
+          0.001327107,
+          0.02661446,
+          -0.0001856827,
+          0.0005094942
+        ],
+        "EIRFunPLR": [
+          0.2469187,
+          0.186269,
+          0.5660904
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PFH_2124kW_6_03COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PFH 2124kW/6.03COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2124000.0,
+        "COP_nominal": 6.03,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 55.52,
+        "mCon_flow_nominal": 79.81,
+        "TEvaLvg_nominal": 282.03999999999996,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          1.040134,
+          -0.0174565,
+          0.001084856,
+          0.006629328,
+          -0.0008008991,
+          0.001567769
+        ],
+        "EIRFunT": [
+          1.157799,
+          -0.03621524,
+          -0.003684818,
+          -0.01202959,
+          -7.378548e-05,
+          0.003787365
+        ],
+        "EIRFunPLR": [
+          0.1051419,
+          0.2033679,
+          0.6902026
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_2159kW_6_85COP_Vanes",
+      "description": "ElectricEIRChiller York YK 2159kW/6.85COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2159200.0,
+        "COP_nominal": 6.85,
+        "PLRMin": 0.14,
+        "PLRMinUnl": 0.14,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 113.55999999999999,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.6322235,
+          0.01553954,
+          -0.00914977,
+          0.05284289,
+          -0.002818835,
+          0.007074096
+        ],
+        "EIRFunT": [
+          0.910673,
+          -0.00378641,
+          -0.001084261,
+          -0.007148246,
+          0.0005178799,
+          1.818623e-05
+        ],
+        "EIRFunPLR": [
+          0.2595694,
+          0.1889684,
+          0.551845
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_2184kW_6_78COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 2184kW/6.78COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2183800.0,
+        "COP_nominal": 6.78,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 48.83,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 280.92999999999995,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 291.47999999999996,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.23568,
+          0.02213527,
+          -0.001770186,
+          -0.01131594,
+          -0.0005008696,
+          0.001356522
+        ],
+        "EIRFunT": [
+          0.8877947,
+          -0.01334886,
+          0.001689581,
+          -0.00159971,
+          0.0007884945,
+          -0.0015849
+        ],
+        "EIRFunPLR": [
+          0.08942647,
+          0.524954,
+          0.3850801
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_2201kW_6_69COP_Vanes",
+      "description": "ElectricEIRChiller York YK 2201kW/6.69COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2201400.0,
+        "COP_nominal": 6.69,
+        "PLRMin": 0.14,
+        "PLRMinUnl": 0.14,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 113.55999999999999,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5474968,
+          -0.004800356,
+          -0.006845886,
+          0.06302552,
+          -0.002911528,
+          0.00659869
+        ],
+        "EIRFunT": [
+          0.8234137,
+          0.01308264,
+          -0.001147806,
+          -0.004071161,
+          0.0005220869,
+          -0.0006312495
+        ],
+        "EIRFunPLR": [
+          0.2653493,
+          0.144462,
+          0.5911158
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_2233kW_9_54COP_VSD",
+      "description": "ElectricEIRChiller York YT 2233kW/9.54COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2233000.0,
+        "COP_nominal": 9.54,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 61.07,
+        "mCon_flow_nominal": 114.51,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7585741,
+          -0.05127829,
+          0.005848602,
+          0.04235544,
+          -0.001606561,
+          0.0009364594
+        ],
+        "EIRFunT": [
+          0.7563409,
+          -0.01966623,
+          -0.0003927494,
+          0.02973607,
+          0.000129923,
+          -0.0004325357
+        ],
+        "EIRFunPLR": [
+          0.06917141,
+          0.1743339,
+          0.7524059
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_2237kW_6_41COP_Vanes",
+      "description": "ElectricEIRChiller York YK 2237kW/6.41COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2236600.0,
+        "COP_nominal": 6.41,
+        "PLRMin": 0.13,
+        "PLRMinUnl": 0.13,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 113.55999999999999,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.689971,
+          -0.001413334,
+          -0.001109323,
+          0.0407812,
+          -0.001785625,
+          0.002977821
+        ],
+        "EIRFunT": [
+          0.856795,
+          0.003354557,
+          0.001047901,
+          -0.00521725,
+          0.000656531,
+          -0.00136174
+        ],
+        "EIRFunPLR": [
+          0.2605354,
+          0.2125571,
+          0.5269144
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_2275kW_6_32COP_Vanes",
+      "description": "ElectricEIRChiller York YK 2275kW/6.32COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2275200.0,
+        "COP_nominal": 6.32,
+        "PLRMin": 0.13,
+        "PLRMinUnl": 0.13,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 113.55999999999999,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          1.034673,
+          -0.01091064,
+          0.0009019479,
+          0.009686229,
+          -0.0009160783,
+          0.002045641
+        ],
+        "EIRFunT": [
+          0.8326094,
+          -0.006056615,
+          -0.0003016626,
+          -0.002498578,
+          0.0004933363,
+          -0.0003125632
+        ],
+        "EIRFunPLR": [
+          0.2735485,
+          0.2163041,
+          0.5099054
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_2300kW_8_10COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 2300kW/8.10COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2299900.0,
+        "COP_nominal": 8.1,
+        "PLRMin": 0.23,
+        "PLRMinUnl": 0.23,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 90.85,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.6268137,
+          0.03920902,
+          -0.0005475881,
+          0.03072669,
+          -0.001474615,
+          0.0008577783
+        ],
+        "EIRFunT": [
+          0.7178121,
+          0.006561784,
+          8.19374e-06,
+          0.02319141,
+          -1.755983e-06,
+          -0.000883441
+        ],
+        "EIRFunPLR": [
+          0.1161399,
+          0.4347344,
+          0.448638
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_2317kW_6_33COP_VSD",
+      "description": "ElectricEIRChiller Trane CVHF 2317kW/6.33COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2317400.0,
+        "COP_nominal": 6.33,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 90.85,
+        "mCon_flow_nominal": 113.55999999999999,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7277716,
+          0.01018101,
+          -0.0006282438,
+          0.01337701,
+          -0.0005050352,
+          0.001527259
+        ],
+        "EIRFunT": [
+          0.350233,
+          -0.0230151,
+          0.0005749596,
+          0.01902421,
+          0.0003109974,
+          -0.0004714517
+        ],
+        "EIRFunPLR": [
+          0.09861441,
+          0.5297727,
+          0.3707229
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_2391kW_6_77COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19XR 2391kW/6.77COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2391300.0,
+        "COP_nominal": 6.77,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 68.58,
+        "mCon_flow_nominal": 84.6,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.3676388,
+          -0.0508768,
+          -0.001772675,
+          0.09518123,
+          -0.003403878,
+          0.004526983
+        ],
+        "EIRFunT": [
+          0.6266646,
+          -0.02367443,
+          0.0004031296,
+          0.02827714,
+          -0.0001985242,
+          -0.000147026
+        ],
+        "EIRFunPLR": [
+          0.3036386,
+          0.252485,
+          0.4429285
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19XR_2391kW_6_44COP_VSD",
+      "description": "ElectricEIRChiller Carrier 19XR 2391kW/6.44COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2391300.0,
+        "COP_nominal": 6.44,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 68.58,
+        "mCon_flow_nominal": 84.6,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.3676388,
+          -0.0508768,
+          -0.001772675,
+          0.09518123,
+          -0.003403878,
+          0.004526983
+        ],
+        "EIRFunT": [
+          0.6230142,
+          -0.02371649,
+          0.0003996265,
+          0.02874515,
+          -0.0002115103,
+          -0.0001526191
+        ],
+        "EIRFunPLR": [
+          0.09774812,
+          0.2490111,
+          0.6539378
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_2412kW_5_58COP_Vanes",
+      "description": "ElectricEIRChiller York YK 2412kW/5.58COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2412400.0,
+        "COP_nominal": 5.58,
+        "PLRMin": 0.12,
+        "PLRMinUnl": 0.12,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 90.85,
+        "mCon_flow_nominal": 113.55999999999999,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7473817,
+          0.008069214,
+          8.433986e-05,
+          0.01925706,
+          -0.0007505775,
+          0.001174526
+        ],
+        "EIRFunT": [
+          0.4626807,
+          -0.02305674,
+          0.001169126,
+          0.03431185,
+          -0.0003396938,
+          -7.381352e-05
+        ],
+        "EIRFunPLR": [
+          0.2472427,
+          0.7531481,
+          0.0008643617
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PFH_2462kW_6_67COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PFH 2462kW/6.67COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2461600.0,
+        "COP_nominal": 6.67,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 70.66,
+        "mCon_flow_nominal": 101.57,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9561527,
+          0.05742999,
+          -0.004868087,
+          0.01799507,
+          -0.001793848,
+          0.003194186
+        ],
+        "EIRFunT": [
+          0.5462893,
+          0.02854651,
+          -0.005770782,
+          0.01634571,
+          -0.0002645314,
+          0.002138325
+        ],
+        "EIRFunPLR": [
+          0.09222135,
+          0.583098,
+          0.3250019
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_2567kW_11_77COP_VSD",
+      "description": "ElectricEIRChiller Trane CVHF 2567kW/11.77COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2567100.0,
+        "COP_nominal": 11.77,
+        "PLRMin": 0.11,
+        "PLRMinUnl": 0.11,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 121.13,
+        "mCon_flow_nominal": 151.42,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.4549428,
+          0.02748161,
+          -0.004298342,
+          0.04363928,
+          -0.001352509,
+          0.002964225
+        ],
+        "EIRFunT": [
+          0.456199,
+          -0.03333063,
+          -0.001763576,
+          0.0562452,
+          -8.535085e-05,
+          0.0003567604
+        ],
+        "EIRFunPLR": [
+          0.1039419,
+          0.4184975,
+          0.477421
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_2771kW_6_84COP_VSD",
+      "description": "ElectricEIRChiller York YK 2771kW/6.84COP/VSD",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2771100.0,
+        "COP_nominal": 6.84,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 100.94,
+        "mCon_flow_nominal": 151.42,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7734286,
+          0.04848829,
+          -0.001859209,
+          0.02611971,
+          -0.001243562,
+          0.0007210181
+        ],
+        "EIRFunT": [
+          0.7203736,
+          0.0103046,
+          -0.0007854237,
+          -0.001206349,
+          0.000821006,
+          -0.001455414
+        ],
+        "EIRFunPLR": [
+          0.08653354,
+          0.1737382,
+          0.7403679
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_2799kW_6_40COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 2799kW/6.40COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -2799200.0,
+        "COP_nominal": 6.4,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 98.93,
+        "mCon_flow_nominal": 137.61,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.2210324,
+          -0.0275232,
+          0.0004903763,
+          0.07337449,
+          -0.001919426,
+          0.001935659
+        ],
+        "EIRFunT": [
+          0.2267558,
+          -0.07615857,
+          0.002140583,
+          0.07088812,
+          -0.001124968,
+          0.0006089843
+        ],
+        "EIRFunPLR": [
+          0.3023576,
+          -0.02893592,
+          0.7262269
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YT_3133kW_9_16COP_Vanes",
+      "description": "ElectricEIRChiller York YT 3133kW/9.16COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -3133300.0,
+        "COP_nominal": 9.16,
+        "PLRMin": 0.07,
+        "PLRMinUnl": 0.07,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 80.76,
+        "mCon_flow_nominal": 126.17999999999999,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7607419,
+          0.01323998,
+          0.0006902287,
+          0.01510969,
+          -0.0009443341,
+          0.001484396
+        ],
+        "EIRFunT": [
+          0.9150153,
+          -0.03956395,
+          0.001865473,
+          0.01810633,
+          0.0002900613,
+          -0.000419911
+        ],
+        "EIRFunPLR": [
+          0.1387579,
+          0.6435208,
+          0.215599
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PFH_3165kW_6_48COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PFH 3165kW/6.48COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -3165000.0,
+        "COP_nominal": 6.48,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 90.85,
+        "mCon_flow_nominal": 136.27,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 295.92999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          1.342558,
+          0.07520735,
+          -0.008988936,
+          -0.03340001,
+          -0.0006065934,
+          0.004684791
+        ],
+        "EIRFunT": [
+          0.9347904,
+          0.06551597,
+          -0.01242676,
+          -0.02799974,
+          0.0003323287,
+          0.004803491
+        ],
+        "EIRFunPLR": [
+          0.105411,
+          0.4090646,
+          0.4838839
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_McQuay_PFH_4020kW_7_35COP_Vanes",
+      "description": "ElectricEIRChiller McQuay PFH 4020kW/7.35COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4019500.0,
+        "COP_nominal": 7.35,
+        "PLRMin": 0.14,
+        "PLRMinUnl": 0.14,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 78.74000000000001,
+        "mCon_flow_nominal": 98.41999999999999,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 285.92999999999995,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.8958422,
+          0.03762768,
+          -0.00355008,
+          -0.004322645,
+          -0.001194933,
+          0.003006034
+        ],
+        "EIRFunT": [
+          0.9322623,
+          -0.02157964,
+          -0.001435883,
+          0.01379036,
+          -0.0001491048,
+          0.001302075
+        ],
+        "EIRFunPLR": [
+          0.05763566,
+          0.5964012,
+          0.3473613
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_4396kW_6_63COP_Vanes",
+      "description": "ElectricEIRChiller York YK 4396kW/6.63COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4395800.0,
+        "COP_nominal": 6.63,
+        "PLRMin": 0.41,
+        "PLRMinUnl": 0.41,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 195.58,
+        "mCon_flow_nominal": 246.04999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.3693621,
+          -0.07284715,
+          -0.00487193,
+          0.1223355,
+          -0.005368259,
+          0.01035036
+        ],
+        "EIRFunT": [
+          0.5913358,
+          -0.05974145,
+          0.0008176561,
+          0.03987353,
+          -0.0008176694,
+          0.001457994
+        ],
+        "EIRFunPLR": [
+          0.302107,
+          0.03103971,
+          0.6669726
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_4477kW_6_64COP_Vanes",
+      "description": "ElectricEIRChiller York YK 4477kW/6.64COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4476700.0,
+        "COP_nominal": 6.64,
+        "PLRMin": 0.41,
+        "PLRMinUnl": 0.41,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 195.58,
+        "mCon_flow_nominal": 246.04999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.484423,
+          -0.09879643,
+          -0.002516527,
+          0.1144722,
+          -0.005101526,
+          0.01022861
+        ],
+        "EIRFunT": [
+          0.426457,
+          -0.03391606,
+          -0.001991396,
+          0.0503209,
+          -0.001140771,
+          0.001814692
+        ],
+        "EIRFunPLR": [
+          0.2767206,
+          0.1074393,
+          0.6145706
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_4515kW_6_22COP_Vanes",
+      "description": "ElectricEIRChiller York YK 4515kW/6.22COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4515400.0,
+        "COP_nominal": 6.22,
+        "PLRMin": 0.4,
+        "PLRMinUnl": 0.4,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 195.58,
+        "mCon_flow_nominal": 246.04999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.3732405,
+          -0.007176618,
+          -0.002588788,
+          0.05381225,
+          -0.001773937,
+          0.003509721
+        ],
+        "EIRFunT": [
+          0.590829,
+          0.01028668,
+          -0.0004718838,
+          0.01220347,
+          0.0004166971,
+          -0.001484327
+        ],
+        "EIRFunPLR": [
+          0.2870815,
+          0.3951784,
+          0.3177735
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_4537kW_6_28COP_Vanes",
+      "description": "ElectricEIRChiller York YK 4537kW/6.28COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4536500.0,
+        "COP_nominal": 6.28,
+        "PLRMin": 0.4,
+        "PLRMinUnl": 0.4,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 195.58,
+        "mCon_flow_nominal": 246.04999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.9418253,
+          0.08142292,
+          -0.009532713,
+          0.03185018,
+          -0.002583116,
+          0.005294716
+        ],
+        "EIRFunT": [
+          0.7709829,
+          -0.0225768,
+          0.0002492708,
+          0.007635418,
+          0.0003376522,
+          -0.0003614203
+        ],
+        "EIRFunPLR": [
+          0.2528426,
+          0.292028,
+          0.4533447
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_4610kW_6_34COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 4610kW/6.34COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4610300.0,
+        "COP_nominal": 6.34,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 191.29,
+        "mCon_flow_nominal": 247.57000000000002,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 291.47999999999996,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.8614836,
+          -0.00398813,
+          -0.001643579,
+          0.008882312,
+          -0.0003930474,
+          0.001593969
+        ],
+        "EIRFunT": [
+          0.7415078,
+          -0.04779029,
+          -0.001028085,
+          0.0142365,
+          0.0001304315,
+          0.0009170177
+        ],
+        "EIRFunPLR": [
+          0.2026691,
+          0.2922585,
+          0.5044422
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19EX_4667kW_6_16COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19EX 4667kW/6.16COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4666600.0,
+        "COP_nominal": 6.16,
+        "PLRMin": 0.4,
+        "PLRMinUnl": 0.4,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 195.58,
+        "mCon_flow_nominal": 246.04999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.4084496,
+          -0.04396326,
+          -0.00211212,
+          0.0822531,
+          -0.003066058,
+          0.00525755
+        ],
+        "EIRFunT": [
+          0.5214788,
+          -0.008218594,
+          -3.068358e-05,
+          0.02152332,
+          0.0001203908,
+          -0.0007167755
+        ],
+        "EIRFunPLR": [
+          0.3771252,
+          0.02854188,
+          0.592867
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CVHF_4677kW_6_27COP_Vanes",
+      "description": "ElectricEIRChiller Trane CVHF 4677kW/6.27COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4677100.0,
+        "COP_nominal": 6.27,
+        "PLRMin": 0.41,
+        "PLRMinUnl": 0.41,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 201.38,
+        "mCon_flow_nominal": 246.04999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.8449416,
+          -0.02116553,
+          0.006121458,
+          0.007120879,
+          -0.0001798959,
+          -0.0001349219
+        ],
+        "EIRFunT": [
+          0.8283132,
+          -0.03030491,
+          0.004164965,
+          -0.003278448,
+          0.0006762508,
+          -0.001107762
+        ],
+        "EIRFunPLR": [
+          0.3531562,
+          -0.2126229,
+          0.85974
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_4966kW_6_05COP_Vanes",
+      "description": "ElectricEIRChiller York YK 4966kW/6.05COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4965500.0,
+        "COP_nominal": 6.05,
+        "PLRMin": 0.12,
+        "PLRMinUnl": 0.12,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 211.98,
+        "mCon_flow_nominal": 264.98,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5746486,
+          -0.03051134,
+          -0.0001964984,
+          0.03309783,
+          -0.0009174714,
+          0.002287276
+        ],
+        "EIRFunT": [
+          0.8229769,
+          -0.008128614,
+          0.001110212,
+          -0.003521351,
+          0.0006129803,
+          -0.0009170063
+        ],
+        "EIRFunPLR": [
+          0.3416463,
+          0.1947185,
+          0.4640804
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_4969kW_7_14COP_Vanes",
+      "description": "ElectricEIRChiller York YK 4969kW/7.14COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4969000.0,
+        "COP_nominal": 7.14,
+        "PLRMin": 0.16,
+        "PLRMinUnl": 0.16,
+        "PLRMax": 1.07,
+        "mEva_flow_nominal": 176.65,
+        "mCon_flow_nominal": 264.98,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.7817577,
+          -0.1012013,
+          -0.001584389,
+          0.07928475,
+          -0.003674093,
+          0.007999392
+        ],
+        "EIRFunT": [
+          0.7382162,
+          -0.05847442,
+          0.001117191,
+          0.02168089,
+          -0.0002189722,
+          0.001036877
+        ],
+        "EIRFunPLR": [
+          0.2259512,
+          0.2320151,
+          0.5423771
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_4969kW_7_07COP_Vanes",
+      "description": "ElectricEIRChiller York YK 4969kW/7.07COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4969000.0,
+        "COP_nominal": 7.07,
+        "PLRMin": 0.16,
+        "PLRMinUnl": 0.16,
+        "PLRMax": 1.06,
+        "mEva_flow_nominal": 176.65,
+        "mCon_flow_nominal": 264.98,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.1803605,
+          -0.09685535,
+          -0.005831135,
+          0.1341596,
+          -0.005279908,
+          0.01045372
+        ],
+        "EIRFunT": [
+          0.7220087,
+          -0.04480691,
+          9.621038e-06,
+          0.02084835,
+          -0.0002615973,
+          0.001188407
+        ],
+        "EIRFunPLR": [
+          0.2308102,
+          0.1802734,
+          0.5894894
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19EX_4997kW_6_40COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19EX 4997kW/6.40COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -4997200.0,
+        "COP_nominal": 6.4,
+        "PLRMin": 0.4,
+        "PLRMinUnl": 0.4,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 195.58,
+        "mCon_flow_nominal": 246.04999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.82,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.82,
+        "capFunT": [
+          0.07122762,
+          0.002550937,
+          -0.009679482,
+          0.09391204,
+          -0.003505261,
+          0.007309943
+        ],
+        "EIRFunT": [
+          0.6685097,
+          -0.02541433,
+          0.003334144,
+          0.01002578,
+          0.000575378,
+          -0.00180134
+        ],
+        "EIRFunPLR": [
+          0.3364887,
+          0.2122607,
+          0.4486522
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19EX_5148kW_6_34COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19EX 5148kW/6.34COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -5148400.0,
+        "COP_nominal": 6.34,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 182.82999999999998,
+        "mCon_flow_nominal": 255.26,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.3564454,
+          0.02020689,
+          -0.006286899,
+          0.05760425,
+          -0.002102376,
+          0.00412665
+        ],
+        "EIRFunT": [
+          0.5426449,
+          0.003961314,
+          -0.0001195821,
+          0.01609421,
+          0.0003089258,
+          -0.001129525
+        ],
+        "EIRFunPLR": [
+          0.1883602,
+          0.5018646,
+          0.3089569
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_5170kW_7_15COP_Vanes",
+      "description": "ElectricEIRChiller York YK 5170kW/7.15COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -5169500.0,
+        "COP_nominal": 7.15,
+        "PLRMin": 0.15,
+        "PLRMinUnl": 0.15,
+        "PLRMax": 1.08,
+        "mEva_flow_nominal": 176.65,
+        "mCon_flow_nominal": 264.98,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.1675697,
+          -0.1191228,
+          -0.004328384,
+          0.1355905,
+          -0.005171251,
+          0.0103984
+        ],
+        "EIRFunT": [
+          0.5894383,
+          -0.0292653,
+          -0.001900238,
+          0.02849479,
+          -0.0005105015,
+          0.001702334
+        ],
+        "EIRFunPLR": [
+          0.2497273,
+          0.1011288,
+          0.6499847
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19EX_5208kW_6_88COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19EX 5208kW/6.88COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -5208200.0,
+        "COP_nominal": 6.88,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 182.82999999999998,
+        "mCon_flow_nominal": 252.92999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5563516,
+          -0.04106264,
+          -0.003164992,
+          0.05722234,
+          -0.002313857,
+          0.005377616
+        ],
+        "EIRFunT": [
+          0.5198204,
+          -0.0152334,
+          -0.0006391523,
+          0.02170049,
+          2.423693e-05,
+          0.0001432604
+        ],
+        "EIRFunPLR": [
+          0.2334262,
+          0.3926783,
+          0.373132
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_5465kW_6_94COP_Vanes",
+      "description": "ElectricEIRChiller York YK 5465kW/6.94COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -5464900.0,
+        "COP_nominal": 6.94,
+        "PLRMin": 0.14,
+        "PLRMinUnl": 0.14,
+        "PLRMax": 1.07,
+        "mEva_flow_nominal": 182.96,
+        "mCon_flow_nominal": 274.44,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.1092441,
+          -0.1225892,
+          -0.002802873,
+          0.1324138,
+          -0.004714937,
+          0.009205744
+        ],
+        "EIRFunT": [
+          0.6396022,
+          -0.0595406,
+          0.0005884523,
+          0.03170651,
+          -0.0005088216,
+          0.001460759
+        ],
+        "EIRFunPLR": [
+          0.2795792,
+          0.07872758,
+          0.6424321
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YK_5549kW_6_50COP_Vanes",
+      "description": "ElectricEIRChiller York YK 5549kW/6.50COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -5549300.0,
+        "COP_nominal": 6.5,
+        "PLRMin": 0.14,
+        "PLRMinUnl": 0.14,
+        "PLRMax": 1.05,
+        "mEva_flow_nominal": 182.96,
+        "mCon_flow_nominal": 274.44,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 299.26,
+        "capFunT": [
+          -0.1402079,
+          0.01836029,
+          -0.002390588,
+          0.1207956,
+          -0.003563147,
+          0.002024532
+        ],
+        "EIRFunT": [
+          0.498998,
+          -0.08246157,
+          0.006047523,
+          0.05168793,
+          -0.0008552445,
+          6.275326e-05
+        ],
+        "EIRFunPLR": [
+          0.2336623,
+          0.190132,
+          0.5749473
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_19FA_5651kW_5_50COP_Vanes",
+      "description": "ElectricEIRChiller Carrier 19FA 5651kW/5.50COP/Vanes",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -5651300.0,
+        "COP_nominal": 5.5,
+        "PLRMin": 0.19,
+        "PLRMinUnl": 0.19,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 189.26999999999998,
+        "mCon_flow_nominal": 189.26999999999998,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          1.299676,
+          0.01790645,
+          -0.0025223,
+          0.002536423,
+          -0.001128041,
+          0.003003265
+        ],
+        "EIRFunT": [
+          0.7853207,
+          -0.01652255,
+          -0.0003294526,
+          0.004569179,
+          0.0001964013,
+          0.0001761497
+        ],
+        "EIRFunPLR": [
+          0.1629327,
+          0.5709336,
+          0.2659304
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "DOE_2_Centrifugal_5_50COP",
+      "description": "DOE-2 Centrifugal/5.50COP",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -100000.0,
+        "COP_nominal": 5.5,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.0,
+        "mEva_flow_nominal": 2.2,
+        "mCon_flow_nominal": 4.1000000000000005,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.54999999999995,
+        "TEvaLvgMin": 278.15,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 297.15,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.257896,
+          0.0389016,
+          -0.00021708,
+          0.0468684,
+          -0.00094284,
+          -0.00034344
+        ],
+        "EIRFunT": [
+          0.933884,
+          -0.058212,
+          0.00450036,
+          0.00243,
+          0.000486,
+          -0.001215
+        ],
+        "EIRFunPLR": [
+          0.222903,
+          0.313387,
+          0.46371
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Multistack_MS_172kW_3_67COP_None",
+      "description": "ElectricEIRChiller Multistack MS 172kW/3.67COP/None",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -172300.0,
+        "COP_nominal": 3.67,
+        "PLRMin": 0.4,
+        "PLRMinUnl": 0.4,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 7.38,
+        "mCon_flow_nominal": 9.59,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 291.47999999999996,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 291.47999999999996,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.9839419,
+          0.1094957,
+          -0.004547595,
+          -0.02311886,
+          0.0002595943,
+          -0.0005093307
+        ],
+        "EIRFunT": [
+          0.9396181,
+          -0.05754225,
+          0.002561677,
+          0.0108145,
+          0.0001839935,
+          5.269319e-05
+        ],
+        "EIRFunPLR": [
+          0.004747786,
+          1.072374,
+          -0.07758317
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "DOE_2_Reciprocating_3_67COP",
+      "description": "DOE-2 Reciprocating/3.67COP",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -100000.0,
+        "COP_nominal": 3.67,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.0,
+        "mEva_flow_nominal": 2.2,
+        "mCon_flow_nominal": 4.4,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.54999999999995,
+        "TEvaLvgMin": 278.15,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 297.15,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.507883,
+          0.145228,
+          -0.00625644,
+          -0.0011178,
+          -0.0001296,
+          -0.00028188
+        ],
+        "EIRFunT": [
+          1.03076,
+          -0.103536,
+          0.00710208,
+          0.0093186,
+          0.00031752,
+          -0.00104328
+        ],
+        "EIRFunPLR": [
+          0.088065,
+          1.137742,
+          -0.225806
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTWA_383kW_4_17COP_Valve",
+      "description": "ElectricEIRChiller Trane RTWA 383kW/4.17COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -383300.0,
+        "COP_nominal": 4.17,
+        "PLRMin": 0.25,
+        "PLRMinUnl": 0.25,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 16.5,
+        "mCon_flow_nominal": 20.63,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 297.03999999999996,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.9830684,
+          0.03676199,
+          5.307995e-05,
+          -0.004828624,
+          -4.755963e-05,
+          -0.0002377982
+        ],
+        "EIRFunT": [
+          0.6228513,
+          -0.008700783,
+          0.0009719796,
+          0.005184584,
+          0.0004951699,
+          -0.000963237
+        ],
+        "EIRFunPLR": [
+          0.03295553,
+          0.9114398,
+          0.05565265
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHB_531kW_4_83COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHB 531kW/4.83COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -531000.0,
+        "COP_nominal": 4.83,
+        "PLRMin": 0.3,
+        "PLRMinUnl": 0.3,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 13.5,
+        "mCon_flow_nominal": 15.77,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9434012,
+          0.01630729,
+          0.0008621098,
+          0.003242384,
+          -0.0003003973,
+          0.0001931126
+        ],
+        "EIRFunT": [
+          0.4524778,
+          0.0001045156,
+          6.932509e-05,
+          0.0204498,
+          0.0003672953,
+          -0.001099051
+        ],
+        "EIRFunPLR": [
+          0.198002,
+          0.2733157,
+          0.5277318
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHB_538kW_5_12COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHB 538kW/5.12COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -538000.0,
+        "COP_nominal": 5.12,
+        "PLRMin": 0.3,
+        "PLRMinUnl": 0.3,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 13.75,
+        "mCon_flow_nominal": 19.560000000000002,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.934478,
+          0.0276,
+          0.0003781512,
+          -0.000917647,
+          -0.0001270588,
+          -4.235294e-05
+        ],
+        "EIRFunT": [
+          0.5455087,
+          -0.009301201,
+          0.0005012361,
+          0.0143287,
+          0.0004719381,
+          -0.0008937669
+        ],
+        "EIRFunPLR": [
+          0.181695,
+          0.3731838,
+          0.4448009
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHB_542kW_5_26COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHB 542kW/5.26COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -541500.0,
+        "COP_nominal": 5.26,
+        "PLRMin": 0.3,
+        "PLRMinUnl": 0.3,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 13.629999999999999,
+        "mCon_flow_nominal": 15.77,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 294.26,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9226438,
+          0.02878831,
+          0.0003756957,
+          -0.001963636,
+          -8.415584e-05,
+          -0.0001262338
+        ],
+        "EIRFunT": [
+          0.4953775,
+          -0.0135934,
+          0.0005784637,
+          0.02778142,
+          0.0001747259,
+          -0.0008590768
+        ],
+        "EIRFunPLR": [
+          0.3057645,
+          -0.1548084,
+          0.8484536
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YS_672kW_7_90COP_Valve",
+      "description": "ElectricEIRChiller York YS 672kW/7.90COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -671600.0,
+        "COP_nominal": 7.9,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 15.14,
+        "mCon_flow_nominal": 24.1,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 288.71,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9274375,
+          0.02846559,
+          0.0004024428,
+          -0.00593273,
+          -1.067418e-05,
+          -0.0002199015
+        ],
+        "EIRFunT": [
+          0.4069331,
+          -0.006420922,
+          0.0002689257,
+          0.04500373,
+          0.0001583981,
+          -0.001284532
+        ],
+        "EIRFunPLR": [
+          0.1936152,
+          0.3375574,
+          0.4704892
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_686kW_5_91COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 686kW/5.91COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -685700.0,
+        "COP_nominal": 5.91,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 57.1,
+        "mCon_flow_nominal": 32.550000000000004,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 296.89,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.2903523,
+          -0.02676742,
+          -0.004771695,
+          0.08162394,
+          -0.003028217,
+          0.005712524
+        ],
+        "EIRFunT": [
+          0.501406,
+          0.001561,
+          -0.000134798,
+          0.01525028,
+          0.0005701374,
+          -0.001221374
+        ],
+        "EIRFunPLR": [
+          0.2113934,
+          0.4190226,
+          0.3686143
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHC_707kW_7_77COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHC 707kW/7.77COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -706800.0,
+        "COP_nominal": 7.77,
+        "PLRMin": 0.28,
+        "PLRMinUnl": 0.28,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 49.209999999999994,
+        "mCon_flow_nominal": 32.68,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 288.71,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 284.26,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9362925,
+          0.02940722,
+          0.0005726999,
+          -0.005696483,
+          -5.569609e-05,
+          -0.0001708132
+        ],
+        "EIRFunT": [
+          0.6497944,
+          0.006883157,
+          -0.0005277681,
+          0.01725788,
+          0.0006779317,
+          -0.001244055
+        ],
+        "EIRFunPLR": [
+          0.1997099,
+          0.6754676,
+          0.1243767
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YS_756kW_7_41COP_Valve",
+      "description": "ElectricEIRChiller York YS 756kW/7.41COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -756000.0,
+        "COP_nominal": 7.41,
+        "PLRMin": 0.11,
+        "PLRMinUnl": 0.11,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 289.21,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 289.21,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9432455,
+          0.02794778,
+          0.0002937753,
+          -0.005818549,
+          -3.764392e-05,
+          -5.777607e-05
+        ],
+        "EIRFunT": [
+          0.6917947,
+          -0.01929936,
+          0.001450011,
+          0.01795987,
+          0.0009301685,
+          -0.001755165
+        ],
+        "EIRFunPLR": [
+          0.2929778,
+          0.01673799,
+          0.6881229
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YS_781kW_5_42COP_Valve",
+      "description": "ElectricEIRChiller York YS 781kW/5.42COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -780700.0,
+        "COP_nominal": 5.42,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 18.93,
+        "mCon_flow_nominal": 37.85,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          1.002148,
+          0.03300191,
+          0.000374167,
+          -0.005925358,
+          -2.599267e-05,
+          -0.0002172126
+        ],
+        "EIRFunT": [
+          0.4475957,
+          -0.01054652,
+          0.000712687,
+          0.01158632,
+          0.000515151,
+          -0.0009831355
+        ],
+        "EIRFunPLR": [
+          0.2519108,
+          0.2756914,
+          0.4725826
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_830kW_6_97COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 830kW/6.97COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -829900.0,
+        "COP_nominal": 6.97,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 31.86,
+        "mCon_flow_nominal": 47.440000000000005,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 287.32,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.8198506,
+          0.004299516,
+          -0.0002451574,
+          0.01431034,
+          -0.0003586302,
+          0.0002510412
+        ],
+        "EIRFunT": [
+          0.4610959,
+          -0.01560459,
+          -0.0002737454,
+          0.02650593,
+          -7.789498e-05,
+          0.0001855843
+        ],
+        "EIRFunPLR": [
+          0.2307464,
+          0.7784162,
+          -0.007516503
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_862kW_6_11COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 862kW/6.11COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -861500.0,
+        "COP_nominal": 6.11,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 42.96,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          -0.03646458,
+          -0.06061334,
+          -0.003708583,
+          0.1197997,
+          -0.003723397,
+          0.005368766
+        ],
+        "EIRFunT": [
+          0.5420642,
+          -0.02110032,
+          0.001513908,
+          0.02067897,
+          0.0005287518,
+          -0.00163033
+        ],
+        "EIRFunPLR": [
+          0.2292819,
+          0.3662723,
+          0.4032019
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_862kW_6_84COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 862kW/6.84COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -861500.0,
+        "COP_nominal": 6.84,
+        "PLRMin": 0.3,
+        "PLRMinUnl": 0.3,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 67.82000000000001,
+        "mCon_flow_nominal": 42.96,
+        "TEvaLvg_nominal": 282.84,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          -0.04535842,
+          -0.06253871,
+          -0.003623064,
+          0.1218299,
+          -0.00379344,
+          0.005404739
+        ],
+        "EIRFunT": [
+          0.5930611,
+          -0.02082914,
+          0.001600282,
+          0.02352564,
+          0.0005992247,
+          -0.001907335
+        ],
+        "EIRFunPLR": [
+          0.1145826,
+          0.7340475,
+          0.1507744
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_865kW_6_05COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 865kW/6.05COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -865100.0,
+        "COP_nominal": 6.05,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 37.16,
+        "mCon_flow_nominal": 43.66,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 276.47999999999996,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          0.5079758,
+          -0.02344768,
+          -0.00329663,
+          0.03508384,
+          -0.000835963,
+          0.002585294
+        ],
+        "EIRFunT": [
+          0.5437328,
+          0.007625344,
+          -9.201579e-05,
+          0.001339616,
+          0.0008286757,
+          -0.00154353
+        ],
+        "EIRFunPLR": [
+          0.2545235,
+          0.3104981,
+          0.4347781
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YS_879kW_5_82COP_Valve",
+      "description": "ElectricEIRChiller York YS 879kW/5.82COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -879100.0,
+        "COP_nominal": 5.82,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 37.85,
+        "mCon_flow_nominal": 47.32,
+        "TEvaLvg_nominal": 277.59,
+        "TConEnt_nominal": 299.26,
+        "TEvaLvgMin": 276.47999999999996,
+        "TEvaLvgMax": 280.92999999999995,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          1.031429,
+          0.03364723,
+          -0.0002735093,
+          -0.003789167,
+          -0.0001553912,
+          0.0002782117
+        ],
+        "EIRFunT": [
+          0.5595308,
+          -0.01087985,
+          0.0008721022,
+          0.01010347,
+          0.0005087454,
+          -0.001211319
+        ],
+        "EIRFunPLR": [
+          0.3029493,
+          0.3223124,
+          0.3751948
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHC_1009kW_5_37COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHC 1009kW/5.37COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1009200.0,
+        "COP_nominal": 5.37,
+        "PLRMin": 0.3,
+        "PLRMinUnl": 0.3,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 31.86,
+        "mCon_flow_nominal": 46.18,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 298.01,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 293.12,
+        "TConEntMax": 298.01,
+        "capFunT": [
+          1.134633,
+          0.0326721,
+          0.0005266344,
+          -0.01076173,
+          -4.853769e-05,
+          -0.0002569325
+        ],
+        "EIRFunT": [
+          0.4383883,
+          0.007754235,
+          0.0006353809,
+          -0.00295188,
+          0.001270756,
+          -0.001541831
+        ],
+        "EIRFunPLR": [
+          0.1316727,
+          1.013111,
+          -0.1413213
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHB_1051kW_5_05COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHB 1051kW/5.05COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1051400.0,
+        "COP_nominal": 5.05,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 45.269999999999996,
+        "mCon_flow_nominal": 56.59,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 297.03999999999996,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.9482157,
+          0.03306737,
+          -6.450072e-05,
+          -0.003756522,
+          -6.501672e-05,
+          2.517986e-15
+        ],
+        "EIRFunT": [
+          0.4904181,
+          -0.005530317,
+          0.001209907,
+          0.009122333,
+          0.0005923591,
+          -0.001469958
+        ],
+        "EIRFunPLR": [
+          0.2590465,
+          0.2148987,
+          0.5265039
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_1062kW_5_50COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 1062kW/5.50COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1062000.0,
+        "COP_nominal": 5.5,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 45.73,
+        "mCon_flow_nominal": 57.160000000000004,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 294.26,
+        "TConEntMax": 302.59,
+        "capFunT": [
+          1.025695,
+          0.02327484,
+          -0.004693708,
+          -0.007092715,
+          -0.0003754967,
+          0.002843046
+        ],
+        "EIRFunT": [
+          0.263407,
+          -0.00702522,
+          -0.0004942613,
+          0.02516931,
+          0.0001712769,
+          -0.0004309735
+        ],
+        "EIRFunPLR": [
+          0.2576261,
+          0.341691,
+          0.4007672
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHC_1066kW_5_73COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHC 1066kW/5.73COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1065500.0,
+        "COP_nominal": 5.73,
+        "PLRMin": 0.3,
+        "PLRMinUnl": 0.3,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 51.42,
+        "mCon_flow_nominal": 44.16,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 298.42999999999995,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 293.21999999999997,
+        "TConEntMax": 298.42999999999995,
+        "capFunT": [
+          1.062396,
+          0.04575299,
+          0.0002802795,
+          -0.008802343,
+          -3.127891e-05,
+          -0.0005937227
+        ],
+        "EIRFunT": [
+          0.900308,
+          0.003783201,
+          0.000981578,
+          -0.04051727,
+          0.002037095,
+          -0.001619326
+        ],
+        "EIRFunPLR": [
+          0.1007344,
+          1.119205,
+          -0.217323
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_RTHC_1094kW_6_55COP_Valve",
+      "description": "ElectricEIRChiller Trane RTHC 1094kW/6.55COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1093600.0,
+        "COP_nominal": 6.55,
+        "PLRMin": 0.25,
+        "PLRMinUnl": 0.25,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 49.209999999999994,
+        "mCon_flow_nominal": 45.24,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 296.47999999999996,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9643756,
+          0.03820069,
+          0.0004611891,
+          -0.00517484,
+          -5.784404e-05,
+          -0.0002944185
+        ],
+        "EIRFunT": [
+          0.6579136,
+          -0.01133448,
+          0.0006497057,
+          0.00731816,
+          0.0006167738,
+          -0.0009553369
+        ],
+        "EIRFunPLR": [
+          0.1626466,
+          0.790355,
+          0.04770888
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_1108kW_6_92COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 1108kW/6.92COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1107700.0,
+        "COP_nominal": 6.92,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 57.1,
+        "mCon_flow_nominal": 51.42,
+        "TEvaLvg_nominal": 282.12,
+        "TConEnt_nominal": 296.89,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.6631328,
+          -0.01027433,
+          -0.000538804,
+          0.03320295,
+          -0.001304714,
+          0.002169498
+        ],
+        "EIRFunT": [
+          0.5668296,
+          -0.02800906,
+          0.0009362408,
+          0.02210818,
+          0.0004660373,
+          -0.0007989601
+        ],
+        "EIRFunPLR": [
+          0.1370745,
+          0.8374817,
+          0.0253428
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YS_1171kW_9_15COP_Valve",
+      "description": "ElectricEIRChiller York YS 1171kW/9.15COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1171000.0,
+        "COP_nominal": 9.15,
+        "PLRMin": 0.09,
+        "PLRMinUnl": 0.09,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 32.489999999999995,
+        "mCon_flow_nominal": 51.73,
+        "TEvaLvg_nominal": 279.26,
+        "TConEnt_nominal": 288.71,
+        "TEvaLvgMin": 279.26,
+        "TEvaLvgMax": 285.92999999999995,
+        "TConEntMin": 288.71,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.9299045,
+          0.02350383,
+          -0.0004649409,
+          -0.004367237,
+          -0.0002040112,
+          0.0006430038
+        ],
+        "EIRFunT": [
+          0.5325834,
+          -0.02611733,
+          0.001365012,
+          0.04099324,
+          0.0003401995,
+          -0.001514251
+        ],
+        "EIRFunPLR": [
+          0.1889392,
+          0.4684305,
+          0.3451545
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Carrier_23XL_1196kW_6_39COP_Valve",
+      "description": "ElectricEIRChiller Carrier 23XL 1196kW/6.39COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1195600.0,
+        "COP_nominal": 6.39,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.03,
+        "mEva_flow_nominal": 36.53,
+        "mCon_flow_nominal": 42.71,
+        "TEvaLvg_nominal": 280.37,
+        "TConEnt_nominal": 297.03999999999996,
+        "TEvaLvgMin": 279.82,
+        "TEvaLvgMax": 285.37,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 297.03999999999996,
+        "capFunT": [
+          0.5775948,
+          0.02206074,
+          -0.003342365,
+          0.03970188,
+          -0.001669877,
+          0.002762827
+        ],
+        "EIRFunT": [
+          0.5077824,
+          -0.01608447,
+          0.0001742121,
+          0.02093857,
+          0.0004160938,
+          -0.0007169668
+        ],
+        "EIRFunPLR": [
+          0.1061065,
+          0.7305514,
+          0.1632883
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YS_1554kW_9_31COP_Valve",
+      "description": "ElectricEIRChiller York YS 1554kW/9.31COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1554300.0,
+        "COP_nominal": 9.31,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.02,
+        "mEva_flow_nominal": 42.4,
+        "mCon_flow_nominal": 79.49000000000001,
+        "TEvaLvg_nominal": 278.71,
+        "TConEnt_nominal": 288.71,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 288.71,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          1.083027,
+          0.009278069,
+          0.001175024,
+          -0.01395851,
+          9.301303e-05,
+          6.968115e-05
+        ],
+        "EIRFunT": [
+          0.5099117,
+          0.01379553,
+          -0.0002069529,
+          0.02846021,
+          0.0007189977,
+          -0.002027317
+        ],
+        "EIRFunPLR": [
+          0.1720219,
+          0.5084848,
+          0.3212462
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YS_1758kW_5_84COP_Valve",
+      "description": "ElectricEIRChiller York YS 1758kW/5.84COP/Valve",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -1758300.0,
+        "COP_nominal": 5.84,
+        "PLRMin": 0.2,
+        "PLRMinUnl": 0.2,
+        "PLRMax": 1.04,
+        "mEva_flow_nominal": 75.71,
+        "mCon_flow_nominal": 94.64,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 282.03999999999996,
+        "TConEntMin": 285.92999999999995,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.8130185,
+          -0.01425368,
+          -0.001618007,
+          0.02638417,
+          -0.0009154379,
+          0.001696015
+        ],
+        "EIRFunT": [
+          0.6381264,
+          0.006304193,
+          0.0009233511,
+          -0.004552881,
+          0.0008256904,
+          -0.001561533
+        ],
+        "EIRFunPLR": [
+          0.3149879,
+          0.3171267,
+          0.3709077
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_Trane_CGWD_207kW_3_99COP_None",
+      "description": "ElectricEIRChiller Trane CGWD 207kW/3.99COP/None",
+      "condenser_medium": "water",
+      "parameters": {
+        "QEva_flow_nominal": -207400.0,
+        "COP_nominal": 3.99,
+        "PLRMin": 0.25,
+        "PLRMinUnl": 0.25,
+        "PLRMax": 1.01,
+        "mEva_flow_nominal": 8.98,
+        "mCon_flow_nominal": 11.22,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 302.59,
+        "TEvaLvgMin": 278.71,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 297.03999999999996,
+        "TConEntMax": 308.15,
+        "capFunT": [
+          0.9441897,
+          0.03371079,
+          9.756685e-05,
+          -0.003220573,
+          -4.917369e-05,
+          -0.0001775717
+        ],
+        "EIRFunT": [
+          0.727387,
+          -0.01189276,
+          0.0005411677,
+          0.001879294,
+          0.0004734664,
+          -0.000711485
+        ],
+        "EIRFunPLR": [
+          0.04146742,
+          0.6543795,
+          0.3044125
+        ],
+        "etaMotor": 1.0
+      }
+    },
+    {
+      "id": "ElectricEIRChiller_York_YCAL0033EE_101kW_3_1COP_AirCooled",
+      "description": "ElectricEIRChiller York YCAL0033EE 100.6 kW/3.1 COP Air Cooled",
+      "condenser_medium": "air",
+      "parameters": {
+        "QEva_flow_nominal": -100582.0,
+        "COP_nominal": 3.1,
+        "PLRMin": 0.1,
+        "PLRMinUnl": 0.1,
+        "PLRMax": 1.15,
+        "mEva_flow_nominal": 4.3,
+        "mCon_flow_nominal": 11.32668,
+        "TEvaLvg_nominal": 279.82,
+        "TConEnt_nominal": 308.15,
+        "TEvaLvgMin": 277.59,
+        "TEvaLvgMax": 283.15,
+        "TConEntMin": 297.03999999999996,
+        "TConEntMax": 324.82,
+        "capFunT": [
+          -0.2660645697,
+          0.0998714035,
+          -0.0023814154,
+          0.0628316481,
+          -0.0009644649,
+          -0.0011249224
+        ],
+        "EIRFunT": [
+          0.1807017787,
+          0.0271530312,
+          -0.0004553574,
+          0.0188175079,
+          0.0002623276,
+          -0.0012881189
+        ],
+        "EIRFunPLR": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "etaMotor": 1.0
+      }
+    }
+  ]
+}

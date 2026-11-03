@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph entry["访问入口"]
+        web["网页工作台 /"]
+        chat["智能分析 /chat"]
+        api["HTTP API / Python / CLI"]
+    end
+    web --> workbench["FastAPI 工作台<br/>上传、列映射、单位和仿真设置"]
+    chat --> agent["ChatService<br/>会话绑定与有上限的工具循环"]
+    api --> runtime["AgentRuntime 与工具注册表"]
+    agent <-->|标准 tool_calls| llm["单一可配置 LLM Provider<br/>OpenAI 兼容接口"]
+    agent --> runtime
+    runtime --> tool["冷水机组工具<br/>inspect_dataset / chiller_analyze"]
+    tool --> workbench
+    workbench --> data["数据规范化<br/>单位转换、缺测与输入检查"]
+    data --> physics["水侧物理计算<br/>冷量、冷凝热、COP、能量偏差"]
+    data --> eir["Buildings ElectricEIR<br/>158 组水冷参数 / 稳态 / 动态"]
+    physics --> result["结构化结果<br/>指标、警告、来源行与模型有效域"]
+    eir --> result
+    result --> runtime
+    runtime <--> db[("SQLite<br/>数据集、运行结果、会话与配置")]
+    runtime --> report["事实表与报告校验<br/>fact 引用、数值替换与回退"]
+    report --> chat
+    result --> view["工作台图表与 CSV / JSON 导出"]
+    classDef core fill:#eff6ff,stroke:#2563eb,color:#172d50
+    classDef compute fill:#ecfdf5,stroke:#059669,color:#12352b
+    classDef output fill:#fff7ed,stroke:#ea580c,color:#542c15
+    class workbench,agent,runtime,tool,llm core
+    class data,physics,eir compute
+    class result,report,view,db output

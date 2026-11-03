@@ -1,0 +1,77 @@
+{
+  "undeclared": [
+    {
+      "site": "energy_agent/tools/chiller/tool.py:111-112,164-169,177-189",
+      "decision": "Comparison targets with zero usable pairs are excluded from completeness checks, even when their measurement column is explicitly mapped. Each remaining target uses its own pairwise sample subset.",
+      "why_it_matters": "An entirely missing mapped outlet-temperature measurement can produce status=success with no missing_inputs. Independent sample subsets are reasonable but should be declared so differing comparison sample counts are understood.",
+      "class": "semantic"
+    },
+    {
+      "site": "energy_agent/tools/chiller/tool.py:33-34,104-108",
+      "decision": "Boolean operating-status values are classified as missing by finite(), although the dataset contract permits JSON booleans and the existing workbench accepts them as valid 0/1 controls.",
+      "why_it_matters": "A supported dataset can simulate successfully through the existing workbench but return needs_input through the new tool.",
+      "class": "semantic"
+    },
+    {
+      "site": "energy_agent/tools/chiller/tool.py:37-38,152-154,184-185",
+      "decision": "source_rows contains at most ten unique source-row examples, including inside Evidence; the contract does not identify it as a truncated preview.",
+      "why_it_matters": "With twelve valid observations, Evidence reports valid_count=12 but source_rows=[1,...,10]. Full artifacts preserve all twelve records, so replay remains possible, but consumers must not mistake source_rows for the complete selection.",
+      "class": "interface"
+    }
+  ],
+  "stale_rows": [
+    {
+      "id": "A-016",
+      "site": "implement-stage/ASSUMPTIONS.md; energy_agent/tools/chiller/tool.py:150,170-173",
+      "mismatch": "A-016 promises partial for negative model coefficients/power. When every model row is invalid, all model metric counts become zero and the actual result is needs_input.",
+      "verified_example": "Twelve ordinary steady rows with custom EIRFunT=[-1,0,0,0,0,0] return needs_input and invalid_model_rows=12.",
+      "assessment": "The code's needs_input result agrees with A-007's no-usable-target rule. Clarify A-016's all-invalid exception rather than treating this alone as an implementation failure."
+    }
+  ],
+  "semantic_undeclared": 2,
+  "verdict": "gaps",
+  "concrete_failures": [
+    {
+      "site": "energy_agent/tools/chiller/tool.py:164-169",
+      "failure": "An explicitly mapped, entirely missing comparison target is silently ignored when determining success.",
+      "reproduction": {
+        "records": [{"tei": 13.89, "tci": 26.67, "me": 10.35, "mc": 19.24, "p": 45, "teo": null}],
+        "schema": {
+          "column_map": {"TEI_K": "tei", "TCI_K": "tci", "evap_flow_kg_s": "me", "cond_flow_kg_s": "mc", "P_W": "p", "TEO_K": "teo"},
+          "temperature_unit": "C", "flow_unit": "kg/s", "power_unit": "kW"
+        },
+        "task": "compare",
+        "simulation": {"record_id": "ElectricEIRChiller_McQuay_WSC_471kW_5_89COP_Vanes", "mode": "steady", "kind": "series", "setpoint": 8.89}
+      },
+      "observed": "success; missing_inputs=[]; warnings=[]; power comparison n=1; explicitly mapped TEO comparison n=0.",
+      "expected": "Disclose the missing mapped TEO target and mark the result partial. Unmapped optional comparison targets may remain optional."
+    },
+    {
+      "site": "energy_agent/tools/chiller/tool.py:33-34,104-108",
+      "failure": "Valid boolean operating-status inputs disagree with the existing model.",
+      "reproduction": "Use the ordinary simulation inputs above, add on=true and map operating_status to on.",
+      "observed": "Existing run_model simulates successfully with simulated_power_kW=39.204378935332336. ChillerTool instead returns needs_input, declaring operating_status missing.",
+      "expected": "Preserve the existing workbench's accepted boolean-control semantics, or consistently reject unsupported booleans at dataset validation with an explicit contract."
+    },
+    {
+      "site": "energy_agent/tools/chiller/tool.py:188",
+      "failure": "RMSE overflows on accepted finite measurements and prevents a typed result from being saved.",
+      "reproduction": "Use the ordinary comparison inputs above with measured p=1e200 kW and without the teo mapping.",
+      "observed": "error**2 becomes infinity; Comparison validation raises ValidationError. HTTP translates this into 422, and save_run is never reached.",
+      "expected": "Use a numerically stable RMSE calculation, or return an explicit stored diagnostic result for unrepresentable statistics.",
+      "scope": "Verified extreme-value boundary case; ordinary equipment measurements are unaffected."
+    }
+  ],
+  "correct_behavior": [
+    "Source and effective schemas, explicit source units, default fluid properties, source identity and immutable records are retained. ASHRAE inference is disclosed.",
+    "The numerical boundary delegates to the existing workbench. Series output preserves source-row alignment, and missing measurements are not replaced with fabricated values.",
+    "Comparison correctly excludes extrapolated rows and negative model coefficients/power. Ordinary model summaries retain extrapolation while warning about it.",
+    "Full artifacts retain records needed to replay metric selections and distinguish measured, measured-derived and model outputs.",
+    "Unknown references, equipment mismatch, explicit model selection and invalid chronology follow the declared interfaces."
+  ],
+  "review_metadata": {
+    "reported_model": null,
+    "independence": "Unverified-family review; provisional, not independent proof of correctness.",
+    "method": "Read all requested files and ran focused probes with an in-memory repository. No files were edited."
+  }
+}

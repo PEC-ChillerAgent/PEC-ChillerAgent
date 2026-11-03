@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>冷水机组 · 仿真工作台</title>
+  <link rel="stylesheet" href="/static/style.css?v=20261026-4">
+  <link rel="stylesheet" href="/static/upload-review.css?v=20261026-4">
+  <link rel="stylesheet" href="/static/chart.css?v=20261026-4">
+  <link rel="stylesheet" href="/static/chat.css?v=stage2-1">
+  <script src="/static/chart-utils.js?v=20261026-4" defer></script>
+  <script src="/static/app.js?v=stage2-1" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">❄</span><div>CHILLER LAB<small>冷水机组建模与计算</small></div></div>
+    <div class="nav-label">工作空间</div>
+    <div class="nav-item active"><span>◈</span> 计算与仿真</div>
+    <a class="nav-item" href="/chat"><span>✧</span> 智能分析</a>
+    <a class="nav-item" href="/docs" target="_blank" rel="noopener"><span>⌘</span> API 文档 ↗</a>
+    <div class="side-guide"><div class="nav-label">从工况到结果</div><p><b>01</b> 输入一条工况或上传数据</p><p><b>02</b> 选择物理计算或动态仿真</p><p><b>03</b> 查看曲线，导出结果</p></div>
+    <div class="side-bottom"><span class="dot"></span> Python · FastAPI<small>计算与仿真无需先训练模型</small></div>
+  </aside>
+  <main>
+    <header><div class="breadcrumb">工作空间 <span>/</span> 计算与仿真</div><span class="local-tag">本地计算服务</span></header>
+    <section class="page-heading"><div><div class="eyebrow">CHILLER SIMULATION WORKBENCH</div><h1>冷水机组仿真工作台</h1><p>输入运行工况，计算水侧性能，观察温度随时间的变化。</p></div><div class="heading-actions"><button id="example" type="button" class="secondary">载入示例工况 ↗</button><button id="send-to-chat" type="button" class="secondary">转入智能分析 ↗</button></div></section>
+    <div class="workspace">
+      <section class="input-panel">
+        <form id="workbench-form">
+          <div class="card">
+            <div class="card-title"><span class="step">01</span><h2>输入数据</h2><span id="source-badge" class="badge">手动输入</span></div>
+            <div class="segments" aria-label="数据来源"><button type="button" data-source="manual" class="selected" aria-pressed="true">单条工况</button><button type="button" data-source="file" aria-pressed="false">上传数据</button></div>
+            <label class="chat-context-asset">机组编号<input id="agent-asset-id" type="text" value="chiller_01" maxlength="128" autocomplete="off"></label>
+            <div id="manual-input"><p class="help">填写实际工况；不掌握的测量值可以留空。</p><div id="manual-fields" class="fields"></div></div>
+            <div id="file-input" hidden>
+              <label class="upload-box" for="file"><span class="upload-symbol">↥</span><strong>选择 CSV 或 Excel 文件</strong><small>CSV / XLSX / XLS · 最多 10 MB / 20,000 行</small><input id="file" type="file" accept=".csv,.xlsx,.xls"></label>
+              <div id="upload-status" class="help" role="status"></div>
+              <label id="sheet-control" hidden>Excel 工作表<select id="sheet-select"></select></label>
+              <button id="template" type="button" class="text-button">↓ 下载通用输入模板（°C / m³/h / kW）</button><p class="help">模板表头带单位；填写数据时请保持全表同一单位。unit_status_raw 用于留存原始状态码，不等同于 0/1 启停状态。</p>
+              <div id="mapping-panel" hidden><h3>数据预览与检查</h3><p class="help">单位换算后检查必需字段、空值和无效流量。ASHRAE RP-1043 的 TEI/TCI 通常为 °F，FWE/FWC 为 US gpm。</p><div id="upload-quality" class="quality-report" aria-live="polite"></div><div id="normalized-preview" class="table-wrap"></div><details><summary>原始数据预览</summary><div id="source-preview" class="table-wrap"></div></details><h3 class="mapping-heading">指定数据列</h3><p class="help">自动匹配仅作建议；确认两侧进水温度、流量列及单位后再运行。</p><div id="mapping-fields" class="fields"></div></div>
+            </div>
+            <div class="section-divider"></div><h3>输入单位</h3><div class="fields units">
+              <label>所有温度<select id="temp-unit"><option value="C">°C · 摄氏度</option><option value="K">K · 开尔文</option><option value="F">°F · 华氏度</option></select></label>
+              <label>两侧流量<select id="flow-unit"><option value="m3/h">m³/h · 体积流量</option><option value="kg/s">kg/s · 质量流量</option><option value="m3/s">m³/s · 体积流量</option><option value="us_gpm">US gpm · 美制加仑/分钟</option></select></label>
+              <label>功率<select id="power-unit"><option value="kW">kW · 千瓦</option><option value="W">W · 瓦</option></select></label>
+            </div><p class="help">单位选择说明输入值的含义，不会转换输入框内的数字。文件同类字段须使用一致单位。</p>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="step">02</span><h2>计算方式</h2></div>
+            <label class="mode-option"><input type="radio" name="operation" value="calculate" checked><span><strong>物理计算</strong><small>根据实测温差、流量和功率计算冷量、COP 与能量平衡。</small></span><span class="mode-icon">Σ</span></label>
+            <label class="mode-option"><input type="radio" name="operation" value="simulate"><span><strong>机组仿真 · Buildings ElectricEIR</strong><small>根据机组曲线和出水设定温度，计算冷量、压缩机功率、COP 与出水温度。</small></span><span class="mode-icon">∿</span></label>
+            <div id="simulation-settings" hidden>
+              <p class="help">仿真模型：Buildings 13.0.0 · ElectricEIR（水冷制冷模式）</p>
+              <div id="sim-input-help" class="callout">ElectricEIR 必需：两侧进水温度、两侧正流量、出水设定温度。实测功率、出水温度可留空。</div>
+              <div id="eir-settings">
+                <label>机组性能参数<select id="eir-record"><option value="">正在加载机组参数…</option></select></label>
+                <p id="eir-record-info" class="help"></p>
+                <div class="fields">
+                  <label>求解方式<select id="eir-mode"><option value="dynamic">动态 · 水侧蓄热</option><option value="steady">稳态 · 每行独立求解</option></select></label>
+                  <label>出水设定温度 <span class="temp-symbol">°C</span><input id="eir-setpoint" type="number" step="any" value="8.89"></label>
+                  <label>默认启停状态<select id="eir-enabled"><option value="1">开机</option><option value="0">停机</option></select></label>
+                  <label>蒸发侧时间常数（秒）<input id="tau-e" type="number" min="0.001" step="any" value="30" required></label>
+                  <label>冷凝侧时间常数（秒）<input id="tau-c" type="number" min="0.001" step="any" value="30" required></label>
+                </div>
+                <p class="help">上传的设定温度、启停列优先于上面的固定值。启停状态列必须是 0/1；ASHRAE 的 Unit Status 是多值代码，不会自动当作 0/1。模型功率仅含压缩机；性能曲线属于所选机组，新机组需校准。Buildings 水介质常数参考：cp=4184 J/(kg·K)，ρ=995.586 kg/m³。</p>
+                <details><summary>查看 / 自定义机组参数</summary><label><input id="eir-custom" type="checkbox"> 使用下方自定义参数</label><label>参数 JSON（Modelica 原始名称；温度为 K、热量为 W、流量为 kg/s）<textarea id="eir-parameters" rows="16" style="width:100%;font-family:monospace" spellcheck="false"></textarea></label><p class="help">可修改额定冷量、COP、负荷范围及三组曲线系数。额定蒸发侧热流 QEva_flow_nominal 必须为负数；该编辑器中的参数不受输入单位切换影响。</p></details>
+              </div>
+              <div id="series-kind-wrap" hidden><label>输入方式<select id="sim-kind"><option value="series">时间序列 · 每行一个工况</option><option value="constant">恒定工况 · 文件仅有一行</option></select></label></div>
+              <div class="fields" id="constant-settings"><label>仿真时长（分钟）<input id="duration" type="number" min="0.01" max="10080" step="any" value="60" required></label></div>
+              <div class="fields"><label id="interval-label">输出间隔（秒）<input id="interval" type="number" min="0.001" step="any" value="60" required></label><label id="time-mode-wrap" hidden>时间解释<select id="time-mode"><option value="interval">按固定采样间隔生成</option><option value="seconds">映射的时间列为秒数</option><option value="minutes">映射的时间列为分钟</option><option value="datetime">映射的时间列为日期时间</option></select></label></div>
+              <div class="fields"><label>初始冷冻水出水温度 <span class="temp-symbol">°C</span><input id="initial-teo" type="number" step="any" placeholder="可选，见下方说明"></label><label>初始冷却水出水温度 <span class="temp-symbol">°C</span><input id="initial-tco" type="number" step="any" placeholder="可选，见下方说明"></label></div>
+              <p id="initial-help" class="help">ElectricEIR 每组独立初始化；留空使用冷冻出水 5°C、冷却出水 25°C，不读取实测出水作为初态。稳态模式忽略初态。</p>
+            </div>
+            <details><summary>介质参数与计算原理</summary><div class="fields parameter-fields"><label>比热（J/(kg·K)）<input id="cp" type="number" min="1" step="any" value="4184" required></label><label>密度（kg/m³）<input id="density" type="number" min="1" step="any" value="995.586" required></label></div><p class="help">默认使用 Buildings.Media.Water 对应恒物性。更换物性后，对比时必须在两端一致设置。</p><div class="equations">实测计算：Qe = ṁe · cp · (Te,in − Te,out)<br>Qc = ṁc · cp · (Tc,out − Tc,in)；COP = Qe / P<br>ElectricEIR：P = −QEva,ava / COPnom · EIRFunT · EIRFunPLR · CR<br>QCon = −QEva + ηmotor · P<br>C = ṁnom · τ · cp；C · dT/dt = 水侧焓流 + 热源</div><p class="help">ElectricEIR 动态使用 BDF 数值积分，稳态求解能量方程；性能曲线使用冷冻出水与冷却进水摄氏温度。仅对齐 ElectricEIR 水冷制冷模式，不含完整制冷剂循环、水力网络和其他 Buildings 模型。</p></details>
+          </div>
+          <div class="run-bar"><button id="run" class="primary" type="submit">开始计算 <span>→</span></button><p id="run-hint" class="help">无需训练模型，即可计算。</p></div>
+        </form>
+      </section>
+      <section class="result-panel" aria-label="计算结果">
+        <div id="error" class="error" role="alert" hidden></div>
+        <div id="empty" class="card empty-state"><div class="empty-illustration"><span>❄</span><i></i><b>∿</b></div><span class="eyebrow">READY WHEN YOU ARE</span><h2>从一组工况开始</h2><p>输入数据并运行后，在这里查看<br>性能指标、温度响应与详细结果。</p><button id="empty-example" type="button" class="secondary">使用示例开始</button><div class="empty-foot">物理计算 <span>·</span> 动态仿真 <span>·</span> 结果导出</div></div>
+        <div id="results" hidden>
+          <div class="results-heading"><div><span class="eyebrow">RESULTS</span><h2 id="result-title">计算结果</h2><p id="result-subtitle" class="help"></p></div><div class="export-actions"><button type="button" id="export-csv" class="secondary">↓ CSV</button><button type="button" id="export-json" class="secondary">↓ 完整 JSON</button></div></div>
+          <div id="metrics" class="metrics"></div>
+          <div class="card chart-card">
+            <div class="chart-heading"><h3 id="chart-title">参数曲线</h3><label>序列<select id="chart-run"></select></label></div>
+            <div class="chart-toolbar"><label>查看方式<select id="chart-selection-mode"><option value="multiple">多条曲线</option><option value="single">单条曲线</option></select></label><button type="button" id="chart-default" class="text-button">恢复默认</button><button type="button" id="chart-clear" class="text-button">清空选择</button></div>
+            <details class="curve-picker" open><summary>选择要查看的参数 <span id="chart-selection-count"></span></summary><div id="chart-parameters"></div></details>
+            <p class="help">同单位参数叠加，不同单位分别绘图。切换参数只改变展示；调整模型输入或参数后需重新运行。</p>
+            <div id="chart" class="chart"></div><p id="chart-caption" class="help"></p>
+          </div>
+          <div class="card"><div class="card-title"><h2>结果解读</h2><span class="badge">可追溯</span></div><div id="interpretation"></div></div>
+          <div class="card"><div class="card-title"><h2>输出明细</h2><span id="row-count" class="badge"></span></div><p class="help">温度统一输出 °C、功率与热量输出 kW。— 表示缺少输入，完整结果与参数可导出。</p><div id="result-table" class="table-wrap"></div><div class="pagination"><button type="button" id="prev-page" class="secondary">上一页</button><span id="page-info"></span><button type="button" id="next-page" class="secondary">下一页</button></div><details><summary>本次运行参数与来源</summary><pre id="metadata"></pre></details></div>
+        </div>
+      </section>
+    </div>
+    <footer>CHILLER LAB <span>水侧实测计算 · Buildings 13.0.0 ElectricEIR 方程移植</span></footer>
+  </main>
+</body>
+</html>

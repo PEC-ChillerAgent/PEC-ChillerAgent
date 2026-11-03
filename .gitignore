@@ -218,3 +218,40 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Chiller project rules
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+# Credentials and local runtime data
+.env
+.env.*
+!.env.example
+outputs/
+*.sqlite3*
+# Local source measurements and personal documents
+/normal.xls
+/1.docx
+/命令.txt
+# Generated OpenModelica build products; retain reference sources and CSVs
+/tests/reference/*.o
+/tests/reference/*.c
+/tests/reference/*.h
+/tests/reference/*.exe
+/tests/reference/*.bin
+/tests/reference/*.bat
+/tests/reference/*.log
+/tests/reference/*.libs
+/tests/reference/*.makefile
+/tests/reference/*_init.xml
+/tests/reference/*_info.json
+/tests/reference/*_external_functions.json
+.DS_Store
+Thumbs.db
+
+# Keep Modelica reference source (not a translation catalogue)
+!tests/reference/*.mo
+

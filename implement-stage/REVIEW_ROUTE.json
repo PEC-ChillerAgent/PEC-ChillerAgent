@@ -1,0 +1,14 @@
+{
+  "backend": "codex",
+  "transport": "collaboration.spawn_agent",
+  "host": "codex",
+  "tier": "regular",
+  "requested_model": "gpt-6-astra",
+  "requested_effort": "xhigh",
+  "selection_source": "host default; no invocation override or .aris/reviewer.json",
+  "helper_resolution": "reviewer_route.py absent from canonical env/manifest, project and global skill candidates; route recorded directly from documented host default",
+  "review_independence": "unverified-family",
+  "acceptance_status": "provisional",
+  "reported_model": null,
+  "review_session": "/root/stage1_assumption_review"
+}

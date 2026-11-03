@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>冷水机组 · 智能分析</title>
+  <link rel="stylesheet" href="/static/style.css?v=20261026-4">
+  <link rel="stylesheet" href="/static/chat.css?v=stage2-1">
+  <script src="/static/chat.js?v=stage2-1" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">❄</span><div>CHILLER LAB<small>冷水机组建模与计算</small></div></div>
+    <div class="nav-label">工作空间</div>
+    <a class="nav-item" href="/"><span>◈</span> 计算与仿真</a>
+    <a class="nav-item active" href="/chat"><span>✧</span> 智能分析</a>
+    <a class="nav-item" href="/docs" target="_blank" rel="noopener"><span>⌘</span> API 文档 ↗</a>
+    <div class="side-guide"><div class="nav-label">数据与证据</div><p>选择当前设备的数据集</p><p>用自然语言提出分析问题</p><p>点击回答数值核对原始结果</p></div>
+    <div class="side-bottom"><span class="dot"></span> 工具计算 · 模型解释<small>与仿真工作台共用计算代码</small></div>
+  </aside>
+  <main>
+    <header><div class="breadcrumb">工作空间 <span>/</span> 智能分析</div><span id="provider-status" class="local-tag">正在读取配置</span></header>
+    <section class="page-heading"><div><div class="eyebrow">CHILLER ANALYSIS AGENT</div><h1>冷水机组智能分析</h1><p>围绕运行数据提问，查看工具计算、模型解释和可追溯证据。</p></div><a class="secondary chat-workbench-link" href="/">录入或上传数据 ↗</a></section>
+    <div id="chat-error" class="error" role="alert" hidden></div>
+    <div class="chat-layout">
+      <section class="chat-controls" aria-label="分析上下文和模型配置">
+        <div class="card">
+          <div class="card-title"><h2>分析对象</h2><button id="refresh-datasets" class="text-button" type="button">刷新</button></div>
+          <label>数据集<select id="chat-dataset"><option value="">仅聊天 · 未绑定数据</option></select></label>
+          <p id="dataset-description" class="help">可从计算工作台将当前工况转入智能分析。</p>
+          <p class="help">分析沿用所选数据和运行设置，按需重新计算。报告指标为有效数据点均值；工作台顶部卡片显示末条记录或末时刻。</p>
+          <details id="simulation-options"><summary>仿真与比较设置（可选）</summary>
+            <label class="chat-check"><input id="use-simulation" type="checkbox"> 为此会话配置仿真模型</label>
+            <div class="chat-simulation-fields">
+              <label>机组性能记录<select id="chat-record"><option value="">请选择匹配的机组参数</option></select></label>
+              <label>求解方式<select id="chat-mode"><option value="steady">稳态</option><option value="dynamic">动态</option></select></label>
+              <label>输入方式<select id="chat-kind"><option value="series">时间序列 · 每行对应一个工况</option><option value="constant">恒定工况 · 数据集仅一行</option></select></label>
+              <label>出水设定温度（数据集温标）<input id="chat-setpoint" type="number" step="any" placeholder="已映射设定值列时可留空"></label>
+              <label>时间解释<select id="chat-time-mode"><option value="interval">固定采样间隔</option><option value="seconds">时间列为秒</option><option value="minutes">时间列为分钟</option><option value="datetime">时间列为日期时间</option></select></label>
+              <div class="fields"><label>间隔（秒）<input id="chat-interval" type="number" min="0.001" value="60"></label><label>恒定仿真时长（秒）<input id="chat-duration" type="number" min="0.001" value="600"></label></div>
+              <label>默认启停<select id="chat-enabled"><option value="1">开机</option><option value="0">停机</option></select></label>
+              <div class="fields"><label>蒸发时间常数（秒）<input id="chat-tau-e" type="number" min="0.001" value="30"></label><label>冷凝时间常数（秒）<input id="chat-tau-c" type="number" min="0.001" value="30"></label></div>
+              <div class="fields"><label>初始冷冻出水温度<input id="chat-initial-e" type="number" step="any" placeholder="可选"></label><label>初始冷却出水温度<input id="chat-initial-c" type="number" step="any" placeholder="可选"></label></div>
+              <label id="custom-performance-wrap" hidden>自定义性能参数 JSON<textarea id="chat-performance" rows="8" spellcheck="false"></textarea></label>
+              <p class="help">性能参数需与目标机组匹配。比较使用时间序列；更改配置后请新建对话。</p>
+            </div>
+          </details>
+          <button id="new-chat" class="secondary" type="button">＋ 新对话</button>
+          <p id="context-lock" class="help" hidden>本会话的数据和模型设置已固定，更换时请新建对话。</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><h2>历史对话</h2><button id="refresh-history" class="text-button" type="button">刷新</button></div>
+          <select id="chat-history" aria-label="选择历史对话"><option value="">选择已保存的对话</option></select>
+        </div>
+        <details id="provider-panel" class="card"><summary>模型连接配置</summary>
+          <p class="help">使用服务商提供的 OpenAI 兼容接口。密钥只保存到本地服务端，不会回显到浏览器。</p>
+          <label>服务地址（Base URL）<input id="llm-base-url" type="url" placeholder="https://服务地址/兼容接口前缀" autocomplete="off"></label>
+          <label>模型名<input id="llm-model" type="text" placeholder="填写账户可用的模型名称" autocomplete="off"></label>
+          <label>API Key<input id="llm-api-key" type="password" placeholder="留空保留同地址已有密钥" autocomplete="new-password"></label>
+          <p id="key-state" class="help"></p>
+          <label class="chat-check"><input id="llm-requires-key" type="checkbox" checked> 此服务需要 API Key</label>
+          <label class="chat-check"><input id="clear-key" type="checkbox"> 清除本地保存的密钥</label>
+          <details><summary>高级兼容设置</summary><label>请求超时（秒）<input id="llm-timeout" type="number" min="1" max="60" value="45"></label><label>最大输出 token<input id="llm-max-tokens" type="number" min="64" max="8192" value="2048"></label><label>额外请求参数 JSON<textarea id="llm-extra" rows="4" spellcheck="false">{}</textarea></label><p class="help">可按服务商文档设置思考模式等参数，不可覆盖消息或工具。</p></details>
+          <div class="chat-button-row"><button id="save-provider" class="secondary" type="button">保存配置</button><button id="test-provider" class="secondary" type="button">测试连接</button></div>
+          <p id="provider-feedback" class="help" role="status"></p>
+        </details>
+      </section>
+      <section class="chat-main card" aria-label="聊天">
+        <div id="chat-transcript" class="chat-transcript" aria-live="polite"><div class="chat-welcome"><span>✧</span><h2>从一个运行问题开始</h2><p>选择数据集后，可以询问能效、缺测、模型偏差或仿真结果。<br>回答中的数值可点击查看对应计算记录。</p></div></div>
+        <div id="chat-progress" class="help" role="status" hidden>正在理解问题并调用模型或分析工具…</div>
+        <form id="chat-form"><label class="chat-message-label" for="chat-message">你的问题</label><textarea id="chat-message" rows="3" maxlength="12000" placeholder="例如：分析这台机组的冷量和 COP，并说明有哪些数据不足。" required></textarea><div class="chat-composer-foot"><span class="help">Enter 发送 · Shift+Enter 换行</span><button id="chat-send" class="primary" type="submit">发送 ↗</button></div></form>
+      </section>
+    </div>
+    <footer>CHILLER LAB <span>工具提供数值 · 模型组织解释 · 证据可查询</span></footer>
+  </main>
+</body>
+</html>

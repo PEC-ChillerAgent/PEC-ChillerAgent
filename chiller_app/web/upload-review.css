@@ -1,0 +1,9 @@
+.quality-report{margin:10px 0 12px;padding:10px 12px;border:1px solid #e5ebf0;border-radius:7px;background:#fafcfd}
+.quality-report p{margin:3px 0;font-size:10px;line-height:1.75}
+.quality-report .quality-ok{color:#337b68;font-weight:600}
+.quality-report .quality-warning{color:#a46d2d;font-weight:650}
+.quality-report .quality-detail{color:#798a97}
+.mapping-heading{margin-top:18px}
+#normalized-preview{max-height:270px;margin:10px 0}
+#source-preview{max-height:270px}
+#sheet-control{margin:10px 0}

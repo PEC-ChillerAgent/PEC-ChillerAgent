@@ -1,0 +1,9 @@
+// Run from tests/reference. Artifacts remain in this directory.
+loadFile("C:/Users/Lenovo/AppData/Roaming/.openmodelica/libraries/Modelica 4.1.0+maint.om/package.mo");
+loadFile("C:/Users/Lenovo/AppData/Roaming/.openmodelica/libraries/Buildings 13.0.0/package.mo");
+loadFile("ElectricEIRAlignment.mo");
+getErrorString();
+simulate(ElectricEIRAlignment, stopTime=600, numberOfIntervals=10, tolerance=1e-8, outputFormat="csv", fileNamePrefix="eir_dynamic");
+getErrorString();
+simulate(ElectricEIRAlignmentSteady, stopTime=600, numberOfIntervals=10, tolerance=1e-8, outputFormat="csv", fileNamePrefix="eir_steady");
+getErrorString();

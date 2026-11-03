@@ -1,0 +1,33 @@
+{
+  "stage": 1,
+  "status": "implemented",
+  "tests": {
+    "total": 94,
+    "existing": 53,
+    "new": 41,
+    "result": "passed"
+  },
+  "rungs": {
+    "F0": "passed",
+    "F1": "passed",
+    "F2": "passed",
+    "F3": "passed"
+  },
+  "demo": {
+    "artifact": "outputs/agent_stage1_demo.json",
+    "cooling_capacity_kW": 418,
+    "COP": 4.18
+  },
+  "live_http": "passed",
+  "review": {
+    "rounds": 2,
+    "initial_undeclared": 3,
+    "initial_semantic_undeclared": 2,
+    "final_undeclared": 0,
+    "final_semantic_undeclared": 0,
+    "verdict": "clean",
+    "independence": "unverified-family",
+    "acceptance_status": "provisional"
+  },
+  "live_stage1_stubs": []
+}

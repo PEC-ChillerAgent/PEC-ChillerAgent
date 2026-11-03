@@ -1,0 +1,21 @@
+{
+  "backend": "codex",
+  "transport": "collaboration.spawn_agent",
+  "host": "codex",
+  "requested_model": "gpt-6-astra",
+  "requested_effort": "xhigh",
+  "selection_source": "documented host default; no invocation override or .aris/reviewer.json",
+  "helper_resolution": [
+    [
+      "tools\\reviewer_route.py",
+      false
+    ],
+    [
+      "C:\\Users\\Lenovo\\.codex\\skills\\research-implement-feature\\reviewer_route.py",
+      false
+    ]
+  ],
+  "reported_model": null,
+  "review_independence": "unverified-family",
+  "acceptance_status": "provisional"
+}

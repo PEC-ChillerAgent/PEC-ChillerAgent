@@ -1,0 +1,19 @@
+.chart-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:16px 0 10px}
+.chart-toolbar label{display:flex;align-items:center;gap:8px}
+.chart-toolbar select{width:auto;margin:0;padding:6px 9px}
+.curve-picker{margin-top:10px;padding-top:12px}
+#chart-selection-count{color:#8a9da9;font-size:10px}
+.curve-group{margin:14px 0 0;padding:10px 12px 12px;border:1px solid #e5ebf0;border-radius:7px;min-width:0}
+.curve-group legend{font-size:10px;color:#758e9c;padding:0 6px}
+.curve-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+.curve-option{display:flex;align-items:flex-start;gap:6px;cursor:pointer;font-size:10px;color:#526c7b;min-width:0}
+.curve-option input{accent-color:#087e80;margin:2px 0 0;flex:none}
+.curve-option i{width:14px;flex:none;border-top:3px solid;margin-top:7px}
+.curve-option:has(input:checked){color:#087e80}
+.curve-option:has(input:checked) span{font-weight:600}
+.curve-plot{border-top:1px solid #e5ebf0;margin-top:18px;padding-top:15px;min-width:0}
+.curve-plot h4{font-size:11px;font-weight:500;color:#637e8d;margin:0 0 7px}
+.curve-plot .legend i{height:0;background:none;border-top:3px solid}
+.curve-readout{font-size:10px;line-height:1.9;color:#657f8e;background:#f7f9fb;padding:9px 10px;border-radius:5px;margin-top:12px;min-height:37px;font-variant-numeric:tabular-nums}
+.curve-plot input[type=range]{width:100%;accent-color:#087e80;margin-top:10px;cursor:pointer}
+@media(max-width:420px){.curve-options{grid-template-columns:1fr}}

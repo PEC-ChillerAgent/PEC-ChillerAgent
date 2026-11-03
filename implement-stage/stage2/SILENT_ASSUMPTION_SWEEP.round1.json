@@ -1,0 +1,31 @@
+{
+  "undeclared": [
+    {"site":"energy_agent/config/llm.py:36-39","decision":"当 ENERGY_AGENT_LLM_API_KEY 未设置时，无条件使用 OPENAI_API_KEY 覆盖本地密钥，并忽略目标服务地址。","why_it_matters":"第三方服务可能收到另一服务的凭据；页面保存的正确密钥也无法生效。B-003 未声明这一跨服务回退规则。","class":"interface"},
+    {"site":"energy_agent/agents/reporting.py:41-57","decision":"只验证 fact ID 存在及数字格式，不验证正文赋予该事实的指标含义、实测或模型来源。","why_it_matters":"合法证据值仍能组成错误结论；与 B-008 要求实测和模型分开的语义存在缺口。","class":"semantic"},
+    {"site":"energy_agent/agents/reporting.py:43-45; energy_agent/prompts/system.md","decision":"占位符要求覆盖回答中的所有数字，包括无绑定数据集的一般知识问答和单位换算。","why_it_matters":"B-007 只描述未引用的分析数字。现有实现无法正常给出没有工具事实支持的常数或数值知识答案，会修正后退回选择数据集提示。","class":"semantic"}
+  ],
+  "stale_rows": [
+    {"site":"implement-stage/stage2/ASSUMPTIONS.md:B-003","issue":"仍写“本地JSON对应字段”，实际实现与 B-002 均为 SQLite local_settings。"},
+    {"site":"implement-stage/stage2/BUILD_NOTE.md:F3","issue":"验收表仍为 pending，后文却记录完整回归及浏览器验收已经通过。应统一状态并保留协议 fixture 限定。"}
+  ],
+  "semantic_undeclared":2,
+  "verdict":"gaps",
+  "concrete_failures":[
+    {"priority":"P1","site":"energy_agent/agents/reporting.py:8,41-45","issue":"中文整数数值结论可以绕过事实校验。","reproduction":"直接调用 render_answer('实测COP为五。', [])、render_answer('总共五个样本。', [])、render_answer('功率为五百瓦。', [])，均成功返回原文本。","impact":"没有事实、没有工具计算的数值结论仍可作为已完成模型回答保存和下载，违反 B-007。","suggested_fix":"补齐中文整数及数量表达的校验，并对这些普通表述增加回归验证。"},
+    {"priority":"P1","site":"energy_agent/agents/reporting.py:47-53; chiller_app/web/chat.js:70-74","issue":"真实模型事实可以被呈现为实测结果。","reproduction":"构造 label='模型COP（有效输出点均值）'、origin='model'、value=7.5 的 F1；render_answer('实测COP为{{fact:F1}}。', [fact]) 返回“实测COP为7.5。”且不报错。","impact":"占位符产生有效证据链接，但正文结论的来源错误；当前页面只把正确标签放在悬停提示中，下载报告正文仍保留错误表述。","suggested_fix":"让服务器生成可见指标名称和来源，对明确相反的归属触发修正或事实报告；明确数字存在性验证与语义验证的边界。"},
+    {"priority":"P1","site":"energy_agent/config/llm.py:36-39","issue":"通用 OpenAI 环境密钥覆盖第三方本地密钥。","reproduction":"在隔离 SQLite 保存第三方 fixture 地址及 local-provider-fixture-key，然后仅设置合成 OPENAI_API_KEY='openai-fixture-key'；store.load().api_key 返回后者。","impact":"正常合作用户同时使用多个服务时，连接第三方服务会使用错误凭据；CompatibleProvider 会把该凭据放入第三方请求的 Authorization。","suggested_fix":"移除无条件跨服务回退，或将其限定到明确匹配的服务配置；保留显式 ENERGY_AGENT_LLM_API_KEY 的优先级。"},
+    {"priority":"P1","site":"chiller_app/web/chat.js:91-96,99-106,118","issue":"历史会话切换期间允许发送，消息进入旧会话。","reproduction":"以实际 chat.js 运行 Node DOM/fetch 隔离测试：当前为会话 A，选择 B 并延迟 B 的读取响应，此时发送按钮仍启用；提交后捕获到请求 session_id='A'，而下拉框已显示 B。","impact":"用户的问题会绑定到错误数据集和仿真设置；异步返回还可能覆盖当前显示的会话。","suggested_fix":"会话加载期间冻结发送及切换，或使用加载标识和请求序号确保只有当前选定会话能够提交和应用响应；初始化打开指定会话也应遵守同一规则。"},
+    {"priority":"P2","site":"energy_agent/agents/chat.py:83,100-102,126-135","issue":"工具执行发生未预期异常后，持久历史保留没有对应 tool 回复的 assistant tool_calls。","reproduction":"隔离测试在 registry.execute 边界注入 RuntimeError。首轮被处理为 CHAT_EXECUTION_FAILED，但保存的 wire 角色为 ['user','assistant','assistant']，其中工具调用没有匹配回复。下一轮重新发送这段历史，检查调用配对的 MockTransport 返回 400，聊天变为 LLM_HTTP_ERROR。","impact":"一次执行异常会污染会话的后续协议请求；公开失败回复表示可以继续，但历史实际上不能被严格兼容服务接受。","suggested_fix":"异常路径为所有尚未完成的 tool_call_id 写入脱敏失败结果，或从持久历史中移除未完成的调用及其不完整响应组。"},
+    {"priority":"P2","site":"energy_agent/contracts/chat.py:29-33; energy_agent/providers/compatible.py:67-70","issue":"非法端口地址可以保存，连接测试返回未处理的 HTTP 500。","reproduction":"LLMSettings 接受 https://fixture.example:abc/v1。保存后通过 TestClient 调用 /agent/v1/llm/test，返回 500 Internal Server Error；底层异常为 httpx.InvalidURL，未进入现有错误转换。","impact":"用户地址输入错误没有得到配置校验提示或结构化脱敏错误，页面只显示无效 JSON 提示。","suggested_fix":"保存时验证端口，并将 httpx.InvalidURL 转成明确的配置或连接错误。此探针在地址解析阶段结束，没有网络请求。"}
+  ],
+  "correct_behavior":[
+    "会话数据集和设备由服务端固定绑定；模型无法通过额外工具参数替换 dataset_id 或 asset_id。",
+    "仿真和比较要求会话显式配置性能记录，比较限制为 series；可调用工具范围符合第二阶段范围。",
+    "正常工具调用历史保留 tool_calls、tool_call_id 和 reasoning_content；公开会话及报告不返回私有 reasoning_content。",
+    "事实值指向保存运行或数据集元信息，报告和页面提供可核对的证据链接。",
+    "已处理的 HTTP 鉴权、限流和连接异常使用固定脱敏消息，不拼接上游原始错误正文；没有自动请求重试。",
+    "SQLite 原子租约、过期中断处理及模型调用次数限制均有明确实现。",
+    "测试明确使用兼容协议 fixture，没有把 fixture 回复作为真实厂商连接证明。"
+  ],
+  "review_metadata":{"reported_model":null,"independence":"unverified-family/provisional","scope":"补充性实现审阅，不构成独立正确性证明。","validation":"读取指定规格、实现和测试；运行报告校验探针、合成环境变量和隔离SQLite探针、TestClient地址校验探针、实际chat.js的Node DOM/fetch测试及异常工具历史MockTransport测试。","external_model_calls":0,"real_secrets_inspected":false,"source_files_modified":false,"probe_residue":"首次 tempfile 探针因 Windows WinError5 留下不可访问的空目录 outputs/agent_test_runs/review_stage2_krgh4a1g；后续普通UUID目录均已清理。"}
+}

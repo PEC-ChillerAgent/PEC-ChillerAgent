@@ -1,0 +1,44 @@
+{
+  "undeclared": [],
+  "stale_rows": [],
+  "semantic_undeclared": 0,
+  "verdict": "clean",
+  "concrete_failures": [],
+  "resolved_findings": [
+    {
+      "finding": "Entirely missing explicitly mapped comparison target",
+      "verified": "The original p=45, teo=null probe now returns partial, power comparison n=1, TEO comparison n=0, and a comparison:TEO_K missing-input entry. A-017 declares independent comparison sample selection."
+    },
+    {
+      "finding": "Boolean operating-status mismatch",
+      "verified": "Both true and false now produce complete model outputs identical to the existing workbench. Neither is classified as missing. A-018 records this behavior."
+    },
+    {
+      "finding": "Finite-value RMSE overflow",
+      "verified": "The original p=1e200 probe returns finite RMSE=1e200 and successfully reaches save_run."
+    },
+    {
+      "finding": "Undisclosed evidence-row truncation",
+      "verified": "The twelve-row probe reports valid_count=12, source_row_examples=[1,2,3,4,5,6,7,8,9,10], and twelve full artifact records. Field names, descriptions and A-019 now disclose the limit. Constant-simulation warning examples are also deduplicated."
+    },
+    {
+      "finding": "A-016 disagreed with the all-invalid-model status",
+      "verified": "The negative-EIR twelve-row probe still returns needs_input with invalid_model_rows=12. Revised A-016 now explicitly describes this exception."
+    },
+    {
+      "finding": "Renamed fields initially broke existing saved-run queries",
+      "verified": "After rereading the final compatibility changes, both existing default-database runs validate. Summary, artifact and records endpoints each return HTTP 200. Summary results match artifact results, underlying model outputs are unchanged, and read-only before/after checks confirm stored rows were not modified. A-020 declares this read compatibility."
+    }
+  ],
+  "correct_behavior": [
+    "The reviewed source-unit, provenance, source-order, missing-value and comparison-selection behavior remains consistent with the declared stage-one contract.",
+    "Out-of-range and invalid model records remain available for inspection while comparison selection excludes them.",
+    "Full artifacts retain enough information to replay evidence selections.",
+    "No remaining concrete acceptance failure was found within this review's scope."
+  ],
+  "review_metadata": {
+    "reported_model": null,
+    "independence": "Unverified-family review; provisional, not independent proof of correctness.",
+    "method": "Read the requested current files, repeated all first-round probes with an in-memory repository, and tested existing saved-run HTTP reads through the real repository method using SQLite read-only connections. No files were edited."
+  }
+}
