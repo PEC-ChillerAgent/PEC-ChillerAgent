@@ -63,7 +63,7 @@ def test_f0_http_chat_spine_uses_explicit_protocol_fixture(data_dir, monkeypatch
         return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": "协议测试已连接"}}]})
     monkeypatch.setattr(chat, "provider", lambda instance: CompatibleProvider(configured(), transport=httpx.MockTransport(server)))
     client = TestClient(create_app(data_dir))
-    result = client.post("/agent/v1/chat", json={"message": "你好"})
+    result = client.post("/agent/v1/chat/external", json={"message": "你好"})
     assert result.status_code == 200, result.text
     assert result.json()["answer"] == "协议测试已连接"
     assert "reasoning_content" not in result.text
@@ -158,7 +158,7 @@ def test_config_http_masks_key_and_missing_setup_is_explicit(data_dir, monkeypat
         monkeypatch.delenv(name, raising=False)
     client = TestClient(create_app(data_dir))
     assert client.get("/agent/v1/llm/config").json()["configured"] is False
-    response = client.post("/agent/v1/chat", json={"message": "你好"})
+    response = client.post("/agent/v1/chat/external", json={"message": "你好"})
     assert response.status_code == 503 and response.json()["detail"]["code"] == "LLM_NOT_CONFIGURED"
     response = client.put("/agent/v1/llm/config", json={"base_url": "https://fixture.example/v1", "model": "fixture", "api_key": "private-fixture-key"})
     assert response.status_code == 200

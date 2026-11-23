@@ -54,6 +54,7 @@ class Repository:
             source_schema=request.data_schema,
             effective_schema=effective_schema or request.data_schema,
             quality=quality or {},
+            source_unit_policy=request.source_unit_policy,
         )
         with self._connection() as db:
             db.execute("INSERT INTO datasets VALUES (?, ?, ?)",

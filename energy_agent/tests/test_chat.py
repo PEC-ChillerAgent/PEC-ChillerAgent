@@ -263,7 +263,7 @@ def test_chat_http_history_report_and_no_private_reasoning(data_dir, physics_sou
     fixture = ProtocolFixture([tool_call(), grounded_answer])
     monkeypatch.setattr(chat, "provider", lambda instance: fixture.provider())
     client = TestClient(create_app(data_dir))
-    response = client.post("/agent/v1/chat", json=request.model_dump(mode="json"))
+    response = client.post("/agent/v1/chat/external", json=request.model_dump(mode="json"))
     assert response.status_code == 200, response.text
     reply = response.json()
     view = client.get(f'/agent/v1/chat/sessions/{reply["session_id"]}')

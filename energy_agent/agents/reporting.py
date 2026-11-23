@@ -10,8 +10,24 @@ IDENTIFIER = re.compile(r"(?<![A-Za-z0-9_-])[A-Za-z][A-Za-z0-9_-]*(?:…|\.{3})?
 NUMBER = re.compile(r"\d|[零〇一二两三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟]+")
 # These phrases describe workflow or physical sides, rather than measured quantities.
 NON_NUMERIC = re.compile(r"(?:选择|绑定|提供|上传|指定)(?:一个|一份)(?:数据集|文件)|"
-                         r"上一轮|下一轮|上一次|下一次|一致|一般|一样|一直|一旦|一些|同一|统一|进一步|两侧|一侧|一并|唯一|"
-                         r"值得注意的一点|需要注意的一点|同一点|这一点|某一段|单一|之一|百分比|千瓦时|千瓦|千克|万一")
+                         r"上一轮|下一轮|上一次|下一次|上一步|下一步|一致|一般|一样|一直|一旦|一些|同一|统一|进一步|两侧|一侧|一并|唯一|"
+                         r"值得注意的一点|需要注意的一点|同一点|这一点|某一段|单一|之一|百分比|千瓦时|千瓦|千克|万一|"
+                         r"(?:安排|进行|做)一次独立校核|这一(?:列|项|指标)|一段连续运行数据|"
+                         r"(?:原因|理由)有[两二三]点|(?:^|[。；\n])其[一二三][，、]|这两类(?:性能)?证据|"
+                         r"这两(?:项(?:判断|结果|指标)|类测量|个读数)|这一(?:规模|热量平衡|步)|某一时刻|"
+                         r"一个(?:为正的|为正值的|正的)?实测输入功率|一段连续的稳态运行数据")
+# These exact sentences explain the missing-value convention, not a measured zero.
+# They require an explicitly cited zero valid_count; other zero claims keep the
+# existing metric/value attribution checks. Do not exempt arbitrary 零/一/两.
+MISSING_VALUE_EXPLANATION = re.compile(
+    r"(?:^|[。；，,\n])\s*(?:缺测不代表测得零值|"
+    r"表格中的破折号表示缺必要测量，并非数值为零|"
+    r"这些项属于缺少必要输入，而非数值为零)(?=[。；\n]|$)")
+# These clauses explicitly deny inferring a zero residual from missing data.
+# They are exempt only when this answer cites a missing residual count, and no
+# contradictory residual value exists for that run. Actual zero claims stay gated.
+MISSING_BALANCE_DISCLAIMER = re.compile(
+    r"(?:这不代表偏差为零|这并非表示偏差已被确认为零)(?=[，,。；\n]|$)")
 ZERO_CLAIM = re.compile(
     r"(?P<metric>(?:实测|模型|模拟)?(?:能量平衡偏差|能量偏差|功率|制冷量|冷量|冷凝热|COP|曲线越界点数|无效模型点数))"
     r"\s*(?:在均值上|的均值|均值|的平均值|平均值)?\s*"
@@ -19,6 +35,9 @@ ZERO_CLAIM = re.compile(
     r"(?![\d.eE零〇一二两三四五六七八九十百千万亿点])", re.I)
 ORIGINS = {"measured": "实测", "measured_derived": "实测派生", "model": "模型", "comparison": "比较", 
            "sample_count": "样本统计", "model_validity": "模型适用性", "source_metadata": "数据集元信息"}
+# A ratio's operands explain its definition; they do not relabel its fact as
+# cooling capacity or power. Resolve this explicit COP definition as one kind.
+COP_RATIO_LABEL = re.compile(r"(?:实测\s*)?(?:COP|能效比值)\s*[（(]\s*制冷量\s*(?:与|和)\s*实测(?:输入)?功率\s*之比\s*[）)]", re.I)
 KINDS = (("COP", re.compile(r"COP", re.I)), ("功率", re.compile(r"功率|power", re.I)),
          ("制冷量", re.compile(r"制冷量|冷量|冷负荷|cooling.capacity", re.I)),
          ("温度", re.compile(r"温度|水温|temperature", re.I)), ("冷凝热", re.compile(r"冷凝热")))
@@ -64,7 +83,8 @@ def validate_attribution(prefix: str, suffix: str, fact: ChatFact) -> None:
     if fact.origin in {"measured", "measured_derived"} and re.search(r"模型|模拟|预测", clause):
         raise ValueError("实测事实不能标注为模型预测")
     if fact.unit != "条":
-        described = {name for name, pattern in KINDS if pattern.search(clause)}
+        kind_clause = COP_RATIO_LABEL.sub("COP", clause)
+        described = {name for name, pattern in KINDS if pattern.search(kind_clause)}
         actual = {name for name, pattern in KINDS if pattern.search(fact.label)}
         if described and actual and not described.intersection(actual):
             raise ValueError("事实指标类别与表述不一致")
@@ -140,7 +160,21 @@ def render_answer(text: str, facts: list[ChatFact], *, allow_general_numbers: bo
     remainder = TOKEN.sub("", text)
     if "{{" in remainder:
         raise ValueError("数值结论必须使用可核对的fact占位符")
-    number = NUMBER.search(NON_NUMERIC.sub("", remainder)) if not allow_general_numbers else None
+    cited = set(TOKEN.findall(text))
+    has_cited_missing_count = any(
+        fact.fact_id in cited and fact.origin == "sample_count" and fact.value == 0
+        and fact.pointer.startswith("/result/metrics/") and fact.pointer.endswith("/valid_count")
+        for fact in facts)
+    numeric_remainder = MISSING_VALUE_EXPLANATION.sub("", remainder) if has_cited_missing_count else remainder
+    missing_balance = [fact for fact in facts if fact.fact_id in cited
+                       and fact.origin == "sample_count" and fact.value == 0
+                       and fact.pointer == "/result/metrics/energy_balance_error_kW/valid_count"]
+    if len(missing_balance) == 1 and not any(
+        fact.run_id == missing_balance[0].run_id
+        and fact.pointer == "/result/metrics/energy_balance_error_kW/value" for fact in facts
+    ):
+        numeric_remainder = MISSING_BALANCE_DISCLAIMER.sub("", numeric_remainder)
+    number = NUMBER.search(NON_NUMERIC.sub("", numeric_remainder)) if not allow_general_numbers else None
     if number:
         raise ValueError("数值结论必须使用可核对的fact占位符；发现未引用数字‘" + number.group() + "’")
     segments, position = [], 0
@@ -185,7 +219,21 @@ def markdown_report(turn) -> str:
             fact = facts[segment.fact_id]
             url = f"/agent/v1/runs/{fact.run_id}/artifact" if fact.run_id else f"/agent/v1/datasets/{fact.dataset_id}"
             pieces.append(f"[{segment.text}]({url})")
-    mode = {"model": "模型解释与工具证据", "tool_facts": "工具事实报告", "message": "对话说明（非设备数值报告）"}[turn.report_mode]
-    return "# 冷水机组分析报告\n\n报告类型：" + mode + "\n\n" + "".join(pieces) + "\n\n" + "\n".join(turn.notices) + "\n\n## 证据\n\n" + "\n".join(
+    mode = {"model": "模型解释与工具证据", "tool_facts": "工具事实报告", "message": "对话说明（非设备数值报告）",
+            "student_selection": "学生选择重点 · 程序事实报告（受限开发模式）",
+            "student_explanation": "学生撰写解释 · Python 数值证据（受限开发模式）"}[turn.report_mode]
+    report = "# 冷水机组分析报告\n\n报告类型：" + mode + "\n\n" + "".join(pieces) + "\n\n" + "\n".join(turn.notices) + "\n\n## 证据\n\n" + "\n".join(
         f"- {fact.fact_id}：{fact.label}；引用 {fact.run_id or fact.dataset_id}，JSON Pointer `{fact.pointer}`。"
         for fact in turn.facts if any(s.fact_id == fact.fact_id for s in turn.segments)) + "\n"
+    if turn.student_analysis:
+        import json
+        detail = turn.student_analysis
+        ownership = '学生撰写解释，数值由 Python 计算事实提供。' if detail.model_authored_factual_text else '当前显示正文由程序提供。'
+        report += ('\n## 学生分析状态\n\n状态：' + detail.state + '\n\n语义审核：待审核；教师调用：0；未自动回退教师。'
+                   '\n\n本模式只使用当前问题与本次计算。' + ownership + '\n\n')
+        if detail.selection is not None:
+            report += '学生原始选择（未修复）：\n```json\n' + json.dumps(detail.selection, ensure_ascii=False, indent=2) + '\n```\n'
+        if detail.evidence_markdown:
+            report += '\n## 完整工具事实（程序提供，与学生所选重点分开）\n\n' + detail.evidence_markdown
+            report += '\n' + '\n'.join(f'- {f.fact_id}：{f.label}；运行 {f.run_id}，JSON Pointer `{f.pointer}`。' for f in turn.facts) + '\n'
+    return report

@@ -73,3 +73,83 @@ def test_qualitative_word_exemptions_do_not_allow_chinese_quantities(text):
 def test_repair_feedback_identifies_the_rejected_digit():
     with pytest.raises(ValueError, match="发现未引用数字‘零’"):
         render_answer("功率为零。", [])
+
+
+@pytest.mark.parametrize("label", ["能效比值（制冷量与实测功率之比）", "实测 COP（制冷量与实测功率之比）",
+                                  "能效比值(制冷量和实测输入功率之比)"])
+def test_explicit_cop_definition_does_not_relabel_its_operands_as_the_result(label):
+    cop=metric(label="实测COP",value=3.57,fact_id="F6").model_copy(update={"unit":"1"})
+    text=label+"：{{fact:F6}}。"
+    assert "3.57" in render_answer(text,[cop])[0]
+    for wrong in (metric(label="实测功率",value=82.4,fact_id="F6"),
+                  metric(label="实测制冷量",value=294.5,fact_id="F6")):
+        with pytest.raises(ValueError,match="指标类别"):
+            render_answer(text,[wrong])
+
+
+def test_cop_definition_resolution_preserves_other_attribution_and_number_guards():
+    cop=metric(label="实测COP",value=3.57,fact_id="F6").model_copy(update={"unit":"1"})
+    for text in ("功率：{{fact:F6}}。", "能效比值（输入功率）：{{fact:F6}}。",
+                 "功率（制冷量与实测功率之比）：{{fact:F6}}。", "COP=3.57。",
+                 "模型能效比值（制冷量与实测功率之比）：{{fact:F6}}。"):
+        with pytest.raises(ValueError):render_answer(text,[cop])
+
+
+def test_user_question_discourse_phrases_are_not_measurement_values():
+    text = ("这两项结果与这两类测量需要核对，这两个读数应按源单位理解。"
+            "COP需要一个为正的实测输入功率。根据这一规模，不能判断某一时刻是否稳定。"
+            "需要一段连续的稳态运行数据，当前只能停在这一步。")
+    assert render_answer(text, [])[0] == text
+    for claim in ("COP为两点五。", "发现两处故障。", "这两项故障已经确诊。", "只有一条记录。", "这两项结果均为零。",
+                  "功率为一个千瓦。", "温度差为一度。", "这两个读数均为44。"):
+        with pytest.raises(ValueError):render_answer(text + claim, [])
+
+
+@pytest.mark.parametrize("disclaimer", ["这不代表偏差为零。", "这并非表示偏差已被确认为零，也非表示已确认存在偏差。"])
+def test_unavailable_residual_disclaimer_needs_its_own_cited_missing_count(disclaimer):
+    missing = ChatFact(fact_id="F8", run_id="run_fixture", label="实测能量偏差有效点数", value=0,
+                       unit="条", pointer="/result/metrics/energy_balance_error_kW/valid_count", origin="sample_count")
+    text = "残差有效点数：{{fact:F8}}。" + disclaimer
+    assert render_answer(text, [missing])[0].endswith(disclaimer)
+    for altered in ([], [missing.model_copy(update={"value":1})],
+                    [missing.model_copy(update={"pointer":"/result/metrics/COP/valid_count"})],
+                    [missing, metric(value=0).model_copy(update={"run_id":"run_fixture", "pointer":"/result/metrics/energy_balance_error_kW/value"})]):
+        with pytest.raises(ValueError):render_answer(text, altered)
+    with pytest.raises(ValueError):render_answer(disclaimer, [missing])
+    for extra in ("能量偏差为零。", "功率为零。", "故障概率为零。", "能量偏差为0.0。", "这不代表偏差为零点五。"):
+        with pytest.raises(ValueError):render_answer(text + extra, [missing])
+
+
+def test_explanatory_chinese_phrases_do_not_disable_measurement_validation():
+    text = "原因有两点。其一，检查来源。其二，安排一次独立校核。缺少这一列，请补一段连续运行数据。"
+    assert render_answer(text, [])[0] == text
+    for claim in ("COP为99。", "功率为零。", "只有一条运行记录。", "发现两处故障。"):
+        with pytest.raises(ValueError):
+            render_answer(text + claim, [])
+
+
+@pytest.mark.parametrize("explanation", ["缺测不代表测得零值。",
+    "表格中的破折号表示缺必要测量，并非数值为零。", "这些项属于缺少必要输入，而非数值为零。"])
+def test_missing_value_explanation_requires_cited_missing_metric_evidence(explanation):
+    missing = ChatFact(fact_id="F1", label="实测COP有效点数", value=0, unit="条",
+                       pointer="/result/metrics/COP/valid_count", origin="sample_count")
+    assert explanation in render_answer("有效点数：{{fact:F1}}。" + explanation, [missing])[0]
+    with pytest.raises(ValueError):
+        render_answer(explanation, [missing])
+    with pytest.raises(ValueError):
+        render_answer("有效点数：{{fact:F1}}。" + explanation, [missing.model_copy(update={"value": 1})])
+    with pytest.raises(ValueError):
+        render_answer("有效点数：{{fact:F1}}。" + explanation + "实测COP为零。", [missing])
+
+
+@pytest.mark.parametrize("separator", ["，", ", ", "；", "。\n"])
+def test_missing_explanation_after_prose_and_next_step_heading(separator):
+    missing = ChatFact(fact_id="F1", label="实测COP有效点数", value=0, unit="条",
+                       pointer="/result/metrics/COP/valid_count", origin="sample_count")
+    text = ("有效点数为 {{fact:F1}}；缺少必要输入，无法计算" + separator
+            + "缺测不代表测得零值。\n**下一步建议**\n补充输入后新建对话。")
+    assert "缺测不代表测得零值" in render_answer(text, [missing])[0]
+    with pytest.raises(ValueError):
+        render_answer(text + "制冷量为零。", [missing])
+    with pytest.raises(ValueError):
+        render_answer(text.replace("{{fact:F1}}", "缺失"), [missing])

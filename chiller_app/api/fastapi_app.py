@@ -23,6 +23,8 @@ from chiller_app.model.model_definition import default_model_definition
 from .workbench import router as workbench_router, WorkbenchRequest, run_workbench
 from energy_agent.api.routes import router as agent_router
 from energy_agent.api.chat import page_router as chat_page_router, router as chat_router
+from energy_agent.api.student_analysis import router as student_analysis_router
+from energy_agent.api.focused_analysis import router as focused_analysis_router
 
 from .service import (
     analyze_records,
@@ -86,6 +88,8 @@ WEB_DIR = Path(__file__).resolve().parents[1] / "web"
 app.include_router(workbench_router)
 app.include_router(agent_router)
 app.include_router(chat_router)
+app.include_router(student_analysis_router)
+app.include_router(focused_analysis_router)
 app.include_router(chat_page_router)
 app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
 

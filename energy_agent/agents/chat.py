@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import time
 from pathlib import Path
 
 from pydantic import ValidationError
@@ -11,6 +13,7 @@ from energy_agent.contracts.chat import ChatContext, ChatFact, ChatReply, ChatRe
 from energy_agent.contracts.datasets import Contract
 from energy_agent.contracts.tools import SelectedSimulation
 from energy_agent.providers.compatible import CompatibleProvider, ProviderError
+from energy_agent.providers.audit import clean_trace
 from energy_agent.storage.chat import ChatStore
 from energy_agent.storage.repository import ReferenceNotFound
 from energy_agent.tools.chiller.tool import AssetMismatch
@@ -66,16 +69,35 @@ class ChatService:
         completed, results, tool_count, repaired = False, [], 0, False
         new_fact_ids = set()
         counter = session["fact_counter"]
+        secret = self.provider.settings.api_key.get_secret_value() if self.provider.settings.api_key else ""
+
+        def audit(kind, payload):
+            self.store.record_audit(turn.turn_id, kind, clean_trace(payload, secret))
+
         try:
+            audit("context", {"capture_version": 1, "binding": binding,
+                              "prior_turn_ids": [entry["public"]["turn_id"] for entry in recent],
+                              "dataset_info": info.model_dump(mode="json") if context.dataset_id else None,
+                              "source_group_id": None,
+                              "system_sha256": hashlib.sha256(instructions.encode("utf-8")).hexdigest(),
+                              "code_sha256": {name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
+                                              for name in ("chat.py", "reporting.py")}})
             while turn.model_calls < self.MAX_MODEL_CALLS:
                 self.store.renew(turn)
                 turn.model_calls += 1
-                message = self.provider.complete(messages, TOOLS)
+                try:
+                    message = self.provider.complete(messages, TOOLS)
+                except ProviderError as exc:
+                    audit("model_call", {"call_index": turn.model_calls, **getattr(exc, "audit", {"error_code": exc.code, "capture_incomplete": True})})
+                    raise
+                audit("model_call", {"call_index": turn.model_calls,
+                                     **getattr(message, "audit", {"capture_incomplete": True})})
                 messages.append(message)
                 wire.append(message)
                 calls = message.get("tool_calls") or []
                 if calls:
                     for call in calls:
+                        tool_started = time.perf_counter()
                         tool_count += 1
                         if tool_count > self.MAX_TOOL_CALLS:
                             payload = {"status": "limited", "message": "本轮工具调用已达上限"}
@@ -100,6 +122,8 @@ class ChatService:
                         tool_message = {"role": "tool", "tool_call_id": call.get("id", "invalid"), "content": json.dumps(payload, ensure_ascii=False, allow_nan=False)}
                         messages.append(tool_message)
                         wire.append(tool_message)
+                        audit("tool_result", {"call": call, "result": payload,
+                                              "elapsed_ms": (time.perf_counter() - tool_started) * 1000})
                     self.store.renew(turn)
                     if tool_count > self.MAX_TOOL_CALLS:
                         turn.status, turn.error_code = "limited", "TOOL_CALL_LIMIT"
@@ -115,12 +139,15 @@ class ChatService:
                         text, list(facts.values()), allow_general_numbers=general, reference_names=references)
                     if not turn.answer.strip():
                         raise ValueError("回答为空")
+                    audit("validation", {"call_index": turn.model_calls, "passed": True,
+                                         "general_knowledge": general, "error": None})
                     if general:
                         turn.report_mode = "message"
                         turn.notices.append("通用知识回答，未使用设备数据；其中数字不是当前机组的计算结果。")
                     completed = True
                     break
                 except ValueError as exc:
+                    audit("validation", {"call_index": turn.model_calls, "passed": False, "error": str(exc)})
                     if repaired:
                         turn.notices.append("模型未按证据格式回答，已显示工具事实报告。")
                         break
@@ -148,6 +175,10 @@ class ChatService:
         referenced = {segment.fact_id for segment in turn.segments if segment.fact_id}
         turn.facts = [fact for fact in facts.values() if fact.fact_id == "F0" or fact.fact_id in new_fact_ids or fact.fact_id in referenced]
         self.store.finish(session, turn, wire)
+        audit("final", {"status": turn.status, "report_mode": turn.report_mode, "model_calls": turn.model_calls,
+                        "repair_attempted": repaired, "fallback_used": not completed,
+                        "new_tool_run_ids": turn.tool_run_ids,
+                        "public_turn": turn.model_dump(mode="json"), "wire": wire})
         return turn
 
     def _execute(self, call: dict, context: ChatContext) -> tuple[dict, dict | None]:

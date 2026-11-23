@@ -7,6 +7,7 @@ from pydantic import Field, JsonValue, SecretStr, field_validator, model_validat
 
 from .datasets import Contract
 from .tools import SelectedSimulation
+from .student_analysis import StudentAnalysisDetails
 
 
 class LLMSettings(Contract):
@@ -128,7 +129,9 @@ class ChatReply(Contract):
     tool_run_ids: list[str] = Field(default_factory=list)
     tool_calls: list[ToolAction] = Field(default_factory=list)
     status: Literal["running", "completed", "needs_input", "failed", "limited"] = "completed"
-    report_mode: Literal["model", "tool_facts", "message"] = "model"
+    report_mode: Literal["model", "tool_facts", "message", "student_selection", "student_explanation"] = "model"
+    analysis_backend: Literal["provider", "student_physics", "student_explanation"] = "provider"
+    student_analysis: StudentAnalysisDetails | None = None
     model: str = ""
     model_calls: int = 0
     error_code: str | None = None

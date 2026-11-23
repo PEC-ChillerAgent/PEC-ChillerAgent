@@ -4,8 +4,8 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>冷水机组 · 智能分析</title>
   <link rel="stylesheet" href="/static/style.css?v=20261026-4">
-  <link rel="stylesheet" href="/static/chat.css?v=stage2-1">
-  <script src="/static/chat.js?v=stage2-1" defer></script>
+  <link rel="stylesheet" href="/static/chat.css?v=student-report-20261116-2">
+  <script src="/static/chat.js?v=student-explanation-20261116-1" defer></script>
 </head>
 <body>
   <aside class="sidebar">
@@ -25,6 +25,8 @@
       <section class="chat-controls" aria-label="分析上下文和模型配置">
         <div class="card">
           <div class="card-title"><h2>分析对象</h2><button id="refresh-datasets" class="text-button" type="button">刷新</button></div>
+          <label>分析模式<select id="analysis-backend"><option id="student-explanation-option" value="student_explanation" selected>学生模型 focused1186</option><option value="provider">外部模型（可选）</option><option value="student_physics" hidden disabled>历史选择器对话</option></select></label>
+          <p id="analysis-mode-description" class="help">先执行 Python 物理计算，再由 focused1186 根据本次证据回答。</p>
           <label>数据集<select id="chat-dataset"><option value="">仅聊天 · 未绑定数据</option></select></label>
           <p id="dataset-description" class="help">可从计算工作台将当前工况转入智能分析。</p>
           <p class="help">分析沿用所选数据和运行设置，按需重新计算。报告指标为有效数据点均值；工作台顶部卡片显示末条记录或末时刻。</p>
@@ -51,7 +53,7 @@
           <div class="card-title"><h2>历史对话</h2><button id="refresh-history" class="text-button" type="button">刷新</button></div>
           <select id="chat-history" aria-label="选择历史对话"><option value="">选择已保存的对话</option></select>
         </div>
-        <details id="provider-panel" class="card"><summary>模型连接配置</summary>
+        <details id="provider-panel" class="card"><summary>原模型连接配置</summary>
           <p class="help">使用服务商提供的 OpenAI 兼容接口。密钥只保存到本地服务端，不会回显到浏览器。</p>
           <label>服务地址（Base URL）<input id="llm-base-url" type="url" placeholder="https://服务地址/兼容接口前缀" autocomplete="off"></label>
           <label>模型名<input id="llm-model" type="text" placeholder="填写账户可用的模型名称" autocomplete="off"></label>

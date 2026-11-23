@@ -255,3 +255,30 @@ Thumbs.db
 # Keep Modelica reference source (not a translation catalogue)
 !tests/reference/*.mo
 
+# Local-only bearer credential for the experimental student shadow service.
+.student_credentials/
+
+# Local model paths, weights and deployment credentials
+.student.local.json
+models/
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.token
+*.pem
+
+# Private research work and archived/generated outputs
+/.agents/
+/.aris/
+/.codex/
+/skills-lock.json
+/MANIFEST.md
+/refine-logs/
+/research/
+/paper/
+/implement-stage/
+/tmp/
+/pytest-cache-files-*/
+/figures/*
+

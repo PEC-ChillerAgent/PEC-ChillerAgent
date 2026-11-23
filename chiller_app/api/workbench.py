@@ -64,6 +64,9 @@ class WorkbenchRequest(BaseModel):
     records: list[dict[str, Any]] = Field(min_length=1, max_length=MAX_ROWS)
     data_schema: WorkbenchSchema = Field(alias="schema")
     simulation: SimulationSettings = Field(default_factory=SimulationSettings)
+    # Legacy inference remains the default for existing saved/API workflows.
+    # New generic datasets can explicitly preserve declared source units.
+    source_unit_policy: Literal['legacy_ashrae','explicit'] = 'legacy_ashrae'
 
 
 def json_safe(value: Any) -> Any:
@@ -144,6 +147,7 @@ def _normalize(request: WorkbenchRequest) -> tuple[pd.DataFrame, list[dict[str, 
     )
     inferred_columns: dict[str, str] = {}
     automatic_units: dict[str, str] = {}
+    explicit_unit_checks: list[dict[str, str]] = []
     if ashrae_signature:
         source_aliases = {
             "timestamp": ("time", "times", "timeseconds", "timeminutes"),
@@ -166,6 +170,29 @@ def _normalize(request: WorkbenchRequest) -> tuple[pd.DataFrame, list[dict[str, 
         automatic_units = {"temperature_unit": inferred_temperature_unit, "flow_unit": "us_gpm"}
         if mapping.get("P_W") and header_key(mapping["P_W"]) == "kw":
             automatic_units["power_unit"] = "kW"
+    if request.source_unit_policy == 'explicit':
+        import re
+        for field, source_column in mapping.items():
+            key=header_key(source_column);header_unit=None;declared=None
+            if field in ('TEI_K','TEO_K','TCI_K','TCO_K','TSet_K'):
+                prefix={'TEI_K':'tei','TEO_K':'teo','TCI_K':'tci','TCO_K':'tco','TSet_K':'tweset'}[field]
+                for unit in ('C','F','K'):
+                    if key==prefix+unit.lower():header_unit=unit
+                suffix=re.search(r'(?:[_\s(°])([CFK])\)?\s*$',source_column,re.I)
+                if suffix:header_unit=suffix.group(1).upper()
+                declared=request.data_schema.temperature_unit
+            elif field in ('evap_flow_kg_s','cond_flow_kg_s'):
+                if key in ('fwegpm','fweusgpm','fwcgpm','fwcusgpm'):header_unit='us_gpm'
+                declared=request.data_schema.flow_unit
+            elif field=='P_W':
+                if key=='kw':header_unit='kW'
+                declared=request.data_schema.power_unit
+            if header_unit is not None:
+                if header_unit!=declared:
+                    raise ValueError(f'源列 {source_column} 的单位标记 {header_unit} 与声明单位 {declared} 不一致；请核对源数据和单位设置。')
+                explicit_unit_checks.append({'field':field,'source_column':source_column,'unit':header_unit})
+        # A bare TEI/FWE header is not permission to override explicit units.
+        automatic_units={}
     if not any(k in mapping for k in SIGNALS):
         raise ValueError("请至少映射一个温度、流量或功率字段。")
     resolved_schema = request.data_schema.model_copy(update={
@@ -207,6 +234,9 @@ def _normalize(request: WorkbenchRequest) -> tuple[pd.DataFrame, list[dict[str, 
         input_inference["auto_mapped_columns"] = inferred_columns
     if automatic_units:
         input_inference["assumed_source_units"] = automatic_units
+    if request.source_unit_policy=='explicit':
+        input_inference.update(source_unit_policy='explicit',declared_units_preserved=True,
+            recognized_header_unit_checks=explicit_unit_checks)
     return frame, issues, resolved_schema, input_inference
 
 

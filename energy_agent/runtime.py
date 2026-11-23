@@ -20,7 +20,8 @@ class AgentRuntime:
 
     def register_dataset(self, request: DatasetCreate | dict) -> DatasetInfo:
         request = request if isinstance(request, DatasetCreate) else DatasetCreate.model_validate(request)
-        checked = run_model({"operation": "calculate", "records": request.records, "schema": request.data_schema.model_dump()})
+        checked = run_model({"operation": "calculate", "records": request.records, "schema": request.data_schema.model_dump(),
+                             "source_unit_policy":request.source_unit_policy})
         return self.repository.create_dataset(
             request, effective_schema=WorkbenchSchema.model_validate(checked["metadata"]["schema"]),
             quality={"invalid_measurement_count": len(checked["issues"]),

@@ -1,0 +1,12 @@
+# GPU inference environment used by the frozen focused1186 experiment. Python 3.11.
+# Install only on the GPU host; the local web/Python application does not need torch.
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch==2.6.0+cu124
+transformers==4.51.3
+tokenizers==0.21.4
+peft==0.15.2
+accelerate==1.6.0
+huggingface-hub==0.36.2
+safetensors==0.8.0
+numpy==1.26.4
+Jinja2==3.1.6

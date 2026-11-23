@@ -77,7 +77,8 @@ class ChillerTool:
         if dataset.info.asset_id != request.asset_id:
             raise AssetMismatch("asset_id does not match the dataset's registered equipment")
         base_request = {"operation": "calculate", "records": dataset.records,
-                        "schema": dataset.info.effective_schema.model_dump()}
+                        "schema": dataset.info.effective_schema.model_dump(),
+                        "source_unit_policy":dataset.info.source_unit_policy}
         physical = run_model(base_request)
         missing = [entry for target, fields in PHYSICS_TARGETS.items()
                    if (entry := missing_for(target, fields, physical["records"])) is not None]
@@ -132,7 +133,7 @@ class ChillerTool:
         warnings += [Diagnostic(code="INVALID_MEASUREMENT", message=f"{field}: invalid inputs were left null",
                                 count=len(indices), source_row_examples=list(dict.fromkeys(indices))[:10]) for field, indices in groups.items()]
         inference = dataset.info.quality.get("input_inference")
-        if inference:
+        if inference and (inference.get('auto_mapped_columns') or inference.get('assumed_source_units')):
             warnings.append(Diagnostic(code="SOURCE_SCHEMA_INFERRED", message="Workbench ASHRAE header inference changed or completed the supplied schema; inspect source_schema and effective_schema", count=dataset.info.row_count))
         validity = ModelValidity()
         if simulated:

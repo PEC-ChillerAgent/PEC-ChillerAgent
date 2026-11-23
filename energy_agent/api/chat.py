@@ -1,6 +1,6 @@
 """Conversation and provider-configuration endpoints."""
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from fastapi.responses import FileResponse, PlainTextResponse
 from pathlib import Path
 
@@ -12,6 +12,8 @@ from energy_agent.contracts.chat import ChatReply, ChatRequest, LLMConfigUpdate
 from energy_agent.providers.compatible import CompatibleProvider, ProviderError
 from energy_agent.runtime import AgentRuntime
 from energy_agent.storage.chat import ChatStore, SessionBusy
+from energy_agent.config.student_shadow import StudentShadowSettings
+from energy_agent.providers.student_shadow import schedule_shadow, latest_shadow, recent_shadow
 
 router = APIRouter(prefix="/agent/v1", tags=["智能分析 · 第二阶段"])
 page_router = APIRouter()
@@ -56,13 +58,58 @@ def test_connection(instance: AgentRuntime = Depends(runtime)):
 
 
 @router.post("/chat", response_model=ChatReply)
-def chat(request: ChatRequest, instance: AgentRuntime = Depends(runtime)):
+def primary_chat(request: ChatRequest, instance: AgentRuntime = Depends(runtime)):
+    """Default API follows the same compute-first focused1186 path as the page."""
+    from energy_agent.api.focused_analysis import analyze
+    return analyze(request, instance)
+
+
+@router.post("/chat/external", response_model=ChatReply)
+def chat(request: ChatRequest, background_tasks: BackgroundTasks, instance: AgentRuntime = Depends(runtime)):
     try:
-        return call(ChatService(instance, call(provider, instance)).send, request)
+        reply = call(ChatService(instance, call(provider, instance)).send, request)
+        schedule_shadow(background_tasks, instance.repository, reply.model_dump(mode="json"))
+        return reply
     except ProviderError as exc:
         raise provider_http_error(exc) from exc
     except SessionBusy as exc:
         raise HTTPException(409, str(exc)) from exc
+
+
+@router.get("/student-shadow/config")
+def student_shadow_config():
+    try:
+        return StudentShadowSettings.from_environment().public()
+    except (ValueError, OSError):
+        return {"enabled": False, "configuration_error": True, "primary_model_changed": False}
+
+
+@router.get("/student-shadow/recent")
+def student_shadow_recent(limit: int = Query(3, ge=1, le=20), instance: AgentRuntime = Depends(runtime)):
+    return {"records": call(recent_shadow, instance.repository, limit), "training_labels_approved": False}
+
+
+@router.get("/chat/sessions/{session_id}/turns/{turn_id}/student-shadow")
+def student_shadow_result(session_id: str, turn_id: str, instance: AgentRuntime = Depends(runtime)):
+    call(ChatStore(instance.repository).get_turn, session_id, turn_id)
+    return call(latest_shadow, instance.repository, turn_id)
+
+
+@router.get("/chat/sessions/{session_id}/turns/{turn_id}/student-shadow/report")
+def student_shadow_report(session_id: str, turn_id: str, instance: AgentRuntime = Depends(runtime)):
+    turn = call(ChatStore(instance.repository).get_turn, session_id, turn_id)
+    result = call(latest_shadow, instance.repository, turn_id)
+    lines = ["# 页面回答与学生对照", "用户问题：" + turn.user_message,
+             "## 页面原回答", turn.answer, "## 学生对照状态", result["state"]]
+    if result["state"] == "recorded":
+        record = result["shadow"]
+        lines += ["模型原始选择：", "```json\n" + record["raw_model_response"] + "\n```",
+                  "## 程序按学生选择生成的报告", record["presentation"]["answer_markdown"],
+                  "数值、公式及固定判断边界由程序提供；原模型选项未修复，内容仍待审核。"]
+    else:
+        lines += ["本条对照尚未完成或未进入试用范围，请刷新学生状态。"]
+    return PlainTextResponse("\n\n".join(lines) + "\n", media_type="text/markdown",
+                             headers={"Content-Disposition": f'attachment; filename="{turn_id}_student_shadow.md"'})
 
 
 @router.get("/chat/sessions")

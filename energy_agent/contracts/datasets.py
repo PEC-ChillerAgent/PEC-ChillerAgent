@@ -32,6 +32,7 @@ class DatasetCreate(Contract):
     records: list[dict[str, JsonValue]] = Field(min_length=1, max_length=MAX_ROWS)
     data_schema: SourceSchema = Field(alias="schema")
     source: SourceInfo = Field(default_factory=SourceInfo)
+    source_unit_policy: Literal['legacy_ashrae','explicit'] = 'legacy_ashrae'
 
     @field_validator("asset_id")
     @classmethod
@@ -63,6 +64,7 @@ class DatasetInfo(Contract):
     source_schema: SourceSchema
     effective_schema: WorkbenchSchema
     quality: dict[str, JsonValue] = Field(default_factory=dict)
+    source_unit_policy: Literal['legacy_ashrae','explicit'] = 'legacy_ashrae'
 
 
 class DatasetSnapshot(Contract):

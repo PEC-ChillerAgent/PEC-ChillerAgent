@@ -21,8 +21,18 @@ class ChatStore:
             db.execute("CREATE TABLE IF NOT EXISTS chat_sessions (id TEXT PRIMARY KEY, payload TEXT NOT NULL, active_turn TEXT, busy_until REAL NOT NULL DEFAULT 0)")
             db.execute("CREATE TABLE IF NOT EXISTS chat_turns (id TEXT PRIMARY KEY, session_id TEXT NOT NULL, public TEXT NOT NULL, wire TEXT NOT NULL)")
             db.execute("CREATE INDEX IF NOT EXISTS chat_turn_session ON chat_turns(session_id)")
+            db.execute("CREATE TABLE IF NOT EXISTS chat_audit_events (id INTEGER PRIMARY KEY AUTOINCREMENT, turn_id TEXT NOT NULL, kind TEXT NOT NULL, payload TEXT NOT NULL)")
+            db.execute("CREATE INDEX IF NOT EXISTS chat_audit_turn ON chat_audit_events(turn_id, id)")
 
-    def begin(self, request: ChatRequest, model: str) -> tuple[dict, ChatReply]:
+    def record_audit(self, turn_id: str, kind: str, payload: dict) -> None:
+        """Persist each completed step separately so later failures keep earlier evidence."""
+        with self.repository._connection() as db:
+            db.execute("INSERT INTO chat_audit_events(turn_id, kind, payload) VALUES (?, ?, ?)",
+                       (turn_id, kind, encode(payload)))
+
+    def begin(self, request: ChatRequest, model: str, *, analysis_backend: str = 'provider') -> tuple[dict, ChatReply]:
+        if analysis_backend not in ('provider', 'student_physics', 'student_explanation'):
+            raise ValueError('Unsupported analysis backend')
         now = utc_now()
         with self.repository._connection() as db:
             db.execute("BEGIN IMMEDIATE")
@@ -31,6 +41,8 @@ class ChatStore:
                 if row is None:
                     raise ReferenceNotFound("Chat session not found")
                 session = json.loads(row[0])
+                if session.get('analysis_backend', 'provider') != analysis_backend:
+                    raise ValueError('会话分析模式已固定；切换学生或原模型时请新建对话。')
                 if row[1] and row[2] > time.time():
                     raise SessionBusy("该会话正在处理消息，请等待完成后再发送")
                 if row[1]:
@@ -41,10 +53,11 @@ class ChatStore:
                         db.execute("UPDATE chat_turns SET public = ?, wire = '[]' WHERE id = ?", (encode(public), row[1]))
             else:
                 session = {"session_id": "chat_" + uuid4().hex, "context": (request.context or ChatContext()).model_dump(mode="json"),
-                           "title": request.message[:60], "created_at": now, "updated_at": now, "fact_counter": 0}
+                           "title": request.message[:60], "created_at": now, "updated_at": now, "fact_counter": 0,
+                           "analysis_backend": analysis_backend}
                 db.execute("INSERT INTO chat_sessions(id, payload) VALUES (?, ?)", (session["session_id"], encode(session)))
             turn = ChatReply(session_id=session["session_id"], turn_id="turn_" + uuid4().hex, created_at=now,
-                             user_message=request.message, answer="", model=model, status="running")
+                             user_message=request.message, answer="", model=model, status="running", analysis_backend=analysis_backend)
             db.execute("INSERT INTO chat_turns VALUES (?, ?, ?, '[]')", (turn.turn_id, turn.session_id, turn.model_dump_json()))
             db.execute("UPDATE chat_sessions SET active_turn = ?, busy_until = ? WHERE id = ?",
                        (turn.turn_id, time.time() + self.LEASE_SECONDS, turn.session_id))
