@@ -8,7 +8,7 @@ PEC-ChillerAgent 将 **Python物理计算、可追溯运行证据与领域学生
 
 默认学生路径已接入项目：**Python负责计算，Qwen3-8B＋单个LoRA负责解释，程序负责校验与事实引用呈现**。服务异常或回答检查失败时显示当前工具事实报告，默认路径不调用DeepSeek。项目同时保留可显式选择的外部模型工具调用路径。
 
-[快速启动](#快速启动) · [项目架构](#项目架构) · [目录树](#目录树) · [学生部署](#学生模型部署) · [训练与评测](#训练与评测) · [论文图集](figures/README.md) · [API示例](#api与代码调用) · [常见问题](#常见问题)
+[快速启动](#快速启动) · [项目架构](#项目架构) · [目录树](#目录树) · [学生部署](#学生模型部署) · [学生训练](#学生训练) · [架构与训练图集](figures/README.md) · [API示例](#api与代码调用) · [常见问题](#常见问题)
 
 ![系统路径与学生适配](figures/paper/tu0.2.png)
 
@@ -99,13 +99,11 @@ PEC-ChillerAgent/
 ├── deployment/focused1186.json            # 模型、tokenizer及适配器SHA-256
 ├── scripts/                               # 应用、GPU服务与SSH隧道启动
 ├── examples/                              # 可公开的合成数据与请求示例
-├── research/                              # 与应用隔离的历史研究源码快照
-│   ├── focused1186_sft/                   # 最终815条训练池对应SFT代码
-│   └── physics120_eval/                   # 120题开放权重基线评测代码
-├── results/physics120/                    # 四模型汇总指标及口径，不含原始数据
+├── research/                              # 与应用隔离的训练源码快照
+│   └── focused1186_sft/                   # 最终SFT代码与配置，不含训练样本
 ├── figures/
 │   ├── *.mmd / *.md / *.png               # 经渲染检查的可编辑工程图
-│   └── paper/                             # 8份Visio原稿、PDF和PNG预览
+│   └── paper/                             # 5份系统/训练图稿、PDF和PNG预览
 ├── docs/                                  # 架构、部署、复现、物理与采集文档
 ├── tests/                                 # 物理、工作台和前端回归
 │   └── reference/                         # Modelica参考模型与仿真输出
@@ -113,6 +111,8 @@ PEC-ChillerAgent/
 ```
 
 运行时生成的 `outputs/`、`.student.local.json` 和 `.student_credentials/` 不入库。`research/`保留历史源码命名空间 `student_tools`，应用实际使用 `chiller_student`；两者不是两套同时运行的学生模型。
+
+**仓库只发布训练代码、Agent系统及配套文档。** 训练集、测试题目、参考答案、评测结果和模型权重由本地单独保存。`examples/`是运行示例，`tests/`是软件回归检查，`buildings_eir_catalogue.json`是仿真所需性能参数；它们不属于学生模型的训练集或测试题库。
 
 ## 快速启动
 
@@ -312,7 +312,7 @@ with httpx.Client(base_url='http://127.0.0.1:8001', timeout=70, trust_env=False)
 
 `student_explanation`表示学生正文经有限检查后展示；`tool_facts`表示程序事实回退。HTTP成功不能单独证明模型回答成功。完整工具API见[energy_agent说明](energy_agent/README.md)。
 
-## 训练与评测
+## 学生训练
 
 ![教师辅助训练与在线分析](figures/paper/tu2.png)
 
@@ -331,18 +331,19 @@ with httpx.Client(base_url='http://127.0.0.1:8001', timeout=70, trust_env=False)
 
 `1186`指最终一轮更新数，不是全部历史训练成本。保留谱系还包含之前阶段，最终推理加载一个继承训练的适配器，不叠加多个历史LoRA。最终训练源码和固定计划见 [research/focused1186_sft](research/focused1186_sft/PUBLICATION.md)。
 
-## 论文图与文档
+训练样本和参考答案不随代码发布。训练入口保留原有完整性检查，使用时需要在私有目录补齐对应材料，详见[训练源码与数据准备](docs/research_reproduction.md)。日常使用已训练模型无需重新训练。
 
-已收录8份原始 `.vsdx`、对应PDF和PNG预览。Visio可继续编辑，GitHub直接显示PNG；不改变作者原图的文字或统计。
+## 架构与训练图
+
+保留5份系统架构及训练流程的原始 `.vsdx`、对应PDF和PNG预览。Visio可继续编辑，GitHub直接显示PNG。
 
 | 图稿 | 内容 |
 |---|---|
 | `tu0.1` / `tu0.2` | 通用Agent流程、学生路径与LoRA适配 |
 | `tu1` | 水侧公式、缺测与类型化证据 |
 | `tu2` / `tu3` | 教师辅助训练、在线解释、答案级监督 |
-| `tu4` / `tu5` / `tu6` | 四模型总结果、题型分解、格式与引用指标 |
 
-完整预览、下载和图注见[论文图集](figures/README.md)。PDF编号为 `Figure_1`到`Figure_8`，与Visio文件名的映射在图集中明确列出。
+完整预览、下载和图注见[图集](figures/README.md)。PDF编号为 `Figure_1`到`Figure_5`，与Visio文件名的映射在图集中明确列出。
 
 ## 验证与开发
 
@@ -372,6 +373,6 @@ CI只运行软件测试；研究目录不自动触发训练或外部API采集。
 
 ## 发布内容与许可
 
-本仓库发布应用代码、推理代码、选定的训练/评测源码快照、合成示例、汇总结果和作者提供的图稿。模型权重、真实测量原表、训练/测试样本正文、API密钥、SQLite数据库及私人论文工作目录不包含在本次代码发布中。
+本仓库发布应用代码、推理代码、最终SFT源码快照、必要的运行示例、软件回归检查和架构/训练图。模型权重、真实测量原表、训练集、测试题库、参考答案、模型比较结果、API密钥、SQLite数据库及私人论文工作目录不包含在当前发布中。
 
 Buildings相关来源和许可保留在[BUILDINGS_LICENSE.txt](chiller_app/model/BUILDINGS_LICENSE.txt)。基础模型、第三方数据与其他依赖遵循各自许可；仓库目前未添加项目整体LICENSE，公开可读不自动代表对所有材料授予再分发许可。完整数据和权重的公开地址另行确定。

@@ -45,33 +45,6 @@
       "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
       "tu3.vsdx_sha256": "b62e0584cbea7dc8950e5c8ddbd69396a334b198a03717c9635c51fda9253c38",
       "Figure_5.pdf_sha256": "c6eecb31b67603d957c9281fa69d7120e2d7eca5e49c73843431d2ac8ae82baf"
-    },
-    {
-      "source": "tu4.vsdx",
-      "title": "四模型内容通过及配对比较",
-      "pdf": "Figure_6.pdf",
-      "preview": "tu4.png",
-      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
-      "tu4.vsdx_sha256": "17decdf12d6e980fcbcb66137b9c2c6afb807c605f22dcf9f7fb382c0f3d5ce5",
-      "Figure_6.pdf_sha256": "f142a8a97e24a28c067d68698c259220409e739ce18f09e81e755f0da3112868"
-    },
-    {
-      "source": "tu5.vsdx",
-      "title": "题型和基础工况分解",
-      "pdf": "Figure_7.pdf",
-      "preview": "tu5.png",
-      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
-      "tu5.vsdx_sha256": "d8d54a09a882db290d44dea9fd758a376eda760950e77da8b562121ad4228ba2",
-      "Figure_7.pdf_sha256": "d0f5688d7aef6def70f9ebc3544e1908f2bbf68307e0bcd03853ba5d788161c9"
-    },
-    {
-      "source": "tu6.vsdx",
-      "title": "格式、关键错误及引用支持",
-      "pdf": "Figure_8.pdf",
-      "preview": "tu6.png",
-      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
-      "tu6.vsdx_sha256": "ce62baceba22f74f16c87fab0569cbf769432f101704638a9f04aa1edde3b90c",
-      "Figure_8.pdf_sha256": "6a9317bd6a48a1317e7c44d59ef13db3f6afc99ceb8c4a6c31f1c8922e093fae"
     }
   ]
 }

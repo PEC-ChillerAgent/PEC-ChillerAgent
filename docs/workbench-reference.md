@@ -82,7 +82,7 @@ chiller_model/
 │  └─ web/                当前网页
 ├─ tests/                 Python/API、图表及 Modelica 参考对照
 ├─ chiller_student/       focused1186推理、协议及输出检查
-├─ research/              最终SFT与120题评测的历史源码快照
+├─ research/              最终SFT训练源码快照，不含数据集或题库
 ├─ examples/              输入协议示例
 ├─ docs/                  模型、研究与 Agent 设计说明
 └─ outputs/               运行数据及报告，不进入Git仓库

@@ -1,6 +1,6 @@
-# 论文图与可编辑架构图
+# 系统架构与学生训练图
 
-原始Visio与PDF由作者提供并原样保存，PNG从对应PDF渲染以供GitHub预览。文件对应关系及SHA-256见[清单](paper/figure_manifest.json)。图稿里的统计口径应结合[结果说明](../results/physics120/README.md)阅读。
+保留5份系统架构与训练流程图。原始Visio与PDF由作者提供并原样保存，PNG从对应PDF渲染以供GitHub预览。文件对应关系及SHA-256见[清单](paper/figure_manifest.json)。模型比较结果图由作者在本地另行保存，不在当前代码仓库发布。
 
 ## 当前代码架构图
 
@@ -57,27 +57,3 @@ npx --yes @mermaid-js/mermaid-cli@12.2.0 -i figures/system-architecture.mmd -o f
 ![答案级监督与LoRA](paper/tu3.png)
 
 提示位置屏蔽、答案级监督与LoRA更新。历史1186次更新属于最后一轮，不是全部训练成本。
-
-### tu4：四模型内容通过及配对比较
-
-[Visio源文件](paper/tu4.vsdx) · [PDF（Figure_6.pdf）](paper/Figure_6.pdf) · [PNG](paper/tu4.png)
-
-![四模型内容通过及配对比较](paper/tu4.png)
-
-四模型总结果与配对比较。120题为原128题的后验子集；GPT名称为中转自报身份。
-
-### tu5：题型和基础工况分解
-
-[Visio源文件](paper/tu5.vsdx) · [PDF（Figure_7.pdf）](paper/Figure_7.pdf) · [PNG](paper/tu5.png)
-
-![题型和基础工况分解](paper/tu5.png)
-
-按15类任务和8个基础工况分解的结果；共享工况题目不应当作120个独立设备样本。
-
-### tu6：格式、关键错误及引用支持
-
-[Visio源文件](paper/tu6.vsdx) · [PDF（Figure_8.pdf）](paper/Figure_8.pdf) · [PNG](paper/tu6.png)
-
-![格式、关键错误及引用支持](paper/tu6.png)
-
-内容、严格JSON、关键错误及引用指标分别统计。必需引用支持度使用16题子集；GPT上游身份未独立核实。

@@ -278,7 +278,6 @@ models/
 /research/*
 !/research/README.md
 !/research/focused1186_sft/
-!/research/physics120_eval/
 /research/**/data/
 /research/**/checks/
 /research/**/reference/
@@ -294,4 +293,19 @@ models/
 !/figures/student-training.*
 !/figures/paper/
 /output/
+
+# Training/evaluation corpora and experiment results stay private.
+*.jsonl
+*.xlsx
+*.xls
+/dataset/
+/datasets/
+/data/
+/results/
+/figures/paper/tu4.*
+/figures/paper/tu5.*
+/figures/paper/tu6.*
+/figures/paper/Figure_6.pdf
+/figures/paper/Figure_7.pdf
+/figures/paper/Figure_8.pdf
 
