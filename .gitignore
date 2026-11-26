@@ -276,7 +276,6 @@ models/
 /MANIFEST.md
 /refine-logs/
 /research/*
-!/research/README.md
 !/research/focused1186_sft/
 /research/**/data/
 /research/**/checks/
@@ -298,4 +297,12 @@ models/
 /datasets/
 /data/
 /results/
+
+# Keep only the operational deployment and training guides public.
+/docs/*
+!/docs/student_deployment.md
+!/docs/research_reproduction.md
+/energy_agent/config/README.md
+/energy_agent/prompts/README.md
+/energy_agent/tests/README.md
 

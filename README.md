@@ -38,8 +38,6 @@ PEC-ChillerAgent 将 **Python物理计算、可追溯运行证据与领域学生
 
 程序检查是有限检查，不是对所有自然语言推理的完备证明。学生正文与程序事实报告在接口中有不同标识，工具回退不计学生回答成功。
 
-更多模块映射见[架构与数据流](docs/architecture.md)。
-
 ## 目录树
 
 ```text
@@ -94,10 +92,11 @@ PEC-ChillerAgent/
 ├── scripts/                               # 应用、GPU服务与SSH隧道启动
 ├── research/                              # 与应用隔离的训练源码快照
 │   └── focused1186_sft/                   # 最终SFT代码与配置，不含训练样本
-├── docs/                                  # 架构、部署、复现、物理与采集文档
-├── tests/                                 # 物理、工作台和前端回归
-│   └── reference/                         # Modelica参考模型与仿真输出
-└── implement-stage/                       # 早期实施记录，当前入口以本README为准
+├── docs/                                  # 仅保留部署与训练准备说明
+│   ├── student_deployment.md              # GPU服务、本机连接与故障排查
+│   └── research_reproduction.md           # SFT材料准备与教师记录导出
+└── tests/                                 # 物理、工作台和前端回归
+    └── reference/                         # Modelica参考模型与仿真输出
 ```
 
 运行时生成的 `outputs/`、`.student.local.json` 和 `.student_credentials/` 不入库。`research/`保留历史源码命名空间 `student_tools`，应用实际使用 `chiller_student`；两者不是两套同时运行的学生模型。
@@ -214,7 +213,9 @@ GPU服务、SSH隧道和本机应用是三个进程。模型在同一台具备�
 | `CHILLER_BASE_MODEL_DIR` / `CHILLER_ADAPTER_DIR` | 服务端模型路径，可被CLI参数覆盖 |
 | `ENERGY_AGENT_LLM_BASE_URL` / `MODEL` / `API_KEY` | 可选外部Provider；完整变量名均以 `ENERGY_AGENT_LLM_` 开头 |
 
-`.env.example`用于说明，不会自动加载。配置优先级和当前提示词位置见[配置说明](energy_agent/config/README.md)与[提示词说明](energy_agent/prompts/README.md)。
+`.env.example`用于说明，不会自动加载。学生连接的环境变量优先于`.student.local.json`；连接状态用`python -m chiller_student.check_connection`核对。外部模型的密钥只用于用户显式选择的外部路径。
+
+外部Agent提示词位于`energy_agent/prompts/system.md`。默认学生输入由`chiller_student/focused_contract.py`及`planned_task_contract_v2.py`构建，包含当前问题、本次Python事实和待答清单，使用Qwen非思考模板；更改这些协议后需要重新验证模型回答。
 
 ## 物理计算与数据约定
 
@@ -235,7 +236,13 @@ $$COP=Q_e/P,\qquad R=Q_c-Q_e-P$$
 - 指标值和有效点数是不同事实；多行指标均值不自动代表时段能耗或时段COP。
 - 默认学生接受单行物理分析；ElectricEIR使用工作台或显式外部Agent路径。
 
-详细单位、参数和模型约定见[工作台参考](docs/workbench-reference.md)、[物理场景](docs/physical_scenario.md)、[Buildings数值对齐](docs/buildings_alignment.md)。
+源单位支持温度K/°C/°F、流量kg/s、m³/s、m³/h或US gpm、功率W/kW。同一请求内同类物理量共用单位。工作台默认比热4184 J/(kg·K)、密度995.586 kg/m³；研究用DataSchema默认4180、1000。比较计算结果时应核对实际生效物性。
+
+ElectricEIR仿真需要两侧进水温度、正向流量、出水设定温度及匹配的性能参数，提供158组水冷记录，也支持自定义曲线。实测功率和出水温度用于比较，不驱动仿真状态；模拟COP与实测COP分开输出。自定义性能参数使用SI单位，曲线按摄氏温度拟合。
+
+动态仿真按独立运行段初始化，默认两侧初温为5°C、25°C，时间常数各30秒；组内时间须严格递增。输入按零阶保持，首点输出初态，求解使用SciPy BDF。稳态仿真逐行求解，不使用热容和初态。性能曲线须适配目标机组；理想设定值控制、恒物性水和动态储热均应纳入结果解释。功率不含水泵与风机，模型不包含完整制冷剂循环或水力网络。
+
+`/model/electric-eir/calibrate`只在有依据的健康稳态数据上拟合单个功率尺度。数值对齐使用`tests/reference/`内的Modelica参考模型和输出，可用`python tests/reference/compare_eir.py`复核；目标机组适用性仍需另行验证。
 
 ## API与代码调用
 

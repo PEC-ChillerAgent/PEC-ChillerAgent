@@ -2,7 +2,7 @@
 
 已实现冷水机组工具、持久数据集引用和统一输入输出。Python、CLI、HTTP 共用同一 Runtime、注册表和工具实现；实际数值计算仍由 `chiller_app` 完成。当前任务为 `physics`、`simulate`、`compare`。
 
-当前页面默认采用focused1186学生路径：后台先运行Python物理工具，再按当前证据解释。外部模型工具循环保留为显式可选入口。启动应用后访问 `/chat`；部署见[学生说明](../docs/student_deployment.md)，模块关系见[架构说明](../docs/architecture.md)。
+当前页面默认采用focused1186学生路径：后台先运行Python物理工具，再按当前证据解释。外部模型工具循环保留为显式可选入口。启动应用后访问 `/chat`；部署见[学生说明](../docs/student_deployment.md)，整体流程见[项目README](../README.md#项目架构)。
 
 ## 直接运行
 
@@ -180,4 +180,6 @@ energy_agent/
 python -B -m pytest -q -p no:cacheprovider tests energy_agent/tests
 ```
 
-自动训练/校准/优化及设备控制未接入聊天工具。机组现场适配状态标记为not_assessed；底层数值一致性不代表现场诊断准确率。实施选择和验收记录见 `implement-stage/` 与 `implement-stage/stage2/`。
+测试使用真实Python计算与合成模型传输，覆盖当前运行引用、身份检查、缺测、超时、格式错误和回退；不调用付费API或启动训练。它验证软件行为，不能替代真实GPU回答质量评估。
+
+自动训练/校准/优化及设备控制未接入聊天工具。机组现场适配状态标记为not_assessed；底层数值一致性不代表现场诊断准确率。

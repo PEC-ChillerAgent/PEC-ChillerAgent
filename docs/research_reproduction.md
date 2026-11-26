@@ -33,6 +33,22 @@ python -m student_tools.focused_task_sft \
 
 如果希望训练新的数据集，应另建实验目录和清单，保留原始快照；不要复用原实验哈希或覆盖历史模型。
 
+## 从应用导出待审核教师记录
+
+外部模型对话的请求、可见回复、工具运行和校验结果保存在SQLite的`chat_audit_events`中；单独运行物理工作台不会生成教师回复。使用实际轮次编号和原始数据来源组导出：
+
+```bash
+python -m energy_agent.distillation.export \
+  --db outputs/energy_agent/agent.sqlite3 \
+  --turn <turn_id> \
+  --source-group <原始数据来源组> \
+  --output outputs/student_candidates/sample_review.json
+```
+
+该命令只读数据库，不调用模型，不覆盖已有输出。导出省略具名凭据和供应商私有思考字段，但不会对任意用户文本进行全面脱敏；公开前仍需审核。历史缺失的请求、版本或用量不会自动补出。
+
+同一原始试验的切片、缺测变体和改写问题应放在同一来源组，再按来源组划分训练与验证材料。导出默认`training_approved=false`、`split=unassigned`，需经过内容审核、去重、来源划分和原生token/loss mask检查；失败回答与工具回退报告不能直接当作正确教师答案。此导出器提供候选材料，不能直接生成可用SFT训练集。
+
 ## 软件与部署验证
 
 | 层次 | 当前提供 | 不能替代 |
