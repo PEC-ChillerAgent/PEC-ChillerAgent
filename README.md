@@ -31,7 +31,9 @@ PEC-ChillerAgent 将 **Python物理计算、可追溯运行证据与领域学生
 
 ## 项目架构
 
-![默认学生分析架构](figures/system-architecture.png)
+**分析流程：** 用户问题与工况 → Python物理计算 → 证据与待答清单 → 学生模型解释 → 校验与报告。
+
+[查看完整架构图](figures/system-architecture.png)
 
 1. **绑定输入**：保存原始数据、映射、源单位和生效参数，生成不可变 `dataset_id`。
 2. **执行Python**：`AgentRuntime` 调用冷水机组工具，生成本次 `run_id` 和完整计算产物。
