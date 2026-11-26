@@ -1,147 +1,391 @@
-# Chiller Lab 冷水机组物理计算与学生模型分析
+# PEC-ChillerAgent
 
-Chiller Lab 将水侧物理计算、ElectricEIR 仿真工作台与证据约束语言分析连接起来。**默认智能分析模型为 focused1186：后台先执行 Python 物理工具，再由学生依据本次结果回答。**
+**面向冷水机组运行分析的物理证据约束智能体**
 
-学生采用冻结的 Qwen3-8B 基座加一个 LoRA。学生服务异常时显示本次工具事实，不自动调用 DeepSeek 或其他外部模型。外部模型入口保留为用户显式选择的兼容工具调用模式。
+*Physical-evidence-constrained analysis for water-cooled chillers.*
 
-[部署学生模型](docs/student_deployment.md) · [物理计算说明](docs/workbench-reference.md) · [API 文档](#接口) · [开发验证](#验证)
+PEC-ChillerAgent 将 **Python物理计算、可追溯运行证据与领域学生模型** 连接起来。用户输入工况并提问，系统执行计算，再由 `focused1186` 根据本次结果解释制冷量、功率、COP、缺测和判断边界。页面名称保留为 **Chiller Lab**。
 
-## 当前能力
+默认学生路径已接入项目：**Python负责计算，Qwen3-8B＋单个LoRA负责解释，程序负责校验与事实引用呈现**。服务异常或回答检查失败时显示当前工具事实报告，默认路径不调用DeepSeek。项目同时保留可显式选择的外部模型工具调用路径。
 
-| 模块 | 功能与边界 |
-|---|---|
-| 数据与计算工作台 | 单条工况、CSV/XLSX/XLS、列映射、单位转换、有效点数和结果导出 |
-| 水侧物理计算 | 制冷量、冷凝热、输入功率、实测COP及代数能量平衡偏差 |
-| ElectricEIR | 匹配性能曲线下的稳态/动态计算及实测比较，计算由Python完成 |
-| 默认学生分析 | focused1186依据当前单行物理计算结果和完整用户问题撰写解释，带可点击事实引用 |
-| 异常处理 | 身份、协议、引用或已知物理断言检查失败时显示工具事实；回退不算学生成功 |
-| 可选外部模型 | 用户主动切换后，兼容Chat Completions模型可调用数据检查、物理计算、仿真及比较工具 |
+[快速启动](#快速启动) · [项目架构](#项目架构) · [目录树](#目录树) · [学生部署](#学生模型部署) · [训练与评测](#训练与评测) · [论文图集](figures/README.md) · [API示例](#api与代码调用) · [常见问题](#常见问题)
 
-学生当前接入范围是**单条物理工况解释**。未把离线解释成绩等同于自主工具规划、动态仿真解释、故障确诊、RAG或跨问题指代能力。计算工作台仍可独立执行多行计算与仿真。
+![系统路径与学生适配](figures/paper/tu0.2.png)
+
+*通用Agent路径可由模型选择工具；默认学生路径由后台固定执行物理工具。上图与源码对应关系见[架构说明](docs/architecture.md)。*
+
+## 已实现的功能
+
+| 模块 | 实现内容 | 主要入口 |
+|---|---|---|
+| 数据接入 | 单条输入、CSV/XLSX/XLS上传、列映射、源单位声明、质量检查 | `/`、`/workbench/upload`、`/agent/v1/datasets` |
+| 水侧物理计算 | 制冷量、冷凝热、输入功率、COP、代数能量平衡偏差 | `physics`工具、`/physics/calculate` |
+| ElectricEIR仿真 | 性能曲线、稳态及动态计算、实测比较、适用范围提示 | 工作台、`simulate` / `compare`工具 |
+| 学生智能分析 | 当前单条工况＋完整问题＋Python证据→自然语言解释 | `/chat`、`/agent/v1/analysis` |
+| 证据呈现 | 事实编号、指标值、单位、有效点数、运行ID及JSON Pointer | 点击回答引用、下载计算产物和报告 |
+| 会话与审计 | 数据集绑定、历史会话、原始模型输出与执行记录 | SQLite、`/agent/v1/chat/sessions` |
+| 外部模型兼容 | 用户主动选择后进行受限工具调用；数据检查、物理计算、仿真及比较 | `/agent/v1/chat/external` |
+| 回退 | 身份、网络、输出协议或已知断言检查失败时返回本次工具事实 | `report_mode=tool_facts` |
+
+**当前默认学生的使用范围：单行物理工况解释。** 工作台能够处理多行数据和动态仿真；这些能力不等同于学生已支持动态仿真解释、知识检索、跨轮指代或故障确诊。学生每次使用完整问题与当前绑定数据重新计算，不沿用上一条回答的数值。
 
 ## 项目架构
 
-```mermaid
-flowchart LR
-    U[用户问题与绑定工况] --> A[FastAPI分析入口]
-    A --> P[Python物理工具]
-    P --> E[当前运行证据与待答清单]
-    E --> S[focused1186推理服务]
-    S --> V[模型身份 格式 引用与有限断言检查]
-    V -->|通过| R[学生分析与可追溯数值]
-    V -->|异常| F[本次工具事实报告]
-    B[计算与仿真工作台] --> P
+![默认学生分析架构](figures/system-architecture.png)
+
+1. **绑定输入**：保存原始数据、映射、源单位和生效参数，生成不可变 `dataset_id`。
+2. **执行Python**：`AgentRuntime` 调用冷水机组工具，生成本次 `run_id` 和完整计算产物。
+3. **组织证据**：将指标值、单位、有效点数、缺项和运行来源组织为类型化事实；从问题编译待答清单。
+4. **学生解释**：通过受认证HTTP服务调用冻结的 `focused1186`；返回包含 `{{fact:F3}}` 等引用的解释文本。
+5. **校验呈现**：核对模型身份、请求绑定、格式、引用、数值和部分已知矛盾；通过后填入本次事实值，失败则显示工具事实。
+6. **持久保存**：保存会话、工具运行、模型原始返回、检查结果和报告，以便复查。
+
+程序检查是有限检查，不是对所有自然语言推理的完备证明。学生正文与程序事实报告在接口中有不同标识，工具回退不计学生回答成功。
+
+可编辑图源：[系统架构](figures/system-architecture.mmd) · [请求时序](figures/analysis-sequence.mmd) · [训练流程](figures/student-training.mmd)。更多模块映射见[架构与数据流](docs/architecture.md)。
+
+## 目录树
+
+```text
+PEC-ChillerAgent/
+├── README.md                              # 项目入口与使用说明
+├── requirements.txt                       # 本机应用、计算及测试依赖
+├── requirements-student.txt               # 冻结GPU推理环境版本
+├── .env.example                           # 配置示例，不会自动加载
+├── .github/workflows/tests.yml            # 软件回归CI
+├── chiller_app/                           # 物理计算、仿真和Web工作台
+│   ├── api/                               # FastAPI、工作台、底层计算接口
+│   ├── data/                              # 源数据映射、单位和清洗
+│   ├── model/
+│   │   ├── physics_model.py               # 水侧公式
+│   │   ├── electric_eir.py                # ElectricEIR稳态与动态模型
+│   │   ├── buildings_eir_catalogue.json    # Buildings性能参数目录
+│   │   ├── eir_calibration.py             # 功率尺度校准
+│   │   ├── performance_model.py           # 数据驱动性能模型
+│   │   └── BUILDINGS_LICENSE.txt          # 第三方许可
+│   ├── diagnosis/                         # 规则诊断辅助模块
+│   ├── report/                            # 图表和报告辅助模块
+│   └── web/                               # 原生HTML/CSS/JavaScript页面
+├── energy_agent/                          # 工具、会话、证据与模型接入
+│   ├── runtime.py                         # Python公共入口
+│   ├── __main__.py                        # 命令行入口
+│   ├── api/                               # 数据集、运行、聊天及学生API
+│   ├── agents/
+│   │   ├── student_explanation.py         # 默认学生：先计算后解释
+│   │   ├── student_physics.py             # 共用执行边界及旧选择器兼容
+│   │   ├── chat.py                        # 可选外部模型工具循环
+│   │   └── reporting.py                   # 事实引用渲染与报告
+│   ├── config/                            # 数据路径、学生及外部模型配置
+│   ├── contracts/                         # Pydantic请求、事实和结果契约
+│   ├── providers/                         # HTTP传输、身份检查和审计
+│   ├── registry/                          # 工具注册与发现
+│   ├── storage/                           # SQLite数据集、运行和会话
+│   ├── tools/chiller/                     # 冷水机组确定性工具实现
+│   ├── distillation/export.py             # 教师采集记录导出为待审核样本
+│   ├── prompts/system.md                  # 外部Agent工具与证据提示词
+│   └── tests/                             # 工具、API、引用和回退测试
+├── chiller_student/                       # 当前应用的学生推理及证据协议
+│   ├── configure.py                       # 绑定已有模型与私有凭据
+│   ├── service.py                         # focused1186 HTTP服务
+│   ├── check_connection.py                # 只读健康与身份检查
+│   ├── focused_contract.py                # 冻结身份与请求协议
+│   ├── planned_task_contract_v2.py         # 问题待答清单
+│   ├── selection_inference.py             # 冻结基座＋单LoRA推理引擎
+│   ├── greedy_generation.py               # 显式greedy生成控制
+│   ├── adapter_precision.py               # FP32适配器张量核验
+│   ├── focused_output.py                  # 应用输出数值检查
+│   └── ...                                # 类型化事实和历史兼容检查模块
+├── deployment/focused1186.json            # 模型、tokenizer及适配器SHA-256
+├── scripts/                               # 应用、GPU服务与SSH隧道启动
+├── examples/                              # 可公开的合成数据与请求示例
+├── research/                              # 与应用隔离的历史研究源码快照
+│   ├── focused1186_sft/                   # 最终815条训练池对应SFT代码
+│   └── physics120_eval/                   # 120题开放权重基线评测代码
+├── results/physics120/                    # 四模型汇总指标及口径，不含原始数据
+├── figures/
+│   ├── *.mmd / *.md / *.png               # 经渲染检查的可编辑工程图
+│   └── paper/                             # 8份Visio原稿、PDF和PNG预览
+├── docs/                                  # 架构、部署、复现、物理与采集文档
+├── tests/                                 # 物理、工作台和前端回归
+│   └── reference/                         # Modelica参考模型与仿真输出
+└── implement-stage/                       # 早期实施记录，当前入口以本README为准
 ```
 
-应用负责绑定数据、执行工具及验证引用；模型负责解释给定结果。推理服务只监听回环地址，远程GPU通过SSH隧道接入本机。模型权重和密钥不进入Git仓库。
+运行时生成的 `outputs/`、`.student.local.json` 和 `.student_credentials/` 不入库。`research/`保留历史源码命名空间 `student_tools`，应用实际使用 `chiller_student`；两者不是两套同时运行的学生模型。
 
-## 快速启动计算工作台
+## 快速启动
 
-应用建议使用Python 3.11。Windows PowerShell：
+### 1. 只运行计算工作台
+
+建议Python 3.11。Windows PowerShell：
 
 ```powershell
-git clone https://github.com/agent-Chiller/chiller-unit-agent.git
-cd chiller-unit-agent
+git clone https://github.com/PEC-ChillerAgent/PEC-ChillerAgent.git
+cd PEC-ChillerAgent
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python -m uvicorn chiller_app.api.fastapi_app:app --host 127.0.0.1 --port 8001
 ```
 
-打开 `http://127.0.0.1:8001/` 使用计算工作台，`http://127.0.0.1:8001/chat` 使用智能分析。工作台不依赖语言模型，可以直接运行合成示例。
+Linux/macOS将环境激活命令替换为 `source .venv/bin/activate`。应用端不需要Torch或GPU；首次安装会下载Python依赖。
 
-默认学生分析需要下文的权重、推理服务和本地凭据；源码中不包含约16 GB的基座或约175 MB的LoRA。该LoRA大小不等于完整模型大小。
+| 页面 | 地址 | 用途 |
+|---|---|---|
+| 计算与仿真 | `http://127.0.0.1:8001/` | 输入、上传、计算、仿真与导出 |
+| 智能分析 | `http://127.0.0.1:8001/chat` | 绑定数据后提问，需要模型服务 |
+| API文档 | `http://127.0.0.1:8001/docs` | 交互式OpenAPI |
+| 健康检查 | `http://127.0.0.1:8001/health` | 应用进程状态 |
 
-## 接入已有 focused1186 备份
+计算工作台可以直接使用合成示例。下载仓库代码不等于已获得学生权重；智能分析的模型部署见下一节。
 
-备份目录应包含：
-
-```text
-<模型根目录>/
-  Qwen3-8B/
-    config.json
-    tokenizer.json
-    model-00001-of-00005.safetensors
-    ...
-  chiller_focused_task_sft_kit_v1/results/
-    focused_task_.../adapter_focused_epoch1/
-      adapter_model.safetensors
-      adapter_config.json
-      README.md
-```
-
-在项目根目录执行：
+### 2. 无模型的最小计算例子
 
 ```powershell
-python -m chiller_student.configure --model-root "<模型根目录>"
+python -m energy_agent demo --output outputs/demo.json
+```
+
+该命令登记合成数据、执行Python物理工具并导出结果。`examples/agent_dataset.json`显式使用比热4180 J/(kg·K)、密度1000 kg/m³，示例制冷量418 kW、功率100 kW、COP4.18。页面示例可能采用不同生效参数，应以实际运行记录为准。
+
+## 学生模型部署
+
+### 1. 模型文件与身份
+
+学生由 **Qwen3-8B基座＋focused1186单LoRA** 组成。基础权重约16 GB，适配器约175 MB；后者不能脱离基座独立运行。仓库保存代码及预期哈希，权重需另行准备。
+
+```text
+<模型备份根目录>/
+├── Qwen3-8B/                              # 5个safetensors分片、索引与tokenizer
+└── chiller_focused_task_sft_kit_v1/results/
+    └── focused_task_.../adapter_focused_epoch1/
+        ├── adapter_model.safetensors
+        ├── adapter_config.json
+        └── README.md
+```
+
+```powershell
+python -m chiller_student.configure --model-root "<模型备份根目录>"
 python -m chiller_student.service --validate-only
 ```
 
-第一条创建仅本机使用的 `.student.local.json`，引用原模型路径，不复制或改写权重。第二条全量验证5个基座分片、tokenizer、配置与适配器哈希，不加载GPU、不训练。凭据若不存在会生成本机文件，已有凭据不会覆盖；不要把内容粘贴到聊天或GitHub。
+第一条生成本机路径配置和私有token，已有配置不会被覆盖；第二条全量校验文件，不加载GPU。模型路径也可以在GPU端直接用命令参数传入。
 
-GPU服务支持显式指定 `--model-dir` 与 `--adapter-dir`，无需复制Windows目录结构。完整的GPU启动、SSH隧道和本机应用命令见[部署说明](docs/student_deployment.md)。
+### 2. GPU服务器启动
 
-本机是否可直接运行取决于硬件。当前保留的BF16基座/FP32 LoRA和严格数学执行配置按原GPU环境加载；4 GB显存的笔记本不适合直接运行该配置。本机可以运行页面及物理计算，GPU服务器只提供学生推理。没有静默量化、CPU降级或改换权重。
+复用已验证的Python3.11 / CUDA12.4环境；固定依赖见 `requirements-student.txt`。当前严格数学执行配置要求单张支持BF16的GPU，启动时至少60GiB空闲显存。这是已验证运行配置的预检门槛，不代表8B模型在其他精度下的理论最低需求。
 
-## 学生模型身份与训练
+将代码、已有模型路径和与本机相同的私有token准备好后运行：
 
-| 项目 | 冻结值 |
-|---|---|
-| 模型 | Qwen3-8B＋focused1186单LoRA |
-| 基座revision | `b968826d9c46dd6066d109eabc6255188de91218` |
-| 最终适配器SHA-256 | `136eeeb15c1751b8a32628fc525ba680e783e3bf1cbbc546e54a64ab00eca8ab` |
-| LoRA | r=16，alpha=32，dropout=0.05 |
-| 最后一轮 | 815条训练记录，1186次加权更新；从已保留适配器继续训练 |
-| 推理 | 非思考原生聊天模板、greedy、最多2048新token、单适配器、不合并权重 |
-
-训练使用教师辅助编辑参考的答案级监督，没有教师logits或KL蒸馏；物理公式由Python执行，不是神经网络物理残差损失。训练、选模和评测历史保留在本地归档，不作为运行应用的依赖。
-
-本批120题回顾性比较中，学生内容正确且完整通过117/120；该成绩来自非盲助手初审，8个共享基础工况，不能作为独立专家认证、跨设备泛化或完整Agent上线验收。软件回归通过也不代表模型每次回答正确。
-
-## 数据与物理约定
-
-- 源单位显式绑定；工作台支持K/°C/°F，kg/s、m³/s、m³/h、US gpm，W/kW。学生入口当前接受kg/s、m³/h、US gpm的单行物理输入。
-- Qe取冷冻侧进水减出水温差，Qc取冷却侧出水减进水；COP要求有效正输入功率；R=Qc−Qe−P。
-- 缺测不补零，控制目标不替代实测值，代数残差不能单独确诊故障。
-- 实际比热、密度、映射和单位以本次运行记录为准。密度仅用于体积流量转换。
-- ElectricEIR需匹配机组性能曲线；动态模式与实测比较使用工作台入口，不因学生物理分析接入而视为已验证语言能力。
-
-## 接口
-
-| 接口 | 用途 |
-|---|---|
-| `GET /health` | 本机应用健康 |
-| `POST /workbench/run` | 物理计算/仿真工作台 |
-| `POST /agent/v1/datasets` | 注册带映射和源单位的数据集 |
-| `GET /agent/v1/analysis/config` | 当前focused1186配置及冻结身份，不暴露密钥 |
-| `POST /agent/v1/analysis` | 默认学生：真实Python计算后生成解释 |
-| `GET /agent/v1/chat/sessions` | 会话与报告历史 |
-| `GET /agent/v1/runs/{run_id}/artifact` | 核对本次原始计算产物 |
-| `POST /agent/v1/chat` | 默认学生入口，与`/analysis`采用相同计算先行流程 |
-| `POST /agent/v1/chat/external` | 显式外部Provider工具调用路径，需要用户自行配置 |
-
-旧学生选择器/解释开发接口保留用于历史兼容，页面不再将80步选择器当作默认语言模型。默认学生分析失败不会自动转向外部Provider。全部接口以运行服务的 `/docs` 为准。
-
-## 目录
-
-```text
-chiller_app/       计算、仿真、数据接入与网页
-energy_agent/      会话、工具、证据绑定及学生应用接入
-chiller_student/   精简的冻结推理、输入协议及有限检查
-deployment/      公开的模型身份与预期文件哈希
-scripts/          应用、GPU服务及SSH隧道启动入口
-examples/         合成数据及API调用示例
-tests/            物理模型和页面回归
+```bash
+cd <服务器上的PEC-ChillerAgent目录>
+chmod 600 .student_credentials/student-service.token
+bash scripts/run_student_service.sh \
+  --model-dir <Qwen3-8B绝对路径> \
+  --adapter-dir <adapter_focused_epoch1绝对路径> \
+  --token-file .student_credentials/student-service.token \
+  --port 18081
 ```
 
-历史研发脚本与报告已从应用源目录归档到本机 `outputs/archive/`。原始数据、训练评测输出、论文、凭据、模型权重和缓存不提交到GitHub。第三方数据的使用及再分发须按其实际条款处理；当前仓库不发布RP-1043原始测量表。
+出现 `ADAPTER_EXACT: focused1186 504/504 FP32 identical` 和 `FOCUSED1186_READY` 后，服务在GPU服务器回环地址运行。启动脚本不停止其他进程、不下载模型，也不启动训练。
 
-## 验证
+### 3. 本机连接与页面启动
+
+在本机新开PowerShell，进入项目目录：
 
 ```powershell
-python -m pytest energy_agent/tests tests -q
+.\scripts\start_student_tunnel.ps1 -Server <SSH主机> -SshPort <SSH端口>
+```
+
+默认将本机 `127.0.0.1:28081` 转发到服务器 `127.0.0.1:18081`。保留隧道窗口，在另一个终端检查并启动页面：
+
+```powershell
+python -m chiller_student.check_connection
+.\scripts\start_student_app.ps1 -Python python -Port 8001
+```
+
+连接检查应显示 `connected: true`、`identity_verified: true` 和 `model: chiller-focused1186`。随后在工作台运行单条工况，转入智能分析，选择学生模式并提问，例如：
+
+> 请给出本次工况的制冷量、输入功率和COP，并解释COP表示什么，以及这些结果有哪些判断边界。
+
+GPU服务、SSH隧道和本机应用是三个进程。模型在同一台具备足够资源的机器运行时可省略SSH，启动应用时设 `-StudentUrl http://127.0.0.1:18081`，连接检查也使用 `--url http://127.0.0.1:18081`。
+
+更多配置、故障处理和回滚步骤见[学生部署说明](docs/student_deployment.md)。
+
+### 4. 配置变量
+
+| 变量 | 默认/含义 |
+|---|---|
+| `ENERGY_AGENT_DATA_DIR` | 默认 `outputs/energy_agent`，保存SQLite与运行记录 |
+| `ENERGY_AGENT_STUDENT_FOCUSED_ENABLED` | `1`，启用默认学生 |
+| `ENERGY_AGENT_STUDENT_FOCUSED_URL` | `http://127.0.0.1:28081` |
+| `ENERGY_AGENT_STUDENT_FOCUSED_TOKEN_FILE` | 本机私有token路径，内容不进入日志 |
+| `ENERGY_AGENT_STUDENT_FOCUSED_TIMEOUT_S` | `60`，允许1–60秒 |
+| `CHILLER_BASE_MODEL_DIR` / `CHILLER_ADAPTER_DIR` | 服务端模型路径，可被CLI参数覆盖 |
+| `ENERGY_AGENT_LLM_BASE_URL` / `MODEL` / `API_KEY` | 可选外部Provider；完整变量名均以 `ENERGY_AGENT_LLM_` 开头 |
+
+`.env.example`用于说明，不会自动加载。配置优先级和当前提示词位置见[配置说明](energy_agent/config/README.md)与[提示词说明](energy_agent/prompts/README.md)。
+
+## 物理计算与数据约定
+
+输入温度转换为K、质量流量为kg/s、功率为W；输出热功率为kW。对于有效输入：
+
+$$Q_e=\dot m_e c_p(T_{e,in}-T_{e,out})/1000$$
+
+$$Q_c=\dot m_c c_p(T_{c,out}-T_{c,in})/1000$$
+
+$$COP=Q_e/P,\qquad R=Q_c-Q_e-P$$
+
+上式的 $P$ 为kW，$c_p$ 为J/(kg·K)，COP无量纲。密度只用于体积流量转质量流量，比热用于热量计算；二者均记录生效值。
+
+- 缺测、无效值和实测零值分开处理；有效正功率才可计算COP，实测零功率仍可用于残差。
+- 每个指标独立判断可计算性，缺失冷却侧测量不自动作废冷冻侧制冷量。
+- 出水温度设定值属于控制目标，不能替代实测出水温度。
+- `R`为代数能量平衡偏差，单凭它不能确诊故障或量化能效损失。
+- 指标值和有效点数是不同事实；多行指标均值不自动代表时段能耗或时段COP。
+- 默认学生接受单行物理分析；ElectricEIR使用工作台或显式外部Agent路径。
+
+详细单位、参数和模型约定见[工作台参考](docs/workbench-reference.md)、[物理场景](docs/physical_scenario.md)、[Buildings数值对齐](docs/buildings_alignment.md)。
+
+## API与代码调用
+
+### 常用接口
+
+| 方法与路径 | 用途 |
+|---|---|
+| `POST /workbench/run` | 工作台计算或仿真 |
+| `POST /agent/v1/datasets` | 登记数据及源单位 |
+| `POST /agent/v1/datasets/upload` | 上传CSV/Excel |
+| `GET /agent/v1/datasets/{dataset_id}/records` | 分页查询原始记录 |
+| `POST /agent/v1/tools/chiller_analyze/execute` | 按数据集执行physics/simulate/compare |
+| `GET /agent/v1/runs/{run_id}/artifact` | 完整计算产物 |
+| `GET /agent/v1/analysis/config` | 默认学生配置与预期身份 |
+| `POST /agent/v1/analysis` | Python计算后调用学生解释 |
+| `POST /agent/v1/chat` | 与默认学生分析相同的入口 |
+| `POST /agent/v1/chat/external` | 用户显式选择的外部模型工具循环 |
+| `GET /agent/v1/chat/sessions` | 会话历史 |
+| `GET /agent/v1/chat/sessions/{session_id}/turns/{turn_id}/report` | 分析报告 |
+
+GPU服务另提供受token认证的 `/health`、`/v1/models` 和 `/v1/chat/completions`。它只接受本项目冻结协议的Chat Completions子集，不能当成任意通用聊天API。
+
+### Python工具调用
+
+```python
+import json
+from pathlib import Path
+from energy_agent.runtime import AgentRuntime
+
+runtime = AgentRuntime()
+source = json.loads(Path('examples/agent_dataset.json').read_text(encoding='utf-8'))
+dataset = runtime.register_dataset(source)
+result = runtime.analyze({
+    'asset_id': dataset.asset_id,
+    'dataset_id': dataset.dataset_id,
+    'task': 'physics',
+})
+print(result.metrics['COP'].value)
+print(runtime.repository.get_run(result.run_id))
+```
+
+### HTTP学生分析
+
+应用与学生服务启动后，可以用 `httpx` 调用：
+
+```python
+import json
+from pathlib import Path
+import httpx
+
+with httpx.Client(base_url='http://127.0.0.1:8001', timeout=70, trust_env=False) as client:
+    source = json.loads(Path('examples/agent_dataset.json').read_text(encoding='utf-8'))
+    created = client.post('/agent/v1/datasets', json=source)
+    created.raise_for_status()
+    dataset = created.json()
+    response = client.post('/agent/v1/analysis', json={
+        'message': '请分析本次制冷量、输入功率和COP，并说明判断边界。',
+        'context': {'asset_id': dataset['asset_id'], 'dataset_id': dataset['dataset_id']},
+    })
+    response.raise_for_status()
+    reply = response.json()
+    print(reply['report_mode'], reply['answer'])
+```
+
+`student_explanation`表示学生正文经有限检查后展示；`tool_facts`表示程序事实回退。HTTP成功不能单独证明模型回答成功。完整工具API见[energy_agent说明](energy_agent/README.md)。
+
+## 训练与评测
+
+![教师辅助训练与在线分析](figures/paper/tu2.png)
+
+训练采用教师辅助参考答案、编辑审核和答案级监督微调。system/user上下文保持可见，提示位置标签为 `-100`，仅答案及原生结束标记参与监督。基座冻结，更新LoRA；不需要教师logits或KL损失，物理公式仍由Python执行。
+
+| 项目 | focused1186配置 |
+|---|---|
+| 基座 | Qwen3-8B，revision `b968826d9c46dd6066d109eabc6255188de91218` |
+| 适配器 | 单LoRA，r16、alpha32、dropout0.05 |
+| 最终训练池 | 815条：748条自然语言解释＋67条结构化选择 |
+| 最后一轮 | 从保留的targeted1058继续，1186次加权访问/更新，新优化器 |
+| 优化 | AdamW，学习率5e-6，batch1、梯度累积1，seed42 |
+| 精度 | BF16基座＋FP32 LoRA |
+| 推理 | 非思考模板、显式greedy、最多2048新token |
+| 适配器SHA-256 | `136eeeb15c1751b8a32628fc525ba680e783e3bf1cbbc546e54a64ab00eca8ab` |
+
+`1186`指最终一轮更新数，不是全部历史训练成本。保留谱系还包含之前阶段，最终推理加载一个继承训练的适配器，不叠加多个历史LoRA。最终训练源码和固定计划见 [research/focused1186_sft](research/focused1186_sft/PUBLICATION.md)。
+
+### 四模型120题汇总
+
+![四模型内容结果与配对比较](figures/paper/tu4.png)
+
+| 模型 | 内容正确且任务完整 | 通过率 | 严格JSON通过 | 确认关键错误回答 |
+|---|---:|---:|---:|---:|
+| 未微调Qwen3-8B | 86/120 | 71.67% | 119/120 | 15 |
+| Qwen3-14B | 94/120 | 78.33% | 120/120 | 11 |
+| **学生focused1186** | **117/120** | **97.50%** | **120/120** | **0** |
+| GPT-6.2 Astra（中转自报身份） | 120/120 | 100.00% | 120/120 | 0 |
+
+学生比未微调8B、14B分别提高25.83和19.17个百分点。本比较的120题为已知原128题结果后的后验子集，由8个共享基础工况×15类任务组成；各模型接收相同问题与Python证据，评估的是证据解释与任务完成。标签为非盲助手初审，待裁决不计通过；中转配置的上游模型身份未独立核实。API和本地模型推理预算不同，不能由这张表推断同预算性能或服务成本优势。
+
+严格JSON只衡量输出结构，关键错误计数只衡量已确认的关键错误；两者都不能替代内容完整通过率。以上为用户选定四模型展示，历史研究还采集过其他API配置。汇总CSV、指标说明和来源哈希见[结果目录](results/physics120/README.md)；训练与评测源码的发布范围见[复现说明](docs/research_reproduction.md)。
+
+## 论文图与文档
+
+已收录8份原始 `.vsdx`、对应PDF和PNG预览。Visio可继续编辑，GitHub直接显示PNG；不改变作者原图的文字或统计。
+
+| 图稿 | 内容 |
+|---|---|
+| `tu0.1` / `tu0.2` | 通用Agent流程、学生路径与LoRA适配 |
+| `tu1` | 水侧公式、缺测与类型化证据 |
+| `tu2` / `tu3` | 教师辅助训练、在线解释、答案级监督 |
+| `tu4` / `tu5` / `tu6` | 四模型总结果、题型分解、格式与引用指标 |
+
+完整预览、下载和图注见[论文图集](figures/README.md)。PDF编号为 `Figure_1`到`Figure_8`，与Visio文件名的映射在图集中明确列出。
+
+## 验证与开发
+
+```powershell
+python -B -m pytest energy_agent/tests tests -q -p no:cacheprovider
 node tests/test_chat_ui.cjs
 node tests/test_chart_utils.cjs
 ```
 
-软件测试使用真实Python计算和标明为合成的模型传输夹具，不调用付费API，不代表GPU端到端验收。部署完成后还应保存真实 `service_ready.json`，在页面核对当前运行引用、学生身份及回退状态。
+目前软件测试覆盖真实Python计算、持久化、源单位、引用绑定、身份不匹配、超时回退、页面会话及图表。测试使用合成模型传输夹具，不调用付费API；GPU真实运行另由权重核验、服务日志和页面产物验证。已完成focused1186的一次真实页面链路核查，不将单次演示等同于完整系统准确率。
+
+CI只运行软件测试；研究目录不自动触发训练或外部API采集。
+
+## 常见问题
+
+**只克隆代码能否运行？** 可以运行计算工作台和软件测试。学生分析还需要基础权重、focused1186适配器、GPU服务及本机凭据。
+
+**原来的DeepSeek还会被调用吗？** 默认学生路径不调用。只有显式选择外部模式、配置模型并发送请求时才使用外部Provider；`/llm/test`也会产生一次实际请求。
+
+**为什么出现工具事实报告？** 这表示模型连接、身份、格式或检查未通过，页面展示Python事实。查看该轮 `error_code` 和审计记录，不把此结果记成学生成功。
+
+**修改工况后为什么要新建对话？** 会话绑定数据集和模式。新工况应登记新数据集、新建对话；每次回答产生新的计算运行，便于核查引用来源。
+
+**为什么仓库中有多个协议版本？** 当前focused入口依赖其中部分版本，另有历史会话兼容逻辑；这些文件不是多个同时部署的学生模型，不能只按版本号删除。
+
+**能直接在4GB显存电脑上运行模型吗？** 当前冻结BF16/FP32配置不能直接这样运行。本机可承担页面和Python计算，GPU服务器承担推理；量化部署属于另一个需单独验证的配置。
+
+## 发布内容与许可
+
+本仓库发布应用代码、推理代码、选定的训练/评测源码快照、合成示例、汇总结果和作者提供的图稿。模型权重、真实测量原表、训练/测试样本正文、API密钥、SQLite数据库及私人论文工作目录不包含在本次代码发布中。
+
+Buildings相关来源和许可保留在[BUILDINGS_LICENSE.txt](chiller_app/model/BUILDINGS_LICENSE.txt)。基础模型、第三方数据与其他依赖遵循各自许可；仓库目前未添加项目整体LICENSE，公开可读不自动代表对所有材料授予再分发许可。完整数据和权重的公开地址另行确定。

@@ -275,10 +275,23 @@ models/
 /skills-lock.json
 /MANIFEST.md
 /refine-logs/
-/research/
+/research/*
+!/research/README.md
+!/research/focused1186_sft/
+!/research/physics120_eval/
+/research/**/data/
+/research/**/checks/
+/research/**/reference/
+/research/**/results/
 /paper/
 /implement-stage/
 /tmp/
 /pytest-cache-files-*/
 /figures/*
+!/figures/README.md
+!/figures/system-architecture.*
+!/figures/analysis-sequence.*
+!/figures/student-training.*
+!/figures/paper/
+/output/
 

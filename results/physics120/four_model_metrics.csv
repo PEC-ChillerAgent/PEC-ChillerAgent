@@ -1,0 +1,5 @@
+model_id,model,questions,content_and_tasks_pass,pass_rate_percent,strict_json_pass,confirmed_critical_error_answers,required_citation_supported_pass,required_citation_questions,expert_reviewed,upstream_identity_verified
+base8b,Qwen3-8B,120,86,71.67,119,15,3,16,False,True
+qwen14b,Qwen3-14B,120,94,78.33,120,11,13,16,False,True
+focused1186,Student focused1186,120,117,97.5,120,0,15,16,False,True
+gpt,GPT-6.2 Astra (Sub2API relay; upstream unverified),120,120,100.0,120,0,16,16,False,False

@@ -1,0 +1,10 @@
+# Linux launchers remain usable after a Windows checkout.
+*.sh text eol=lf
+
+# Historical packages are hash-locked byte snapshots, including line endings.
+/research/focused1186_sft/** -text whitespace=-trailing-space
+/research/physics120_eval/** -text whitespace=-trailing-space
+
+*.png binary
+*.pdf binary
+*.vsdx binary

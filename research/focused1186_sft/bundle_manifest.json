@@ -1,0 +1,423 @@
+{
+  "required_versions": {
+    "torch": "2.6.0+cu124",
+    "transformers": "4.51.3",
+    "tokenizers": "0.21.4",
+    "peft": "0.15.2",
+    "accelerate": "1.6.0",
+    "huggingface-hub": "0.36.2",
+    "safetensors": "0.8.0",
+    "numpy": "1.26.4",
+    "Jinja2": "3.1.6"
+  },
+  "base_weights_sha256": {
+    "model-00001-of-00005.safetensors": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f",
+    "model-00002-of-00005.safetensors": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282",
+    "model-00003-of-00005.safetensors": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836",
+    "model-00004-of-00005.safetensors": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a",
+    "model-00005-of-00005.safetensors": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff"
+  },
+  "tokenizer_files_sha256": {
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+  },
+  "base_config_sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30",
+  "base_generation_config_sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+  "environment_spec_hash": "5befcb78",
+  "purpose": "focused_teacher32_single_candidate_SFT815_visits1186_v1",
+  "adapter_files_sha256": {
+    "README.md": "492a5847e81cca3b9d8d0bf2ecad5d674fe7e1e716352d63b0e2863c79e1ec0d",
+    "adapter_model.safetensors": "79b247f68597d64de0dc667344229ce9462e617ae2b782b389fc3588c614bef3",
+    "adapter_config.json": "5c5391b43bae3426ec6c35cef266dead50fd83993bee43dde5011882f83f0102"
+  },
+  "training_run": true,
+  "final_holdout_included": false,
+  "automatic_deployment": false,
+  "files": [
+    {
+      "path": "checks/collection_summary.json",
+      "sha256": "e6071dc86be5ad819bf846f931db64762614221636884dcb4684f1a407bde3e1",
+      "bytes": 357
+    },
+    {
+      "path": "checks/dataset_freeze.json",
+      "sha256": "5156fb06642ceb19ca5c4acbd66cd8d70a70143b9381d063b58eb30785d370f7",
+      "bytes": 880
+    },
+    {
+      "path": "checks/initial_adapter_manifest.json",
+      "sha256": "cef73a444f1972793575929b88b84306e539470d8afd05ff10360aced6dbc2fd",
+      "bytes": 668
+    },
+    {
+      "path": "checks/judge_only.jsonl",
+      "sha256": "bc660b63ff65fdd91820dc5f125f1c0c660224f50dd4fa58fed4fbc4ac260a65",
+      "bytes": 609130
+    },
+    {
+      "path": "checks/native_encoding_reference.jsonl",
+      "sha256": "f42d45aa4dc0905b0b678a98ce9c3fd8decefa5b7e27888ca3eb41b9ea567153",
+      "bytes": 422761
+    },
+    {
+      "path": "checks/original_DEV140_inputs.jsonl",
+      "sha256": "70b41bc3d8379964374fe28275038117eee9e7c452ba4ff390a65bf396db769a",
+      "bytes": 1780373
+    },
+    {
+      "path": "checks/original_DEV140_judges.jsonl",
+      "sha256": "f729771061a9e5ce23657d0020de0dddba8f521aa925d7fe0d60b738349662c7",
+      "bytes": 492292
+    },
+    {
+      "path": "checks/original_train783.jsonl",
+      "sha256": "bfa18b68b10ed526be3670b10847b9193da7eb4623aedb2976cd2fa5ccec4f2d",
+      "bytes": 12836512
+    },
+    {
+      "path": "checks/predeclared_training_design.json",
+      "sha256": "91ef6b2e9859906e30a858dad0743392b87761d8b7c0fd0b924cc4e18546a995",
+      "bytes": 2303
+    },
+    {
+      "path": "checks/raw_teacher32.jsonl",
+      "sha256": "11e38bd85beb3ce323d38ecd1ba8449ac5db3ffc4aeca64bae1c088e2c73713f",
+      "bytes": 112038
+    },
+    {
+      "path": "checks/reference_review_summary.json",
+      "sha256": "efe36b978104bbc6c30791ca82619516490b3fac9c21a12795aae00cf3fe7b22",
+      "bytes": 1014
+    },
+    {
+      "path": "checks/retained_dev_references140.jsonl",
+      "sha256": "1fa9070d7a5116f1132afa91c6e607a760a5130b8414b5412652b0ef885f53c5",
+      "bytes": 848629
+    },
+    {
+      "path": "checks/row_approvals815.jsonl",
+      "sha256": "ba1faec529c8749dc5f4434443f00c696720a6201cec291c017fcfa566fb0980",
+      "bytes": 171999
+    },
+    {
+      "path": "checks/startup_controls.jsonl",
+      "sha256": "3982fb8072f8a864c03ceaa4b42b8741cc8c9020014a1273974c8157f5f1577b",
+      "bytes": 33518
+    },
+    {
+      "path": "checks/teacher_authorization.json",
+      "sha256": "23b86ff0866d0c115b9a0cc670ba4519bbd4c454c00cc2f3ac0e3e52cb5d57be",
+      "bytes": 571
+    },
+    {
+      "path": "checks/teacher_input_manifest.json",
+      "sha256": "3f9e2cbe26d6613c72b2d6a5557f27e7afe859ab37a9a9b94a2c794a04a783d7",
+      "bytes": 1831
+    },
+    {
+      "path": "checks/teacher_inputs32.jsonl",
+      "sha256": "fa5b4e3a86d6b18116f71b0b3a940192161626559c596f0e0ca7746ac48f32be",
+      "bytes": 500315
+    },
+    {
+      "path": "checks/teacher_lineage32.jsonl",
+      "sha256": "74a75ad202699c4659f07fa1e3b2101d084ccbd345b1fef4e9aaf891ade35ee3",
+      "bytes": 15576
+    },
+    {
+      "path": "checks/teacher_registration.json",
+      "sha256": "c32a8711bbdc20edb2bdb472ac3ea1e0e37cbfa1629af3bb847bf95acbc69c05",
+      "bytes": 9147
+    },
+    {
+      "path": "checks/teacher_reviews32.jsonl",
+      "sha256": "b7f8929ee255115643c5cbb4a6366536c534e72005aa67157f7fbb24bd672cef",
+      "bytes": 60337
+    },
+    {
+      "path": "data/eval_inputs.jsonl",
+      "sha256": "948e7c6f34d45bc1bff9fee2ce6813361f3daf45647b9ed1105536c3931166ca",
+      "bytes": 2285092
+    },
+    {
+      "path": "data/train.messages.jsonl",
+      "sha256": "90e5937894f965e137e69250b530d84f0b76b99916e157cde516de874d003061",
+      "bytes": 13371878
+    },
+    {
+      "path": "launch_focused_task_sft.sh",
+      "sha256": "88599cc06d124e835c5657ebfe6b57a4d9d226a71f9dc88bd37cca08bdee84ab",
+      "bytes": 574
+    },
+    {
+      "path": "README.md",
+      "sha256": "679874dca89f85d3f43baa2e49ff51fc5bed9fbc60325717a9ad39128820fd2e",
+      "bytes": 4700
+    },
+    {
+      "path": "run_focused_task_sft.sh",
+      "sha256": "031edcfb620aa8b9f867a2260022e603a8ad1ae9b22cae99a2f7e5c47b9ff1d6",
+      "bytes": 1171
+    },
+    {
+      "path": "student_tools/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "student_tools/adapter_precision.py",
+      "sha256": "cb27d34f9e8954270bf1cf272527aed163c84b3c68b7a4b092915a682fb6d4f4",
+      "bytes": 5826
+    },
+    {
+      "path": "student_tools/compound_alignment_support.py",
+      "sha256": "4650368a376ee94a13c24bb6810bd8578971fbfa32972a16efac092214d13a6f",
+      "bytes": 12502
+    },
+    {
+      "path": "student_tools/development_guard_v8.py",
+      "sha256": "fa5b8e379b0f4022346cb3990d4c6b94c8e6ad85212417f3e7170c5f5965f5f6",
+      "bytes": 2792
+    },
+    {
+      "path": "student_tools/explanation_baseline_support.py",
+      "sha256": "983a6d324bd85d9da8a4faaeffc2d1c6fc0dd7c10378beed3414f8de8b11b1a1",
+      "bytes": 6870
+    },
+    {
+      "path": "student_tools/explanation_consistency.py",
+      "sha256": "980238db3a4def70590d5fcd355b07adefa3155c904c20a5bd7149009482df32",
+      "bytes": 3218
+    },
+    {
+      "path": "student_tools/explanation_consistency_v2.py",
+      "sha256": "004cf5444c46f87a5e87456b0e58db76b9d09c6fbdede85d1ab4a8f01d6651f6",
+      "bytes": 3042
+    },
+    {
+      "path": "student_tools/explanation_consistency_v3.py",
+      "sha256": "2f8d6cbfc27faa685e530b34004fb4c7d9641283c8e15e8a72b7721075637f23",
+      "bytes": 7611
+    },
+    {
+      "path": "student_tools/explanation_http.py",
+      "sha256": "06fb4a94b3cd1fdb048246b6734365dc861845048c271be8b6d19c9b5d65a22a",
+      "bytes": 3995
+    },
+    {
+      "path": "student_tools/explanation_number_gate_v2.py",
+      "sha256": "133618b779ca392779c094a986916106a75c9acb58faac979df75e83b0573a30",
+      "bytes": 1623
+    },
+    {
+      "path": "student_tools/explanation_number_gate_v3.py",
+      "sha256": "35c44c2a6c24da0a12a2fcc75a5d9ac67c53f839f9797293bab5b703d9ec90bf",
+      "bytes": 3177
+    },
+    {
+      "path": "student_tools/explanation_number_gate_v4.py",
+      "sha256": "fdc5db7e89ee17f9cbd180075b42f61e687acfac9bf5f28b181f7786a9431a34",
+      "bytes": 1171
+    },
+    {
+      "path": "student_tools/explanation_number_gate_v5.py",
+      "sha256": "11f1a86932982197676d9d7477cbd2e1907212c9c686630ead828eaf3b3c913d",
+      "bytes": 3103
+    },
+    {
+      "path": "student_tools/explanation_number_gate_v6.py",
+      "sha256": "e5422f60b072190e172782f114b8805c6d1b4c4cd30546074457d31bff27dfe7",
+      "bytes": 2028
+    },
+    {
+      "path": "student_tools/explanation_number_gate_v7.py",
+      "sha256": "5065c79eaf2f70e3c308b8819b2800e40966f49c9944dca2e5905ced07ecb2a5",
+      "bytes": 1275
+    },
+    {
+      "path": "student_tools/explanation_number_gate_v8.py",
+      "sha256": "b2a193d6e2ab5119da362db0aa946e0926cef5bd1f48186d68f4cf197597a637",
+      "bytes": 2889
+    },
+    {
+      "path": "student_tools/explanation_project_reporting.py",
+      "sha256": "c1061096e7b2cad2c996e0e112d350f8eca39f7438420a5be05e61c39793544a",
+      "bytes": 15815
+    },
+    {
+      "path": "student_tools/explanation_protocol.py",
+      "sha256": "d11e50ba2f2b26e488794b25b879d0c2be15933cb8821004db4f4084b7d20788",
+      "bytes": 2355
+    },
+    {
+      "path": "student_tools/explanation_quality.py",
+      "sha256": "5125ae49f7c576426c219ed7e9a570d11c381c41d5918bffe3afdeac0eefd1b8",
+      "bytes": 1113
+    },
+    {
+      "path": "student_tools/export_smoke_review.py",
+      "sha256": "b9dfe2c98a40cc795a4a064d8540d9d4717adf7c660d0a6003708465406b1abe",
+      "bytes": 884
+    },
+    {
+      "path": "student_tools/focused_task_sft.py",
+      "sha256": "99862e7414b20abf4a4b4e130009452fd19919ed93cc50ae92c7f23cd1366e1c",
+      "bytes": 15517
+    },
+    {
+      "path": "student_tools/focused_task_support.py",
+      "sha256": "5499672be4e0831ae5b77efb501be7d0e3beed01771652636fdc066b73e5b709",
+      "bytes": 11908
+    },
+    {
+      "path": "student_tools/greedy_generation.py",
+      "sha256": "4043b84c47edd0af5493b6e81e01fe52b9c02bbb99ffdc79a1f07f9f71f81789",
+      "bytes": 3611
+    },
+    {
+      "path": "student_tools/greedy_generation_regression.py",
+      "sha256": "f29076489f6ae35d78d588ba38c86a753758282e3c5b7d9540635c6c436aebf2",
+      "bytes": 5870
+    },
+    {
+      "path": "student_tools/grounded_physics_support.py",
+      "sha256": "5f3d1c49b956dcab3c5b0f50682cbf1582c230bcc92b5bca5f68733e62e5b74f",
+      "bytes": 7106
+    },
+    {
+      "path": "student_tools/joint_physics_support.py",
+      "sha256": "c76fbff3e77c0a79c8da71d918dac5f8588a7aaf8ed7f5dc61a9bc9823c6ce1a",
+      "bytes": 10623
+    },
+    {
+      "path": "student_tools/native_sft_data.py",
+      "sha256": "b5fe45da9a581f79dbe9d1a774577ab6a8aed8a9ab4cab76938355ec3446c752",
+      "bytes": 3497
+    },
+    {
+      "path": "student_tools/pair_knowledge_score.py",
+      "sha256": "f07756dd144ad027e3fb3f07e22422320107db08a8dd5c5640178ec0af9cb688",
+      "bytes": 13482
+    },
+    {
+      "path": "student_tools/pair_physics_score.py",
+      "sha256": "ab4e1e2ceaa94b97d4e960892b0b6ec05e9f538d30ebd37e0d80e51095ede86b",
+      "bytes": 11824
+    },
+    {
+      "path": "student_tools/pair_project_reporting.py",
+      "sha256": "b7792eafdc0e8100577c4373636c965154283b41b3ea9ee5251f236691b97d0e",
+      "bytes": 13258
+    },
+    {
+      "path": "student_tools/paired_support.py",
+      "sha256": "c57f94b4146d19b9afbc2176abb271c954638e7ba9fd0993877d26c374ac3360",
+      "bytes": 10875
+    },
+    {
+      "path": "student_tools/physics_evidence.py",
+      "sha256": "ede8b6f884ec32440a105c34573d0d6ec6196c6824c64661112dfe7b8b5f5383",
+      "bytes": 5973
+    },
+    {
+      "path": "student_tools/planned_alignment_contract.py",
+      "sha256": "9094755e2a5362301ad59ed22aab624440d918094092b9b239daa3c5d210da05",
+      "bytes": 2636
+    },
+    {
+      "path": "student_tools/planned_alignment_support.py",
+      "sha256": "fc8af000c597a3da7ff9a2ce25987a3603b62ff25b821c99adc438514bf1e803",
+      "bytes": 11104
+    },
+    {
+      "path": "student_tools/planned_explanation.py",
+      "sha256": "597b3c6efb8794398519d555b58a9b526640b7ff74af168a20b937216b2ba531",
+      "bytes": 14063
+    },
+    {
+      "path": "student_tools/planned_probe_support.py",
+      "sha256": "92e99185b07b4d2a72507bb32f0eecc11b17c597190d1e9b94a6fff92f3eaa89",
+      "bytes": 6773
+    },
+    {
+      "path": "student_tools/planned_task_contract_v2.py",
+      "sha256": "b631e8224fe32775135c6b176b6b04ccc6dc7c126fc2f25794b29ea0baff24e1",
+      "bytes": 2524
+    },
+    {
+      "path": "student_tools/readable_physics_evidence.py",
+      "sha256": "b7235a1a6e8d29e46c9285de1938515630de20971e245271c299f3a96e8d35d7",
+      "bytes": 6991
+    },
+    {
+      "path": "student_tools/selection_contract.py",
+      "sha256": "723d604c99dc8d8faabef0c040bd725c4e8c7edd8d45845144dbf36556e6a847",
+      "bytes": 4420
+    },
+    {
+      "path": "student_tools/selection_http.py",
+      "sha256": "dbc2d9d84c16897c00901428c49e2cb694446c3bbed338b36d6d0fd88821bcc4",
+      "bytes": 6851
+    },
+    {
+      "path": "student_tools/selection_topic_glossary.py",
+      "sha256": "fc7e0a74a3c88968545ecc79a0a741481805a56c62549a9d7e227d2ee21343a1",
+      "bytes": 2033
+    },
+    {
+      "path": "student_tools/stability_probe_support.py",
+      "sha256": "f34c0d0ee5e55120d290f814a73af2c2ce5f2f31dce8354ff0db3f9ac07b9bff",
+      "bytes": 7866
+    },
+    {
+      "path": "student_tools/structured_physics.py",
+      "sha256": "f469ac31fc920af5e013cd814e3233d9a53d48ced7400951e90da34f74201bd4",
+      "bytes": 14019
+    },
+    {
+      "path": "student_tools/targeted_task_support.py",
+      "sha256": "6dee93f55a3da567781c88158752552668269856c32efa7068d3f7dda5abfc30",
+      "bytes": 10938
+    },
+    {
+      "path": "student_tools/task08_sft_support.py",
+      "sha256": "a6132310cf7cb4df99087fe433d0b916774851dee87e28cef64e8f7c74384002",
+      "bytes": 10832
+    },
+    {
+      "path": "student_tools/task_explanation.py",
+      "sha256": "c3bae9385f943baa7ee002fb988fff259c653cbcf85dfdace1100f9af08c91dc",
+      "bytes": 4270
+    },
+    {
+      "path": "student_tools/teacher_physics_sft.py",
+      "sha256": "e1fa02df40c93209a968242904a8ebb77746f04920bdad4371da42e95f57eaf3",
+      "bytes": 26817
+    },
+    {
+      "path": "student_tools/teacher_physics_support.py",
+      "sha256": "0a6da958b4e47134a8121d079965faea8cab4cc7a01107570594c885fcb080e1",
+      "bytes": 7029
+    },
+    {
+      "path": "student_tools/typed_physics_claims.py",
+      "sha256": "7e8c354d686ae2da32f81e27b00add74b810d724f84848d88accc96c289bed69",
+      "bytes": 4544
+    },
+    {
+      "path": "student_tools/typed_physics_claims_v2.py",
+      "sha256": "8fd6114b1ed48299556fd04f939e0cc26582ef24fcdc8f73de00e16b21064687",
+      "bytes": 5403
+    },
+    {
+      "path": "student_tools/typed_physics_claims_v3.py",
+      "sha256": "02b9f7cf899b194d85c9986c00a9f82646682fbd4ee43bafb1762b97ccca4940",
+      "bytes": 3816
+    },
+    {
+      "path": "training_plan.json",
+      "sha256": "b911e79d141d3663ae2eac0b75ba4f02ca833dd26130d05034ce777b6f79d7a7",
+      "bytes": 56116
+    }
+  ]
+}

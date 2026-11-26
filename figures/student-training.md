@@ -1,0 +1,29 @@
+# 教师辅助训练到冻结部署
+
+答案级监督：训练基于离散参考答案，不使用教师logits或KL蒸馏。图中的评测步骤包括历史开发检查和冻结后的比较。
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Microsoft YaHei, Arial, sans-serif","fontSize":"18px","primaryColor":"#EDF3FA","primaryBorderColor":"#426B9D","primaryTextColor":"#193952","lineColor":"#44576A","actorBkg":"#EDF3FA","actorBorder":"#426B9D","actorTextColor":"#193952","signalColor":"#44576A","signalTextColor":"#193952","labelBoxBkgColor":"#F6F9FC","labelBoxBorderColor":"#8094A8"},"flowchart":{"wrappingWidth":360,"nodeSpacing":40,"rankSpacing":35,"curve":"linear"},"sequence":{"mirrorActors":false}}}%%
+flowchart TB
+    sources["训练工况与问题"]
+    physics["Python 计算<br/>形成可追溯证据"]
+    teacher["教师参考答案<br/>编辑与规则审核"]
+    pool["冻结训练池：815 条<br/>748 解释 + 67 选择"]
+    parent["Qwen3-8B + 保留父适配器<br/>targeted1058"]
+    sft["答案级 LoRA SFT<br/>提示标签屏蔽 · 新优化器<br/>1186 次加权访问 / 更新"]
+    evaluation["评测并分开记录<br/>内容完整性 · 引用 · 关键错误"]
+    frozen["冻结 focused1186<br/>权重与协议哈希"]
+    service["部署学生 HTTP 服务<br/>后台 Python 计算先行"]
+    sources --> physics --> teacher --> pool
+    pool --> sft
+    parent --> sft
+    sft --> evaluation --> frozen --> service
+    classDef data fill:#E8F5F2,stroke:#147D78,color:#123D3A
+    classDef model fill:#F1EDFA,stroke:#7860A6,color:#3A285D
+    classDef result fill:#EDF3FA,stroke:#426B9D,color:#193952
+    class sources,physics,teacher,pool data
+    class parent,sft,frozen model
+    class evaluation,service result
+```
+
+[PNG预览](student-training.png) · [源码](student-training.mmd)

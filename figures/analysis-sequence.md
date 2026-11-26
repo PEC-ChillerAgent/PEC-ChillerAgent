@@ -1,0 +1,38 @@
+# 单次分析请求时序
+
+运行记录和引用均绑定本次计算。后台自动检查有限；HTTP成功或工具事实回退不等于学生回答成功。
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Microsoft YaHei, Arial, sans-serif","fontSize":"18px","primaryColor":"#EDF3FA","primaryBorderColor":"#426B9D","primaryTextColor":"#193952","lineColor":"#44576A","actorBkg":"#EDF3FA","actorBorder":"#426B9D","actorTextColor":"#193952","signalColor":"#44576A","signalTextColor":"#193952","labelBoxBkgColor":"#F6F9FC","labelBoxBorderColor":"#8094A8"},"flowchart":{"wrappingWidth":360,"nodeSpacing":40,"rankSpacing":35,"curve":"linear"},"sequence":{"mirrorActors":false}}}%%
+sequenceDiagram
+    autonumber
+    participant UI as 浏览器
+    participant API as 学生分析入口
+    participant Tool as Python 工具
+    participant Store as 数据与审计存储
+    participant Model as focused1186 服务
+    UI->>API: 完整问题 + dataset_id
+    API->>Store: 读取数据、单位与生效参数
+    Store-->>API: 当前绑定数据
+    API->>Tool: 执行 physics
+    Tool->>Store: 保存 run_id 与计算产物
+    Tool-->>API: 指标、有效点数与缺项
+    API->>API: 组织证据与待答清单<br/>绑定事实指针
+    API->>Model: 经认证的当前问题与证据
+    alt 返回可用回答
+        Model-->>API: 原始解释、引用与模型身份
+        API->>API: 检查协议、数值引用及已知矛盾
+        alt 检查通过
+            API->>Store: 保存学生回答与检查记录
+            API-->>UI: student_explanation + 当前事实引用
+        else 检查不通过
+            API->>Store: 保存原始回复及拒绝原因
+            API-->>UI: tool_facts + 回退原因
+        end
+    else 服务不可用或超时
+        API->>Store: 保存服务错误
+        API-->>UI: tool_facts + 回退原因
+    end
+```
+
+[PNG预览](analysis-sequence.png) · [源码](analysis-sequence.mmd)

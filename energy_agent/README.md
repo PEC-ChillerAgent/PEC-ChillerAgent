@@ -1,8 +1,8 @@
-# 暖通分析 Agent：第一、第二阶段
+# 冷水机组工具与智能分析运行层
 
 已实现冷水机组工具、持久数据集引用和统一输入输出。Python、CLI、HTTP 共用同一 Runtime、注册表和工具实现；实际数值计算仍由 `chiller_app` 完成。当前任务为 `physics`、`simulate`、`compare`。
 
-第二阶段增加兼容模型连接、聊天页面、持久会话、工具自动选择、数值事实引用和 Markdown 报告。启动现有应用后访问 `/chat`；详细配置和使用步骤见 [运行说明](../docs/agent_stage2.md)。
+当前页面默认采用focused1186学生路径：后台先运行Python物理工具，再按当前证据解释。外部模型工具循环保留为显式可选入口。启动应用后访问 `/chat`；部署见[学生说明](../docs/student_deployment.md)，模块关系见[架构说明](../docs/architecture.md)。
 
 ## 直接运行
 
@@ -38,7 +38,7 @@ print(artifact["model_output"]["records"])
 
 数据集保存原始记录、请求 schema、生效 schema、源文件/工作表信息和质量摘要。每次登记产生一个不可变 ID，version=1；再次登记是新数据集。源温标、流量和功率单位必须显式提供。无效单元格按原工作台规则保留为空，既不删除原行，也不填补测量。
 
-原工作台会识别 ASHRAE 标准表头并推断部分映射/单位；此行为完整保留，`source_schema` 与 `effective_schema` 分别记录声明和生效配置，结果带 `SOURCE_SCHEMA_INFERRED` 提示。
+工作台兼容模式会识别ASHRAE标准表头并推断部分映射/单位；显式源单位策略不覆盖用户声明。`source_schema` 与 `effective_schema` 分别记录声明和生效配置，结果带 `SOURCE_SCHEMA_INFERRED` 提示。
 
 ## 仿真和比较
 
@@ -114,7 +114,10 @@ GET  /agent/v1/runs/{run_id}/records           分页完整输出
 GET  /agent/v1/runs/{run_id}/artifact          完整JSON下载
 GET/PUT /agent/v1/llm/config                  模型连接配置（密钥不回显）
 POST /agent/v1/llm/test                       所配置模型的真实连接测试
-POST /agent/v1/chat                          对话与工具执行
+POST /agent/v1/chat                          默认学生：先物理计算再解释
+POST /agent/v1/analysis                      默认学生分析
+GET  /agent/v1/analysis/config               学生配置与身份
+POST /agent/v1/chat/external                 显式外部模型工具循环
 GET  /agent/v1/chat/sessions                  历史会话
 GET  /agent/v1/chat/sessions/{session_id}      会话详情
 GET  /agent/v1/chat/sessions/{session_id}/turns/{turn_id}/report  Markdown报告
@@ -145,7 +148,8 @@ energy_agent/
 ├─ api/
 │  ├─ app.py                  独立FastAPI应用工厂
 │  ├─ routes.py               工具和数据集HTTP接口
-│  └─ chat.py                 模型连接、聊天、历史和报告HTTP接口
+│  ├─ chat.py                 模型连接、聊天、历史和报告HTTP接口
+│  └─ focused_analysis.py     默认学生分析接口
 ├─ config/
 │  ├─ settings.py             数据目录配置
 │  └─ llm.py                  本地模型配置与环境覆盖
@@ -167,7 +171,8 @@ energy_agent/
 ├─ tests/                     存储、数值一致性、缺测、越界、API和CLI验收
 ├─ agents/
 │  ├─ chat.py                 有调用上限的模型/工具循环
-│  └─ reporting.py            数值事实替换与证据报告
+│  ├─ reporting.py            数值事实替换与证据报告
+│  └─ student_explanation.py  Python计算先行的学生解释
 ├─ providers/compatible.py    OpenAI兼容Chat Completions客户端
 └─ prompts/system.md          工具选择、缺测与数值证据约束
 ```

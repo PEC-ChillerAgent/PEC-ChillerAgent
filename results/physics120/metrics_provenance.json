@@ -1,0 +1,67 @@
+{
+  "source_date": "2026-11-23",
+  "published_date": "2026-11-26",
+  "source_metric_file": "model_metrics.csv",
+  "source_metric_file_sha256": "705fe46a45bebddbc447e0eb81bd99d17611cc7bf91bb1cd2baa441f37798eb1",
+  "critical_errors_source": "student_eight_model_full_review_2026-11-23.md",
+  "design": "posthoc 120-question subset of prior128; eight shared parent conditions x15 tasks",
+  "review": "non-blind assistant editorial review; uncertain does not count as passed",
+  "new_inference": false,
+  "same_question_and_physics_evidence": true,
+  "full_agent_test": false,
+  "relay_model_identity": "GPT-6.2 Astra is the relay-reported name; upstream weights not independently verified",
+  "rows": [
+    {
+      "model_id": "base8b",
+      "model": "Qwen3-8B",
+      "questions": 120,
+      "content_and_tasks_pass": 86,
+      "pass_rate_percent": 71.67,
+      "strict_json_pass": 119,
+      "confirmed_critical_error_answers": 15,
+      "required_citation_supported_pass": 3,
+      "required_citation_questions": 16,
+      "expert_reviewed": false,
+      "upstream_identity_verified": true
+    },
+    {
+      "model_id": "qwen14b",
+      "model": "Qwen3-14B",
+      "questions": 120,
+      "content_and_tasks_pass": 94,
+      "pass_rate_percent": 78.33,
+      "strict_json_pass": 120,
+      "confirmed_critical_error_answers": 11,
+      "required_citation_supported_pass": 13,
+      "required_citation_questions": 16,
+      "expert_reviewed": false,
+      "upstream_identity_verified": true
+    },
+    {
+      "model_id": "focused1186",
+      "model": "Student focused1186",
+      "questions": 120,
+      "content_and_tasks_pass": 117,
+      "pass_rate_percent": 97.5,
+      "strict_json_pass": 120,
+      "confirmed_critical_error_answers": 0,
+      "required_citation_supported_pass": 15,
+      "required_citation_questions": 16,
+      "expert_reviewed": false,
+      "upstream_identity_verified": true
+    },
+    {
+      "model_id": "gpt",
+      "model": "GPT-6.2 Astra (Sub2API relay; upstream unverified)",
+      "questions": 120,
+      "content_and_tasks_pass": 120,
+      "pass_rate_percent": 100.0,
+      "strict_json_pass": 120,
+      "confirmed_critical_error_answers": 0,
+      "required_citation_supported_pass": 16,
+      "required_citation_questions": 16,
+      "expert_reviewed": false,
+      "upstream_identity_verified": false
+    }
+  ]
+}

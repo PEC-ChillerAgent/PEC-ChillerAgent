@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-26",
+  "figures": [
+    {
+      "source": "tu0.1.vsdx",
+      "title": "通用工具调用Agent",
+      "pdf": "Figure_1.pdf",
+      "preview": "tu0.1.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu0.1.vsdx_sha256": "27c468e6af0676a93936231726809335a29b59452da7f2d921e5d8e041ab661a",
+      "Figure_1.pdf_sha256": "0bae644ea8744ab3bdafed1fe7697c59542c7c22fd1750ad7f11961a4f9988b7"
+    },
+    {
+      "source": "tu0.2.vsdx",
+      "title": "双路径系统与学生适配",
+      "pdf": "Figure_2.pdf",
+      "preview": "tu0.2.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu0.2.vsdx_sha256": "6832c720c7980da203a0dc653c3138a5a21af7562bfde2dd807634f6db08262e",
+      "Figure_2.pdf_sha256": "4af188c776320a1174b9681dde851b354b6c1d5ba00c71398ce15389680ddd75"
+    },
+    {
+      "source": "tu1.vsdx",
+      "title": "水侧物理计算与证据",
+      "pdf": "Figure_3.pdf",
+      "preview": "tu1.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu1.vsdx_sha256": "65ee27c7e9270d37ca97bd7ea1fec4453dd9f01eda29ff3f26ef6ad9a9d491b7",
+      "Figure_3.pdf_sha256": "9b96c126c96823daa98977308aa1a61551b4a6bc7aa9596829977a94f33df292"
+    },
+    {
+      "source": "tu2.vsdx",
+      "title": "离线教师辅助训练与在线分析",
+      "pdf": "Figure_4.pdf",
+      "preview": "tu2.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu2.vsdx_sha256": "67cd63f32b9730a5dacd285188457868a2a2a91801b515057aa7d20913596221",
+      "Figure_4.pdf_sha256": "9a19f2936523023118c10ea84f1ef16054b4c37c81f6bfc6649c90a3e0945fd6"
+    },
+    {
+      "source": "tu3.vsdx",
+      "title": "答案级监督与LoRA",
+      "pdf": "Figure_5.pdf",
+      "preview": "tu3.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu3.vsdx_sha256": "b62e0584cbea7dc8950e5c8ddbd69396a334b198a03717c9635c51fda9253c38",
+      "Figure_5.pdf_sha256": "c6eecb31b67603d957c9281fa69d7120e2d7eca5e49c73843431d2ac8ae82baf"
+    },
+    {
+      "source": "tu4.vsdx",
+      "title": "四模型内容通过及配对比较",
+      "pdf": "Figure_6.pdf",
+      "preview": "tu4.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu4.vsdx_sha256": "17decdf12d6e980fcbcb66137b9c2c6afb807c605f22dcf9f7fb382c0f3d5ce5",
+      "Figure_6.pdf_sha256": "f142a8a97e24a28c067d68698c259220409e739ce18f09e81e755f0da3112868"
+    },
+    {
+      "source": "tu5.vsdx",
+      "title": "题型和基础工况分解",
+      "pdf": "Figure_7.pdf",
+      "preview": "tu5.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu5.vsdx_sha256": "d8d54a09a882db290d44dea9fd758a376eda760950e77da8b562121ad4228ba2",
+      "Figure_7.pdf_sha256": "d0f5688d7aef6def70f9ebc3544e1908f2bbf68307e0bcd03853ba5d788161c9"
+    },
+    {
+      "source": "tu6.vsdx",
+      "title": "格式、关键错误及引用支持",
+      "pdf": "Figure_8.pdf",
+      "preview": "tu6.png",
+      "preview_method": "Poppler rendering of author-supplied PDF; no figure content redrawn",
+      "tu6.vsdx_sha256": "ce62baceba22f74f16c87fab0569cbf769432f101704638a9f04aa1edde3b90c",
+      "Figure_8.pdf_sha256": "6a9317bd6a48a1317e7c44d59ef13db3f6afc99ceb8c4a6c31f1c8922e093fae"
+    }
+  ]
+}
