@@ -101,7 +101,6 @@ PEC-ChillerAgent/
 
 运行时生成的 `outputs/`、`.student.local.json` 和 `.student_credentials/` 不入库。`research/`保留历史源码命名空间 `student_tools`，应用实际使用 `chiller_student`；两者不是两套同时运行的学生模型。
 
-**仓库只发布训练代码、Agent系统及配套文档。** 训练集、测试题目、参考答案、评测结果和模型权重由本地单独保存。`tests/`是软件回归检查，`buildings_eir_catalogue.json`是仿真所需性能参数；它们不属于学生模型的训练集或测试题库。
 
 ## 快速启动
 
