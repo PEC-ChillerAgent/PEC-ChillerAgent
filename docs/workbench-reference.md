@@ -15,7 +15,7 @@ python -m uvicorn chiller_app.api.fastapi_app:app --reload --host 127.0.0.1 --po
 
 打开 <http://127.0.0.1:8000/>；API 文档为 <http://127.0.0.1:8000/docs>。本机已有环境可使用 `F:/Anaconda/envs/modelica/python.exe`。
 
-智能分析入口为 <http://127.0.0.1:8000/chat>。在页面填写服务商提供的 Base URL、模型名和 API Key，保存后测试连接。原工作台录入或上传数据后，点击“转入智能分析”即可沿用源单位和当前模型设置。完整运行说明见 [第二阶段使用说明](docs/agent_stage2.md)。
+智能分析入口为 <http://127.0.0.1:8000/chat>，默认使用focused1186学生服务。原工作台录入或上传单条工况后，点击“转入智能分析”即可绑定数据与源单位。学生部署见[部署说明](student_deployment.md)；需要外部模型时，在新对话中显式选择外部模式，再填写服务配置。
 
 页面可直接使用，不要求训练，也不依赖 ASHRAE 数据文件：
 
@@ -67,7 +67,7 @@ POST /model/validate                 独立数据集验证
 POST /model/optimize                 受约束离线建议原型
 ```
 
-物理计算请求示例见 `examples/generic_schema_request.json`。ElectricEIR 请求和对齐范围见 [Buildings 说明](docs/buildings_alignment.md)。
+物理计算请求示例见[合成请求](../examples/generic_schema_request.json)。ElectricEIR请求和对齐范围见[Buildings说明](buildings_alignment.md)。
 
 ## 工程结构
 
@@ -79,16 +79,16 @@ chiller_model/
 │  ├─ data/               单位、字段映射与清洗
 │  ├─ model/              水侧计算、ElectricEIR、校准与性能研究
 │  ├─ diagnosis/          规则检查
-│  ├─ report/             指标、图表和报告
 │  └─ web/                当前网页
 ├─ tests/                 Python/API、图表及 Modelica 参考对照
-├─ research/              ASHRAE 可辨识性、基线及残差研究
+├─ chiller_student/       focused1186推理、协议及输出检查
+├─ research/              最终SFT与120题评测的历史源码快照
 ├─ examples/              输入协议示例
 ├─ docs/                  模型、研究与 Agent 设计说明
-└─ artifacts/             已有模型和验证结果
+└─ outputs/               运行数据及报告，不进入Git仓库
 ```
 
-Agent 的实际目录树与后续职责见 [energy_agent/README.md](energy_agent/README.md)，架构方案见 [工具化设计](docs/agent_tool_architecture_2026-10-29.md)。
+Agent的实际目录树见[工具说明](../energy_agent/README.md)，模块关系见[当前架构](architecture.md)。
 
 ## 验证
 
@@ -100,7 +100,7 @@ node tests/test_chart_utils.cjs
 node tests/test_chat_ui.cjs
 ```
 
-指定参数和工况下的 OpenModelica 动态/稳态对照结果见 `artifacts/eir_validation/alignment_report.json`；现有参考文件的事件对齐及数值对照纳入测试。该结果不替代目标现场机组验证。
+指定参数和工况下的OpenModelica动态/稳态参考文件位于[tests/reference](../tests/reference/)，事件对齐与数值对照纳入测试。该结果不替代目标现场机组验证。
 
 ## 第一阶段工具调用
 
@@ -108,10 +108,8 @@ node tests/test_chat_ui.cjs
 python -B -m energy_agent demo --output outputs/agent_stage1_demo.json
 ```
 
-已接入现有应用的 `/agent/v1`，支持登记数据集、执行 `chiller_analyze`、查询证据和下载完整结果。详细接口、Python示例和状态含义见 [工具使用说明](energy_agent/README.md)。
+已接入现有应用的 `/agent/v1`，支持登记数据集、执行 `chiller_analyze`、查询证据和下载完整结果。详细接口、Python示例和状态含义见[工具使用说明](../energy_agent/README.md)。
 
 ## 保留的研究入口
 
-`layered_cli.py` 提供 clean、physics、train、compare、optimize、validate。`layered_dashboard.py` 提供数据接入、物理分析、稳态模型、优化建议和模型说明；ElectricEIR 仿真使用正式网页入口。
-
-`app.py`、`chiller_model.py` 和 `web_app.py` 保留独立的分类/回归研究基线。它们的离线准确率不代表当前 ElectricEIR 或现场故障诊断效果。`research/`、已有训练产物和原始测量文件保留，供独立研究和复核使用。
+稳态性能研究仍可通过 `/model/train`、`/model/predict`、`/model/validate` 和 `/model/optimize` 调用。LLM学生训练及比较源码位于[research](../research/README.md)，与上述数值性能模型训练不同；所需材料和复现范围见[复现说明](research_reproduction.md)。

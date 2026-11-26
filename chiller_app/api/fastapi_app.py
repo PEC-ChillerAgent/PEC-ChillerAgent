@@ -1,8 +1,8 @@
 """FastAPI boundary for the generic, Modelica-inspired chiller service.
 
 FastAPI is the integration boundary: a web page, desktop client, PLC gateway
-or another service can all send the same JSON contract. Streamlit remains an
-optional operator/research UI and is not required to run the model.
+or another service can all send the same JSON contract. The bundled web
+workbench uses this API for calculations, simulations and analysis.
 """
 
 from __future__ import annotations

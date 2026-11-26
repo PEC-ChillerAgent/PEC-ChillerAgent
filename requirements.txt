@@ -18,15 +18,7 @@ fastapi>=0.115,<1
 uvicorn[standard]>=0.30,<1
 pydantic>=2.7,<3
 python-multipart>=0.0.9,<1
-streamlit>=1.40,<2
 httpx>=0.27,<1  # OpenAI-compatible model transport and FastAPI API checks
-
-# Charts and report generation
-matplotlib>=3.8,<4
 
 # Automated tests
 pytest>=8,<9
-
-# SQLite is included in Python. PostgreSQL support can be added later with:
-# sqlalchemy>=2.0,<3
-# psycopg[binary]>=3.2,<4

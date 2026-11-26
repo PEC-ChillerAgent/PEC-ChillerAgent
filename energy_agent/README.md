@@ -162,12 +162,9 @@ energy_agent/
 │  ├─ repository.py           SQLite数据集及运行存储
 │  └─ chat.py                 会话、协议历史和并发租约
 ├─ tools/
-│  ├─ chiller/
-│  │  ├─ backend.py           复用原工作台数值边界
-│  │  └─ tool.py              缺测检查、分析和结构化结果
-│  ├─ pump/                   后续扩展位置
-│  ├─ cooling_tower/          后续扩展位置
-│  └─ hvac_plant/             后续扩展位置
+│  └─ chiller/
+│     ├─ backend.py           复用原工作台数值边界
+│     └─ tool.py              缺测检查、分析和结构化结果
 ├─ tests/                     存储、数值一致性、缺测、越界、API和CLI验收
 ├─ agents/
 │  ├─ chat.py                 有调用上限的模型/工具循环

@@ -66,7 +66,6 @@ PEC-ChillerAgent/
 │   │   ├── performance_model.py           # 数据驱动性能模型
 │   │   └── BUILDINGS_LICENSE.txt          # 第三方许可
 │   ├── diagnosis/                         # 规则诊断辅助模块
-│   ├── report/                            # 图表和报告辅助模块
 │   └── web/                               # 原生HTML/CSS/JavaScript页面
 ├── energy_agent/                          # 工具、会话、证据与模型接入
 │   ├── runtime.py                         # Python公共入口
