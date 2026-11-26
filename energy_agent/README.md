@@ -9,26 +9,26 @@
 在项目根目录、已安装 requirements.txt 的环境中：
 
 ```powershell
-python -B -m energy_agent demo --output outputs/agent_stage1_demo.json
+python -B -m energy_agent tools --output outputs/tool_contracts.json
 ```
 
-本机可将 python 替换为 `F:/Anaconda/envs/modelica/python.exe`。该命令真实登记数据集、调用工具、保存分析运行并导出 JSON。示例得到冷量418 kW、COP4.18；输出同时包含 `result` 和 `model_output`。
+该命令导出工具定义与输入契约，不需要模型或示例文件。实际分析使用自己通过工作台或API登记的数据。
 
 默认数据库为 `outputs/energy_agent/agent.sqlite3`。重启后数据集和运行 ID 保持可查。CLI 可在子命令前使用 `--data-dir <目录>`，HTTP/Python 可用 `ENERGY_AGENT_DATA_DIR` 或应用工厂参数配置。本阶段面向本地单用户使用。
 
 ## Python 调用
 
+先通过工作台或数据集API登记自己的数据，将占位符替换为实际设备ID和数据集ID。
+
 ```python
-import json
-from pathlib import Path
 from energy_agent.runtime import AgentRuntime
 
 runtime = AgentRuntime()
-source = json.loads(Path("examples/agent_dataset.json").read_text(encoding="utf-8"))
-dataset = runtime.register_dataset(source)
+asset_id = "<asset_id>"
+dataset_id = "<dataset_id>"
 result = runtime.analyze({
-    "asset_id": dataset.asset_id,
-    "dataset_id": dataset.dataset_id,
+    "asset_id": asset_id,
+    "dataset_id": dataset_id,
     "task": "physics",
 })
 print(result.status, result.metrics["COP"].value)
@@ -48,8 +48,8 @@ print(artifact["model_output"]["records"])
 from chiller_app.model.electric_eir import DEFAULT_RECORD
 
 result = runtime.analyze({
-    "asset_id": dataset.asset_id,
-    "dataset_id": dataset.dataset_id,
+    "asset_id": asset_id,
+    "dataset_id": dataset_id,
     "task": "simulate",
     "simulation": {
         "record_id": DEFAULT_RECORD,
@@ -123,14 +123,14 @@ GET  /agent/v1/chat/sessions/{session_id}      会话详情
 GET  /agent/v1/chat/sessions/{session_id}/turns/{turn_id}/report  Markdown报告
 ```
 
-登记 JSON 请求见 `examples/agent_dataset.json`，创建后将返回的 dataset_id 与同一 asset_id 用于分析请求。文件接入使用 multipart：`asset_id`、JSON文本字段 `schema`、文件字段 `file`，可选 `sheet_name`。限额沿用工作台：10MB、20000行。schema 中不存在的来源列拒绝登记。
+登记JSON的结构见应用`/docs`中的`POST /agent/v1/datasets`；请求包含`asset_id`、`records`和`schema`。创建后将返回的dataset_id与同一asset_id用于分析请求。文件接入使用multipart：`asset_id`、JSON文本字段`schema`、文件字段`file`，可选`sheet_name`。限额沿用工作台：10MB、20000行。schema中不存在的来源列拒绝登记。
 
 结构/类型错误HTTP422、未知引用404、设备不匹配409；缺测和不可执行工况返回HTTP200的结构化needs_input，不伪造数值。记录分页offset≥0、limit=1–1000，数据集列表limit≤100。
 
 ## CLI
 
 ```powershell
-python -m energy_agent dataset-create --request examples/agent_dataset.json --output outputs/dataset_info.json
+python -m energy_agent dataset-create --request <自己的数据登记JSON文件> --output outputs/dataset_info.json
 python -m energy_agent analyze --request <包含asset_id和dataset_id的JSON文件> --output outputs/analysis.json
 python -m energy_agent dataset-show --id <dataset_id>
 python -m energy_agent run-export --id <run_id> --output outputs/full_run.json

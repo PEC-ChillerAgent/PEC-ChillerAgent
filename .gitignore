@@ -286,12 +286,8 @@ models/
 /implement-stage/
 /tmp/
 /pytest-cache-files-*/
-/figures/*
-!/figures/README.md
-!/figures/system-architecture.*
-!/figures/analysis-sequence.*
-!/figures/student-training.*
-!/figures/paper/
+/figures/
+/examples/
 /output/
 
 # Training/evaluation corpora and experiment results stay private.
@@ -302,10 +298,4 @@ models/
 /datasets/
 /data/
 /results/
-/figures/paper/tu4.*
-/figures/paper/tu5.*
-/figures/paper/tu6.*
-/figures/paper/Figure_6.pdf
-/figures/paper/Figure_7.pdf
-/figures/paper/Figure_8.pdf
 

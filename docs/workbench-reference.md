@@ -67,7 +67,7 @@ POST /model/validate                 独立数据集验证
 POST /model/optimize                 受约束离线建议原型
 ```
 
-物理计算请求示例见[合成请求](../examples/generic_schema_request.json)。ElectricEIR请求和对齐范围见[Buildings说明](buildings_alignment.md)。
+物理计算请求结构可在运行应用的`/docs`页面查看。ElectricEIR请求和对齐范围见[Buildings说明](buildings_alignment.md)。
 
 ## 工程结构
 
@@ -83,7 +83,6 @@ chiller_model/
 ├─ tests/                 Python/API、图表及 Modelica 参考对照
 ├─ chiller_student/       focused1186推理、协议及输出检查
 ├─ research/              最终SFT训练源码快照，不含数据集或题库
-├─ examples/              输入协议示例
 ├─ docs/                  模型、研究与 Agent 设计说明
 └─ outputs/               运行数据及报告，不进入Git仓库
 ```
@@ -105,11 +104,11 @@ node tests/test_chat_ui.cjs
 ## 第一阶段工具调用
 
 ```powershell
-python -B -m energy_agent demo --output outputs/agent_stage1_demo.json
+python -B -m energy_agent tools --output outputs/tool_contracts.json
 ```
 
 已接入现有应用的 `/agent/v1`，支持登记数据集、执行 `chiller_analyze`、查询证据和下载完整结果。详细接口、Python示例和状态含义见[工具使用说明](../energy_agent/README.md)。
 
 ## 保留的研究入口
 
-稳态性能研究仍可通过 `/model/train`、`/model/predict`、`/model/validate` 和 `/model/optimize` 调用。LLM学生训练及比较源码位于[research](../research/README.md)，与上述数值性能模型训练不同；所需材料和复现范围见[复现说明](research_reproduction.md)。
+稳态性能研究仍可通过 `/model/train`、`/model/predict`、`/model/validate` 和 `/model/optimize` 调用。LLM学生训练源码位于[research](../research/README.md)，与上述数值性能模型训练不同；所需材料和复现范围见[复现说明](research_reproduction.md)。

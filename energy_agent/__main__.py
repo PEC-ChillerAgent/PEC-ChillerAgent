@@ -12,7 +12,6 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="暖通设备分析工具")
     parser.add_argument("--data-dir", type=Path, help="SQLite 数据目录")
     sub = parser.add_subparsers(dest="command", required=True)
-    demo = sub.add_parser("demo", help="运行真实水侧计算示例")
     create = sub.add_parser("dataset-create", help="登记包含 records 和 schema 的 JSON 请求")
     create.add_argument("--request", type=Path, required=True)
     analyze = sub.add_parser("analyze", help="按 dataset_id 调用冷水机组工具")
@@ -22,20 +21,13 @@ def main() -> int:
     export = sub.add_parser("run-export", help="导出统一结果及完整模型输出")
     export.add_argument("--id", required=True)
     discover = sub.add_parser("tools", help="列出工具及 JSON 契约")
-    for command in (demo, create, analyze, show, export, discover):
+    for command in (create, analyze, show, export, discover):
         command.add_argument("--output", type=Path)
     args = parser.parse_args()
     try:
         runtime = AgentRuntime(args.data_dir)
         status = "success"
-        if args.command == "demo":
-            source = Path(__file__).resolve().parents[1] / "examples/agent_physics_request.json"
-            source = json.loads(source.read_text(encoding="utf-8"))
-            dataset = runtime.register_dataset({"asset_id": "demo_chiller", "records": source["records"],
-                                                "schema": source["schema"], "source": {"name": "agent_physics_request.json"}})
-            result = runtime.analyze({"asset_id": dataset.asset_id, "dataset_id": dataset.dataset_id})
-            payload, status = runtime.repository.get_run(result.run_id), result.status
-        elif args.command == "dataset-create":
+        if args.command == "dataset-create":
             payload = runtime.register_dataset(json.loads(args.request.read_text(encoding="utf-8-sig"))).model_dump(mode="json")
         elif args.command == "analyze":
             result = runtime.analyze(json.loads(args.request.read_text(encoding="utf-8-sig")))

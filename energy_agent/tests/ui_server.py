@@ -2,6 +2,7 @@
 
 Run from the project root with python -m energy_agent.tests.ui_server.
 All state lives in outputs/stage2_ui_fixture, separate from normal user data.
+Upload your own records through the workbench before testing the chat page.
 """
 
 import json
@@ -46,7 +47,6 @@ if __name__ == "__main__":
     directory.mkdir(parents=True, exist_ok=True)
     (directory / "PROVENANCE.json").write_text(json.dumps({"protocol_fixture": True, "live_vendor_test": False}), encoding="utf-8")
     runtime = AgentRuntime(directory)
-    runtime.register_dataset(json.loads((root / "examples" / "agent_dataset.json").read_text(encoding="utf-8")))
     app.state.energy_runtime = runtime
     upstream = ThreadingHTTPServer(("127.0.0.1", 8770), ProtocolFixtureHandler)
     threading.Thread(target=upstream.serve_forever, daemon=True).start()

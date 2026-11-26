@@ -8,11 +8,7 @@ PEC-ChillerAgent 将 **Python物理计算、可追溯运行证据与领域学生
 
 默认学生路径已接入项目：**Python负责计算，Qwen3-8B＋单个LoRA负责解释，程序负责校验与事实引用呈现**。服务异常或回答检查失败时显示当前工具事实报告，默认路径不调用DeepSeek。项目同时保留可显式选择的外部模型工具调用路径。
 
-[快速启动](#快速启动) · [项目架构](#项目架构) · [目录树](#目录树) · [学生部署](#学生模型部署) · [学生训练](#学生训练) · [架构与训练图集](figures/README.md) · [API示例](#api与代码调用) · [常见问题](#常见问题)
-
-![系统路径与学生适配](figures/paper/tu0.2.png)
-
-*通用Agent路径可由模型选择工具；默认学生路径由后台固定执行物理工具。上图与源码对应关系见[架构说明](docs/architecture.md)。*
+[快速启动](#快速启动) · [项目架构](#项目架构) · [目录树](#目录树) · [学生部署](#学生模型部署) · [学生训练](#学生训练) · [API说明](#api与代码调用) · [常见问题](#常见问题)
 
 ## 已实现的功能
 
@@ -33,8 +29,6 @@ PEC-ChillerAgent 将 **Python物理计算、可追溯运行证据与领域学生
 
 **分析流程：** 用户问题与工况 → Python物理计算 → 证据与待答清单 → 学生模型解释 → 校验与报告。
 
-[查看完整架构图](figures/system-architecture.png)
-
 1. **绑定输入**：保存原始数据、映射、源单位和生效参数，生成不可变 `dataset_id`。
 2. **执行Python**：`AgentRuntime` 调用冷水机组工具，生成本次 `run_id` 和完整计算产物。
 3. **组织证据**：将指标值、单位、有效点数、缺项和运行来源组织为类型化事实；从问题编译待答清单。
@@ -44,7 +38,7 @@ PEC-ChillerAgent 将 **Python物理计算、可追溯运行证据与领域学生
 
 程序检查是有限检查，不是对所有自然语言推理的完备证明。学生正文与程序事实报告在接口中有不同标识，工具回退不计学生回答成功。
 
-可编辑图源：[系统架构](figures/system-architecture.mmd) · [请求时序](figures/analysis-sequence.mmd) · [训练流程](figures/student-training.mmd)。更多模块映射见[架构与数据流](docs/architecture.md)。
+更多模块映射见[架构与数据流](docs/architecture.md)。
 
 ## 目录树
 
@@ -98,12 +92,8 @@ PEC-ChillerAgent/
 │   └── ...                                # 类型化事实和历史兼容检查模块
 ├── deployment/focused1186.json            # 模型、tokenizer及适配器SHA-256
 ├── scripts/                               # 应用、GPU服务与SSH隧道启动
-├── examples/                              # 可公开的合成数据与请求示例
 ├── research/                              # 与应用隔离的训练源码快照
 │   └── focused1186_sft/                   # 最终SFT代码与配置，不含训练样本
-├── figures/
-│   ├── *.mmd / *.md / *.png               # 经渲染检查的可编辑工程图
-│   └── paper/                             # 5份系统/训练图稿、PDF和PNG预览
 ├── docs/                                  # 架构、部署、复现、物理与采集文档
 ├── tests/                                 # 物理、工作台和前端回归
 │   └── reference/                         # Modelica参考模型与仿真输出
@@ -112,7 +102,7 @@ PEC-ChillerAgent/
 
 运行时生成的 `outputs/`、`.student.local.json` 和 `.student_credentials/` 不入库。`research/`保留历史源码命名空间 `student_tools`，应用实际使用 `chiller_student`；两者不是两套同时运行的学生模型。
 
-**仓库只发布训练代码、Agent系统及配套文档。** 训练集、测试题目、参考答案、评测结果和模型权重由本地单独保存。`examples/`是运行示例，`tests/`是软件回归检查，`buildings_eir_catalogue.json`是仿真所需性能参数；它们不属于学生模型的训练集或测试题库。
+**仓库只发布训练代码、Agent系统及配套文档。** 训练集、测试题目、参考答案、评测结果和模型权重由本地单独保存。`tests/`是软件回归检查，`buildings_eir_catalogue.json`是仿真所需性能参数；它们不属于学生模型的训练集或测试题库。
 
 ## 快速启动
 
@@ -138,15 +128,15 @@ Linux/macOS将环境激活命令替换为 `source .venv/bin/activate`。应用�
 | API文档 | `http://127.0.0.1:8001/docs` | 交互式OpenAPI |
 | 健康检查 | `http://127.0.0.1:8001/health` | 应用进程状态 |
 
-计算工作台可以直接使用合成示例。下载仓库代码不等于已获得学生权重；智能分析的模型部署见下一节。
+启动后可在计算工作台手动录入工况或上传自己的数据。下载仓库代码不等于已获得学生权重；智能分析的模型部署见下一节。
 
-### 2. 无模型的最小计算例子
+### 2. 查看工具与输入要求
 
 ```powershell
-python -m energy_agent demo --output outputs/demo.json
+python -m energy_agent tools --output outputs/tool_contracts.json
 ```
 
-该命令登记合成数据、执行Python物理工具并导出结果。`examples/agent_dataset.json`显式使用比热4180 J/(kg·K)、密度1000 kg/m³，示例制冷量418 kW、功率100 kW、COP4.18。页面示例可能采用不同生效参数，应以实际运行记录为准。
+该命令导出工具定义与输入契约。实际工况通过工作台录入或上传，并声明温度、流量和功率单位；HTTP请求结构可在应用的`/docs`页面查看。
 
 ## 学生模型部署
 
@@ -270,17 +260,15 @@ GPU服务另提供受token认证的 `/health`、`/v1/models` 和 `/v1/chat/compl
 
 ### Python工具调用
 
+先通过工作台或数据集API登记自己的数据，再将下方占位符替换为对应的设备ID和数据集ID。
+
 ```python
-import json
-from pathlib import Path
 from energy_agent.runtime import AgentRuntime
 
 runtime = AgentRuntime()
-source = json.loads(Path('examples/agent_dataset.json').read_text(encoding='utf-8'))
-dataset = runtime.register_dataset(source)
 result = runtime.analyze({
-    'asset_id': dataset.asset_id,
-    'dataset_id': dataset.dataset_id,
+    'asset_id': '<asset_id>',
+    'dataset_id': '<dataset_id>',
     'task': 'physics',
 })
 print(result.metrics['COP'].value)
@@ -289,21 +277,15 @@ print(runtime.repository.get_run(result.run_id))
 
 ### HTTP学生分析
 
-应用与学生服务启动后，可以用 `httpx` 调用：
+应用与学生服务启动后，可以用 `httpx` 分析已登记的数据。将占位符替换为实际ID；可通过`GET /agent/v1/datasets`查询。
 
 ```python
-import json
-from pathlib import Path
 import httpx
 
 with httpx.Client(base_url='http://127.0.0.1:8001', timeout=70, trust_env=False) as client:
-    source = json.loads(Path('examples/agent_dataset.json').read_text(encoding='utf-8'))
-    created = client.post('/agent/v1/datasets', json=source)
-    created.raise_for_status()
-    dataset = created.json()
     response = client.post('/agent/v1/analysis', json={
         'message': '请分析本次制冷量、输入功率和COP，并说明判断边界。',
-        'context': {'asset_id': dataset['asset_id'], 'dataset_id': dataset['dataset_id']},
+        'context': {'asset_id': '<asset_id>', 'dataset_id': '<dataset_id>'},
     })
     response.raise_for_status()
     reply = response.json()
@@ -313,8 +295,6 @@ with httpx.Client(base_url='http://127.0.0.1:8001', timeout=70, trust_env=False)
 `student_explanation`表示学生正文经有限检查后展示；`tool_facts`表示程序事实回退。HTTP成功不能单独证明模型回答成功。完整工具API见[energy_agent说明](energy_agent/README.md)。
 
 ## 学生训练
-
-![教师辅助训练与在线分析](figures/paper/tu2.png)
 
 训练采用教师辅助参考答案、编辑审核和答案级监督微调。system/user上下文保持可见，提示位置标签为 `-100`，仅答案及原生结束标记参与监督。基座冻结，更新LoRA；不需要教师logits或KL损失，物理公式仍由Python执行。
 
@@ -332,18 +312,6 @@ with httpx.Client(base_url='http://127.0.0.1:8001', timeout=70, trust_env=False)
 `1186`指最终一轮更新数，不是全部历史训练成本。保留谱系还包含之前阶段，最终推理加载一个继承训练的适配器，不叠加多个历史LoRA。最终训练源码和固定计划见 [research/focused1186_sft](research/focused1186_sft/PUBLICATION.md)。
 
 训练样本和参考答案不随代码发布。训练入口保留原有完整性检查，使用时需要在私有目录补齐对应材料，详见[训练源码与数据准备](docs/research_reproduction.md)。日常使用已训练模型无需重新训练。
-
-## 架构与训练图
-
-保留5份系统架构及训练流程的原始 `.vsdx`、对应PDF和PNG预览。Visio可继续编辑，GitHub直接显示PNG。
-
-| 图稿 | 内容 |
-|---|---|
-| `tu0.1` / `tu0.2` | 通用Agent流程、学生路径与LoRA适配 |
-| `tu1` | 水侧公式、缺测与类型化证据 |
-| `tu2` / `tu3` | 教师辅助训练、在线解释、答案级监督 |
-
-完整预览、下载和图注见[图集](figures/README.md)。PDF编号为 `Figure_1`到`Figure_5`，与Visio文件名的映射在图集中明确列出。
 
 ## 验证与开发
 
@@ -373,6 +341,6 @@ CI只运行软件测试；研究目录不自动触发训练或外部API采集。
 
 ## 发布内容与许可
 
-本仓库发布应用代码、推理代码、最终SFT源码快照、必要的运行示例、软件回归检查和架构/训练图。模型权重、真实测量原表、训练集、测试题库、参考答案、模型比较结果、API密钥、SQLite数据库及私人论文工作目录不包含在当前发布中。
+本仓库发布应用代码、推理代码、最终SFT源码快照、软件回归检查和配套文档。图稿、独立示例数据、模型权重、真实测量原表、训练集、测试题库、参考答案、模型比较结果、API密钥、SQLite数据库及私人论文工作目录不包含在当前发布中。
 
 Buildings相关来源和许可保留在[BUILDINGS_LICENSE.txt](chiller_app/model/BUILDINGS_LICENSE.txt)。基础模型、第三方数据与其他依赖遵循各自许可；仓库目前未添加项目整体LICENSE，公开可读不自动代表对所有材料授予再分发许可。完整数据和权重的公开地址另行确定。
